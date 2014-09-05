@@ -8,6 +8,8 @@ public class FactorMain {
 		run();
 	}
 	
+	//Prompts the user on what is exceptable input and then loops until the user inputs
+	//	"quit" whilst returning the factors of any ints inputed through the console
 	public static void run() {
 		System.out.println("Please enter an Integer between 1 and 100 to get it's factors.\nWhen you wish to end the program simply enter \"quit\"");
 		Scanner console = new Scanner(System.in);
@@ -38,6 +40,8 @@ public class FactorMain {
 		}
 	}
 
+	//Takes an input of an ArrayList<Integer> and prints all of the numbers out in
+	//	an x,y,z format
 	public static void printFactors(ArrayList<Integer> factors) {
 		System.out.print(factors.get(0));
 		for(int i = 1; i < factors.size(); i++) {
@@ -46,6 +50,8 @@ public class FactorMain {
 		System.out.println();
 	}
 
+	//Takes an input of an integer and returns all of it's factors 
+	//	in an ArrayList<Integer>
 	public static ArrayList<Integer> getFactors(int toFactor) {
 		ArrayList<Integer> factors = new ArrayList<Integer>();
 		double testFactor = toFactor;
