@@ -9,7 +9,7 @@ public class FactorMain {
 	}
 
 	public static void run() {
-		System.out.println("Please enter an Integer between 1 and 100 to get it's factors.\nWhen you wish to end the program simply enter either \"quit\" or \"Quit\"\n");
+		System.out.println("Please enter an Integer between 1 and 100 to get it's factors.\nWhen you wish to end the program simply enter \"quit\"");
 		Scanner console = new Scanner(System.in);
 		boolean play = true;
 		while(play) {
@@ -21,23 +21,21 @@ public class FactorMain {
 					ArrayList<Integer> factors = getFactors(currentInt);
 					printFactors(factors);
 				} else {
-					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
+					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" to end the program");
 				}
 			} catch(InputMismatchException e) {
 				try {
 					String currentString = lineScanner.next();
-					if(currentString.equals("quit") || currentString.equals("Quit")) {
+					if(currentString.toLowerCase().equals("quit")) {
 						play = false;
 					} else {
-						System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
+						System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" to end the program");
 					}
 				} catch(InputMismatchException q) {
-					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
+					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" to end the program");
 				}
 			}
-
 		}
-
 	}
 
 	public static void printFactors(ArrayList<Integer> factors) {
