@@ -9,24 +9,30 @@ public class FactorMain {
 	}
 
 	public static void run() {
+		System.out.println("Please enter an Integer between 1 and 100 to get it's factors.\nWhen you wish to end the program simply enter either \"quit\" or \"Quit\"\n");
 		Scanner console = new Scanner(System.in);
 		boolean play = true;
 		while(play) {
 			String currentLine = console.nextLine();
 			Scanner lineScanner = new Scanner(currentLine);
 			try {
-				ArrayList<Integer> factors = getFactors(lineScanner.nextInt());
-				printFactors(factors);
+				int currentInt = lineScanner.nextInt();
+				if(currentInt < 101 && currentInt > 0) {
+					ArrayList<Integer> factors = getFactors(currentInt);
+					printFactors(factors);
+				} else {
+					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
+				}
 			} catch(InputMismatchException e) {
 				try {
 					String currentString = lineScanner.next();
 					if(currentString.equals("quit") || currentString.equals("Quit")) {
 						play = false;
 					} else {
-						System.out.println("Please re-enter either an Integer (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
+						System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
 					}
 				} catch(InputMismatchException q) {
-					System.out.println("Please re-enter either an Integer (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
+					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" or \"Quit\" to end the program");
 				}
 			}
 
@@ -39,7 +45,7 @@ public class FactorMain {
 		for(int i = 1; i < factors.size(); i++) {
 			System.out.print("," + factors.get(i));
 		}
-		System.out.println("\n");
+		System.out.println();
 	}
 
 	public static ArrayList<Integer> getFactors(int toFactor) {
