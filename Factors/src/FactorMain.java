@@ -8,7 +8,7 @@ public class FactorMain {
 		run();
 	}
 	
-	//Prompts the user on what is exceptable input and then loops until the user inputs
+	//Prompts the user on what is accepted input and then loops until the user inputs
 	//	"quit" whilst returning the factors of any ints inputed through the console
 	public static void run() {
 		System.out.println("Please enter an Integer between 1 and 100 to get it's factors.\nWhen you wish to end the program simply enter \"quit\"");
