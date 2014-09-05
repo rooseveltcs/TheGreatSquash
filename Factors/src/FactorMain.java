@@ -7,7 +7,8 @@ public class FactorMain {
 	public static void main(String[] args) {
 		run();
 	}
-
+	
+	//Runs the factor program
 	public static void run() {
 		System.out.println("Please enter an Integer between 1 and 100 to get it's factors.\nWhen you wish to end the program simply enter \"quit\"");
 		Scanner console = new Scanner(System.in);
