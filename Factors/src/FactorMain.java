@@ -66,25 +66,20 @@ public class FactorMain {
 
 	public static int getGreatestCommonDenominator(ArrayList<Integer> firstFactorSet, ArrayList<Integer> secondFactorSet) {
 		int GreatestCommonDenominator = 0;
-//				printFactors(firstFactorSet);
-//				printFactors(secondFactorSet);
+		ArrayList<Integer> largerFactorSet = null;
+		ArrayList<Integer> smallerFactorSet = null;
 		if(firstFactorSet.size() > secondFactorSet.size()) {
-			for(int i = 0; i < secondFactorSet.size(); i++) {
-				for(int j = 0; j < firstFactorSet.size(); j++) {
-					if(secondFactorSet.get(i) == firstFactorSet.get(j)) {
-						if(secondFactorSet.get(i) > GreatestCommonDenominator) {
-							GreatestCommonDenominator = secondFactorSet.get(i);
-						}
-					}
-				}
-			}
+			largerFactorSet = firstFactorSet;
+			smallerFactorSet = secondFactorSet;
 		} else {
-			for(int i = 0; i < firstFactorSet.size(); i++) {
-				for(int j = 0; j < secondFactorSet.size(); j++) {
-					if(firstFactorSet.get(i) == secondFactorSet.get(j)) {
-						if(firstFactorSet.get(i) > GreatestCommonDenominator) {
-							GreatestCommonDenominator = firstFactorSet.get(i);
-						}
+			largerFactorSet = secondFactorSet;
+			smallerFactorSet = firstFactorSet;
+		}
+		for(int i = 0; i < largerFactorSet.size(); i++) {
+			for(int j = 0; j < smallerFactorSet.size(); j++) {
+				if(largerFactorSet.get(i) == smallerFactorSet.get(j)) {
+					if(largerFactorSet.get(i) > GreatestCommonDenominator) {
+						GreatestCommonDenominator = largerFactorSet.get(i);
 					}
 				}
 			}
