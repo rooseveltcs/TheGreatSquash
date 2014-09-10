@@ -7,36 +7,50 @@ public class FactorMain {
 	public static void main(String[] args) {
 		run();
 	}
-	
+
 	//Prompts the user on what is accepted input and then loops until the user inputs
 	//	"quit" whilst returning the factors of any ints inputed through the console
 	public static void run() {
-		System.out.println("Please enter an Integer between 1 and 100 to get it's factors.\nWhen you wish to end the program simply enter \"quit\"");
+		System.out.println("Please enter an Integer between 1 and 100 to get it's factors, or enter 2 to get their\ngreatest common denominator. When you wish to end the program simply enter \"quit\"");
 		Scanner console = new Scanner(System.in);
 		boolean play = true;
 		while(play) {
 			String currentLine = console.nextLine();
 			Scanner lineScanner = new Scanner(currentLine);
 			try {
-				int currentInt = lineScanner.nextInt();
-				if(currentInt < 101 && currentInt > 0) {
-					ArrayList<Integer> factors = getFactors(currentInt);
-					printFactors(factors);
-				} else {
-					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" to end the program");
+				ArrayList<ArrayList<Integer>> inputFactors = new ArrayList<ArrayList<Integer>>();
+				while(lineScanner.hasNext()) {
+					int currentInt = lineScanner.nextInt();
+					inputFactors.add(getFactors(currentInt));
 				}
+				if(!inputFactors.contains(null)) {
+					if(inputFactors.size() == 1) {
+						printFactors(inputFactors.get(0));
+					} else if(inputFactors.size() == 2) {
+						System.out.println(getGreatestCommonDenominator(inputFactors.get(0),inputFactors.get(1)));					
+					}
+				}
+
 			} catch(InputMismatchException e) {
 				try {
 					String currentString = lineScanner.next();
 					if(currentString.toLowerCase().equals("quit")) {
 						play = false;
 					} else {
-						System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" to end the program");
+						System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
 					}
 				} catch(InputMismatchException q) {
-					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or\nenter the word \"quit\" to end the program");
+					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
 				}
 			}
+		}
+	}
+
+	public static boolean testInputInt(int input) {
+		if(input < 101 && input > 0) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -50,17 +64,50 @@ public class FactorMain {
 		System.out.println();
 	}
 
+	public static int getGreatestCommonDenominator(ArrayList<Integer> firstFactorSet, ArrayList<Integer> secondFactorSet) {
+		int GreatestCommonDenominator = 0;
+//				printFactors(firstFactorSet);
+//				printFactors(secondFactorSet);
+		if(firstFactorSet.size() > secondFactorSet.size()) {
+			for(int i = 0; i < secondFactorSet.size(); i++) {
+				for(int j = 0; j < firstFactorSet.size(); j++) {
+					if(secondFactorSet.get(i) == firstFactorSet.get(j)) {
+						if(secondFactorSet.get(i) > GreatestCommonDenominator) {
+							GreatestCommonDenominator = secondFactorSet.get(i);
+						}
+					}
+				}
+			}
+		} else {
+			for(int i = 0; i < firstFactorSet.size(); i++) {
+				for(int j = 0; j < secondFactorSet.size(); j++) {
+					if(firstFactorSet.get(i) == secondFactorSet.get(j)) {
+						if(firstFactorSet.get(i) > GreatestCommonDenominator) {
+							GreatestCommonDenominator = firstFactorSet.get(i);
+						}
+					}
+				}
+			}
+		}
+		return GreatestCommonDenominator;
+	}
+
 	//Takes an input of an integer and returns all of it's factors 
 	//	in an ArrayList<Integer>
 	public static ArrayList<Integer> getFactors(int toFactor) {
-		ArrayList<Integer> factors = new ArrayList<Integer>();
-		double testFactor = toFactor;
-		for(int i = 1; i <= toFactor; i++) {
-			//System.out.println(toFactor/i + " " +testFactor/i);
-			if(toFactor/i == testFactor/i) {
-				factors.add(toFactor/i);
+		if(testInputInt(toFactor)) {
+			ArrayList<Integer> factors = new ArrayList<Integer>();
+			double testFactor = toFactor;
+			for(int i = 1; i <= toFactor; i++) {
+				//System.out.println(toFactor/i + " " +testFactor/i);
+				if(toFactor/i == testFactor/i) {
+					factors.add(toFactor/i);
+				}
 			}
+			return factors;
+		} else {
+			System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
+			return null;
 		}
-		return factors;
 	}
 }
