@@ -29,8 +29,9 @@ public class FactorMain {
 					} else if(inputFactors.size() == 2) {
 						System.out.println(getGreatestCommonDenominator(inputFactors.get(0),inputFactors.get(1)));					
 					}
+				} else {
+					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
 				}
-
 			} catch(InputMismatchException e) {
 				try {
 					String currentString = lineScanner.next();
@@ -101,7 +102,6 @@ public class FactorMain {
 			}
 			return factors;
 		} else {
-			System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
 			return null;
 		}
 	}
