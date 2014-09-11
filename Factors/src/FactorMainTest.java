@@ -8,23 +8,18 @@ import org.junit.Test;
 public class FactorMainTest {
 	public static void main(String[] args) {
 		System.out.println("Test");
-		//		FactorMain.run();
-//		getFactorsTest();
-//		testInputIntTest();
+		getFactorsTest();
+		testInputIntTest();
 		getGreatestCommonDenominatorTest();
 	}
 
 	@Test
 	public static void testInputIntTest() {
-		for(int i = 0; i >= -20; i--) {
-			Assert.assertFalse(FactorMain.testInputInt(i));
-		}
-		for(int i = 1; i <= 100; i++) {
-			Assert.assertTrue(FactorMain.testInputInt(i));
-		}
-		for(int i = 101; i <= 120; i++) {
-			Assert.assertFalse(FactorMain.testInputInt(i));
-		}
+		Assert.assertFalse(FactorMain.testInputInt(0));
+		Assert.assertTrue(FactorMain.testInputInt(1));
+		Assert.assertTrue(FactorMain.testInputInt(50));
+		Assert.assertTrue(FactorMain.testInputInt(100));
+		Assert.assertFalse(FactorMain.testInputInt(101));
 	}
 
 	@Test
