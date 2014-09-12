@@ -17,29 +17,25 @@ public class FactorMainTest {
 	//Test method for FactorMain.testInputInt() that checks the 0,1 and 100,101 
 	//	edge cases
 	public static void testInputIntTest() {
-		Assert.assertFalse(FactorMain.testInputInt(0));
-		Assert.assertTrue(FactorMain.testInputInt(1));
-		Assert.assertTrue(FactorMain.testInputInt(50));
-		Assert.assertTrue(FactorMain.testInputInt(100));
-		Assert.assertFalse(FactorMain.testInputInt(101));
+		Assert.assertFalse("edge case testInputInt(0) not false\n",FactorMain.testInputInt(0));
+		Assert.assertTrue("edge case testInputInt(1) not true\n",FactorMain.testInputInt(1));
+		Assert.assertTrue("edge case testInputInt(100) not true\n",FactorMain.testInputInt(100));
+		Assert.assertFalse("edge case testInputInt(101) not false\n",FactorMain.testInputInt(101));
 	}
 
 	@Test
 	//Test method for FactorMain.getFactors() that tests to see if each number contains
 	//	1 and itself (as a base test to see if the code is working on a base scale)
-	//	and makes sure that a series of numbers have the correct number of factors and
-	//	that if a number doesn't follow the correct input the factor is null
+	//	and makes sure that a series of numbers have the correct number of factors
 	public static void getFactorsTest() {
 		for(int i = 1; i <= 100; i++) {
-			Assert.assertTrue(FactorMain.getFactors(i).contains(1));
-			Assert.assertTrue(FactorMain.getFactors(i).contains(i));
+			Assert.assertTrue("Factors don't include 1",FactorMain.getFactors(i).contains(1));
+			Assert.assertTrue("Factors doesn't include " + i + " (itself)",FactorMain.getFactors(i).contains(i));
 		}
-		Assert.assertEquals(12,FactorMain.getFactors(60).size());
-		Assert.assertEquals(4,FactorMain.getFactors(10).size());
-		Assert.assertEquals(1,FactorMain.getFactors(1).size());
-
-		Assert.assertEquals(null,FactorMain.getFactors(0));
-		Assert.assertEquals(null,FactorMain.getFactors(101));
+		
+		Assert.assertEquals("getFactors(60) doesn't output the correct number of factors\n",12,FactorMain.getFactors(60).size());
+		Assert.assertEquals("getFactors(10) doesn't output the correct number of factors\n",4,FactorMain.getFactors(10).size());
+		Assert.assertEquals("getFactors(1) doesn't output the correct number of factors\n",1,FactorMain.getFactors(1).size());
 	}
 
 	@Test
@@ -63,10 +59,9 @@ public class FactorMainTest {
 		factors2.add(15);
 		factors2.add(60);
 
-		Assert.assertEquals(45, FactorMain.getGreatestCommonDenominator(factors1, factors1));
-		Assert.assertEquals(60, FactorMain.getGreatestCommonDenominator(factors2, factors2));
-		Assert.assertEquals(15, FactorMain.getGreatestCommonDenominator(factors1, factors2));
-		Assert.assertEquals(15, FactorMain.getGreatestCommonDenominator(factors2, factors1));
-		Assert.assertNotSame(5, FactorMain.getGreatestCommonDenominator(factors1, factors2));
+		Assert.assertEquals("getGreatestCommonDenominator(45, 45) should be 45\n",45, FactorMain.getGreatestCommonDenominator(factors1, factors1));
+		Assert.assertEquals("getGreatestCommonDenominator(60, 60) should be 45\n",60, FactorMain.getGreatestCommonDenominator(factors2, factors2));
+		Assert.assertEquals("getGreatestCommonDenominator(45, 60) should be 15\n",15, FactorMain.getGreatestCommonDenominator(factors1, factors2));
+		Assert.assertEquals("getGreatestCommonDenominator(60, 45) should be 15\n",15, FactorMain.getGreatestCommonDenominator(factors2, factors1));
 	}
 }
