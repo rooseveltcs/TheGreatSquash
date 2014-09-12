@@ -47,6 +47,8 @@ public class FactorMain {
 		}
 	}
 
+	//Takes in a perameter of an int ant it tests whether or not the number is between 1
+	//	and 100
 	public static boolean testInputInt(int input) {
 		if(input < 101 && input > 0) {
 			return true;
@@ -65,6 +67,8 @@ public class FactorMain {
 		System.out.println();
 	}
 
+	//Takes in a perameter of two sets of factors in an ArrayList<Integer> and
+	//	output an int equal to the two factor sets highest common denominator
 	public static int getGreatestCommonDenominator(ArrayList<Integer> firstFactorSet, ArrayList<Integer> secondFactorSet) {
 		int GreatestCommonDenominator = 0;
 		ArrayList<Integer> largerFactorSet = null;
