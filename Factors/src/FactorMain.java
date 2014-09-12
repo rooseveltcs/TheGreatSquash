@@ -30,21 +30,32 @@ public class FactorMain {
 						System.out.println(getGreatestCommonDenominator(inputFactors.get(0),inputFactors.get(1)));					
 					}
 				} else {
-					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
+					printError();
 				}
 			} catch(InputMismatchException e) {
 				try {
-					String currentString = lineScanner.next();
-					if(currentString.toLowerCase().equals("quit")) {
-						play = false;
-					} else {
-						System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
-					}
+					play = testQuit(lineScanner.next());
 				} catch(InputMismatchException q) {
-					System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
+					printError();
 				}
 			}
 		}
+	}
+	
+	//Takes an input of a string and returns true if it is equal to "quit" or any
+	//	capitalized variation to it
+	public static boolean testQuit(String consoleInput) {
+		if(consoleInput.toLowerCase().equals("quit")) {
+			return false;
+		} else {
+			printError();
+			return true;
+		}
+	}
+
+	//Prints an Error message telling the user the required input 
+	public static void printError() {
+		System.out.println("Please re-enter either an Integer between 1 and 100 (to get it's factors), or enter 2\nto get their greatest common denominator, or enter the word \"quit\" to end the program");
 	}
 
 	//Takes in a perameter of an int ant it tests whether or not the number is between 1
