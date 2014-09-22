@@ -34,7 +34,7 @@ public class FactorMain {
 				}
 			} catch(InputMismatchException e) {
 				try {
-					play = testQuit(lineScanner.next());
+					play = !testQuit(lineScanner.next());
 				} catch(InputMismatchException q) {
 					printError();
 				}
@@ -46,10 +46,10 @@ public class FactorMain {
 	//	capitalized variation to it
 	public static boolean testQuit(String consoleInput) {
 		if(consoleInput.toLowerCase().equals("quit")) {
-			return false;
+			return true;
 		} else {
 			printError();
-			return true;
+			return false;
 		}
 	}
 

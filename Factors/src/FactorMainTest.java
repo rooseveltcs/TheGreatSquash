@@ -22,6 +22,16 @@ public class FactorMainTest {
 		Assert.assertTrue("edge case testInputInt(100) not true\n",FactorMain.testInputInt(100));
 		Assert.assertFalse("edge case testInputInt(101) not false\n",FactorMain.testInputInt(101));
 	}
+	
+//	@Test
+//	public static void testQuitTest() {
+//		Assert.assertTrue(FactorMain.testQuit("quit"));
+//		Assert.assertTrue(FactorMain.testQuit("QUIT"));
+//		String quit = "quit";
+//		for(int i = 0; i < quit.length(); i++) {
+//			Assert.assertTrue(FactorMain.testQuit(quit.));
+//		}
+//	}
 
 	@Test
 	//Test method for FactorMain.getFactors() that tests to see if each number contains
