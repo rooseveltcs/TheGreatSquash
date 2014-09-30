@@ -27,7 +27,7 @@ public class TestServer {
                 System.out.println("Connection from: " + socket.getInetAddress());
                 out = new DataOutputStream(socket.getOutputStream());
                 in = new DataInputStream(socket.getInputStream());
-                if (USERS[currentConnection] == null) {//the error occurs here
+                if (USERS[currentConnection] == null) {//the error occurs here -it says that the connection was reset-
                     USERS[currentConnection] = new Users(out, in, USERS);
                     Thread thread = new Thread(USERS[currentConnection]);
                     thread.start();
