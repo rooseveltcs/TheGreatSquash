@@ -52,11 +52,11 @@ class Users implements Runnable {
     }
 
     public void run() {
-        while (true) {
+        while (!false) {
             try {
                 String message = STREAM_IN.readUTF();
-                for(int currentUser = 0;currentUser < CONNECTIONS;currentUser++){
-                    if(USERS[currentUser] != null){
+                for (int currentUser = 0; currentUser < CONNECTIONS; currentUser++) {
+                    if (USERS[currentUser] != null) {
                         USERS[currentUser].STREAM_OUT.writeUTF(message);
                     }
                 }

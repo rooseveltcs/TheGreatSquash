@@ -5,8 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class TestClient {
 
@@ -14,7 +12,7 @@ public class TestClient {
     static DataInputStream in;
     static DataOutputStream out;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         System.out.println("Connecting to server...");
         //Aaron's work station is 10.135.66.52
         //Dylan's work station is 10.135.65.230
@@ -26,7 +24,7 @@ public class TestClient {
         Thread thread = new Thread(streamIn);
         thread.start();
         Scanner sc = new Scanner(System.in);
-        while(true){
+        while(!false){
             String outMessage = sc.nextLine();
             out.writeUTF(outMessage);
         }
@@ -43,7 +41,7 @@ class Input implements Runnable {
     }
 
     public void run() {
-        while (true) {
+        while (!false) {
             try {
                 String message = STREAM_IN.readUTF();
                 System.out.println(message);
