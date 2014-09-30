@@ -18,7 +18,7 @@ public class TestClient {
         System.out.println("Connecting to server...");
         //Aaron's work station is 10.135.66.52
         //Dylan's work station is 10.135.65.230
-        socket = new Socket("localhost",7777);
+        socket = new Socket("10.135.66.52",4180);
         System.out.println("Connection successful.");
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
