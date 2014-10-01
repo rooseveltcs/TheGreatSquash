@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,25 +17,28 @@ public class TestServer {
     static DataOutputStream out;
     static DataInputStream in;
     static Users[] USERS;
+    static boolean shouldRun = true;
+    static String[] ips = new String[10];
 
     public static void main(String[] args) throws IOException {
+        USERS = new Users[10];
         System.out.println("Starting server...");
         serverSocket = new ServerSocket(4180);
         System.out.println("Server started...");
-        while (!false) {
+        for (int currentConnection = 0; currentConnection < Users.CONNECTIONS; currentConnection++) {
             socket = serverSocket.accept();
-            for (int currentConnection = 0; currentConnection < Users.CONNECTIONS; currentConnection++) {
-                System.out.println("Connection from: " + socket.getInetAddress());
-                out = new DataOutputStream(socket.getOutputStream());
-                in = new DataInputStream(socket.getInputStream());
-                if (USERS[currentConnection] == null) {//the error occurs here -it says that the connection was reset-
-                    USERS[currentConnection] = new Users(out, in, USERS);
-                    Thread thread = new Thread(USERS[currentConnection]);
-                    thread.start();
-                    break;
-                }
-            }
+            out = new DataOutputStream(socket.getOutputStream());
+            in = new DataInputStream(socket.getInputStream());
+            Users temp = new Users(out, in, USERS);
+            USERS[currentConnection] = temp;
+            ips[currentConnection] = socket.getInetAddress().toString();
+            System.out.println("Connection from: " + socket.getInetAddress());
+            System.out.println("User is " + USERS[currentConnection]);
+            Thread thread = new Thread(USERS[currentConnection]);
+            thread.start();
+            shouldRun = false;
         }
+        System.in.read();
     }
 }
 
