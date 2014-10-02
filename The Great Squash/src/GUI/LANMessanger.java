@@ -8,8 +8,11 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import GUIListeners.MessangerEnterKeyListener;
+import LAN.TestClient;
 
 public class LANMessanger {
+	private MessangerEnterKeyListener enterListener;
+	private TestClient client;
 	private JFrame frame;
 	private JPanel display;
 	private JTextArea displayScreen;
@@ -17,7 +20,9 @@ public class LANMessanger {
 	private JTextField inputBox;
 	private JPanel base;
 	
-	public LANMessanger() {
+	public LANMessanger(TestClient client) {
+		enterListener = new MessangerEnterKeyListener(this);
+		this.client = client;
 		formatInput();
 		formatDisplay();
 		formatFrame();
@@ -31,7 +36,7 @@ public class LANMessanger {
 		//input.setBackground(Color.PINK);
 		
 		inputBox.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		inputBox.addKeyListener(new MessangerEnterKeyListener(this));
+		inputBox.addKeyListener(enterListener);
 		
 		input.add(inputBox);
 	}
@@ -82,6 +87,13 @@ public class LANMessanger {
 		} else {
 			displayScreen.setText(string);
 		}
-		
+	}
+	
+	public MessangerEnterKeyListener getEnterListener() {
+		return enterListener;
+	}
+	
+	public TestClient getClient() {
+		return client;
 	}
 }

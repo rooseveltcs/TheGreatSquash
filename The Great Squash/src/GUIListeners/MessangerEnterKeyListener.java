@@ -2,6 +2,7 @@ package GUIListeners;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,14 +20,14 @@ public class MessangerEnterKeyListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if(arg0.getExtendedKeyCode() == 10) {
-			String input = messanger.getInputContents();
+			//formatOutput(messanger.getInputContents());
+			try {
+				messanger.getClient().sendMessage();
+				messanger.clearInput();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Calendar cal = Calendar.getInstance();
-			
-			String header = System.getProperty("user.name") + " [" + dateFormat.format(cal.getTime()) + "]: ";
-			messanger.clearInput();
-			messanger.printToDisplay(header + input);
 		}
 		
 	}
@@ -41,6 +42,14 @@ public class MessangerEnterKeyListener implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void formatOutput(String input) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		
+		String header = System.getProperty("user.name") + " [" + dateFormat.format(cal.getTime()) + "]: ";
+		messanger.printToDisplay(header + input);
 	}
 
 }
