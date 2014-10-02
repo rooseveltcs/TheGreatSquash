@@ -73,7 +73,7 @@ class Input implements Runnable {
             try {
                 try {
                     String message = STREAM_IN.readUTF();//the error occurs here
-                    //System.out.println(message);
+                    System.out.println(message);
                     client.getMessanger().getEnterListener().formatOutput(message);
                 } catch (SocketException se) {
                     System.out.println("\nConnection Terminated.\nBeat it Fucker");

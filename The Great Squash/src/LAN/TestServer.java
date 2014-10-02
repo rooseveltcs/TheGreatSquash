@@ -60,13 +60,13 @@ class Users implements Runnable {
     public static int CONNECTIONS;
     DataOutputStream STREAM_OUT;
     DataInputStream STREAM_IN;
-    Users[] USERS = new Users[CONNECTIONS];
+    Users[] USERS;
 
     public Users(DataOutputStream out, DataInputStream in, Users[] users, int connections) {
         STREAM_OUT = out;
         STREAM_IN = in;
-        USERS = users;
         CONNECTIONS = connections;
+        USERS = users;
     }
 
     public void run() {
