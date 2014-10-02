@@ -17,10 +17,15 @@ public class TestClient {
 	private DataOutputStream out;
 	private Scanner sc;
 
-	public TestClient(String IP, LANMessanger messanger) throws IOException {
-		this.messanger = messanger;
-		sc = new Scanner(System.in);
-		connectToServer(IP);
+	public TestClient(String IP, LANMessanger messanger)  {
+		try {
+			connectToServer(IP);
+			this.messanger = messanger;
+			sc = new Scanner(System.in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void connectToServer(String IP) throws IOException {

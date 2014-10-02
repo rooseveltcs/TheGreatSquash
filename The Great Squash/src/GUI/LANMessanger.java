@@ -20,9 +20,9 @@ public class LANMessanger {
 	private JTextField inputBox;
 	private JPanel base;
 	
-	public LANMessanger(TestClient client) {
+	public LANMessanger() {
 		enterListener = new MessangerEnterKeyListener(this);
-		this.client = client;
+		this.client = new TestClient("10.135.66.52",this);
 		formatInput();
 		formatDisplay();
 		formatFrame();
