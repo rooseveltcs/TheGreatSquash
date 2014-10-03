@@ -22,12 +22,8 @@ public class MessangerEnterKeyListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
             //formatOutput(messanger.getInputContents());
-            try {
-                messanger.getClient().sendMessage();
-                messanger.clearInput();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            messanger.getClient().sendMessage(formatOutput(messanger.getInputContents()));
+            messanger.clearInput();
 
         }
 
@@ -43,11 +39,11 @@ public class MessangerEnterKeyListener implements KeyListener {
         // TODO Auto-generated method stub
     }
 
-    public void formatOutput(String input) {
+    public String formatOutput(String input) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
 
         String header = System.getProperty("user.name") + " [" + dateFormat.format(cal.getTime()) + "]: ";
-        messanger.printToDisplay(header + input);
+        return header + input;
     }
 }

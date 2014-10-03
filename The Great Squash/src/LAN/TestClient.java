@@ -19,20 +19,13 @@ public class TestClient {
     private Scanner sc;
 
     public TestClient(String IP, LANMessanger messanger) {
-        try {
-            connectToServer(IP);
-            this.messanger = messanger;
-            sc = new Scanner(System.in);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        connectToServer(IP);
+        this.messanger = messanger;
+        sc = new Scanner(System.in);
     }
 
-    public void connectToServer(String IP) throws IOException {
+    public void connectToServer(String IP) {
         System.out.println("Connecting to server...");
-        //Aaron's work station is 10.135.66.52
-        //Dylan's work station is 10.135.65.230
         try {
             socket = new Socket(IP, 4180);
             System.out.println("Connection successful.");
@@ -41,15 +34,19 @@ public class TestClient {
             Input streamIn = new Input(in, this);
             Thread thread = new Thread(streamIn);
             thread.start();
-        } catch (UnknownHostException e) {
-            System.out.println("Unable to find specified server.");
+        } catch (IOException io) {
         }
     }
 
-    public void sendMessage() throws IOException {
+    public void sendMessage(String input) {
         //while (!false) {
-        String outMessage = messanger.getInputContents();
-        out.writeUTF(outMessage);
+        try {
+            String outMessage = input;
+            out.writeUTF(outMessage);
+            //System.out.println(input);
+        } catch (IOException io) {
+            System.out.println("Sorry-bub, didn' work.");
+        }
         //}
     }
 
@@ -72,7 +69,7 @@ class Input implements Runnable {
         while (!false) {
             try {
                 try {
-                    String message = STREAM_IN.readUTF();//the error occurs here
+                    String message = STREAM_IN.readUTF();
                     System.out.println(message);
                     client.getMessanger().getEnterListener().formatOutput(message);
                 } catch (SocketException se) {

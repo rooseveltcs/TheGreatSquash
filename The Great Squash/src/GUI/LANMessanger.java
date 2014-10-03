@@ -25,7 +25,7 @@ public class LANMessanger {
     private TestServer SERVER;
 
     public LANMessanger(boolean shouldServer) {
-        if(shouldServer){
+        if (shouldServer) {
             SERVER = new TestServer(10);
         }
         enterListener = new MessangerEnterKeyListener(this);
@@ -103,10 +103,12 @@ public class LANMessanger {
     public TestClient getClient() {
         return client;
     }
-    public TestServer getServer(){
+
+    public TestServer getServer() {
         return SERVER;
     }
-    public void setServer(TestServer toSet){
+
+    public void setServer(TestServer toSet) {
         SERVER = toSet;
     }
 }
