@@ -39,7 +39,7 @@ public class MessangerEnterKeyListener implements KeyListener {
         // TODO Auto-generated method stub
     }
 
-    public String formatOutput(String input) {
+    private String formatOutput(String input) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
 

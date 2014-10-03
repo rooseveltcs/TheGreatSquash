@@ -69,9 +69,10 @@ class Input implements Runnable {
         while (!false) {
             try {
                 try {
+                    LANMessanger messanger = client.getMessanger();
                     String message = STREAM_IN.readUTF();
-                    System.out.println(message);
-                    client.getMessanger().getEnterListener().formatOutput(message);
+                    //System.out.println(message);
+                    messanger.printToDisplay(message);
                 } catch (SocketException se) {
                     System.out.println("\nConnection Terminated.\nBeat it Fucker");
                     break;
