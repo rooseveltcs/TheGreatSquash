@@ -21,8 +21,8 @@ public class TestServer {
     private String[] ips;
 
     public TestServer(int connections) {
-        USERS = new Users[connections];
-        ips = new String[connections];
+        USERS = new Users[10];
+        ips = new String[10];
         System.out.println("Starting server...");
         try {
             serverSocket = new ServerSocket(4180);
@@ -35,7 +35,7 @@ public class TestServer {
                 socket = serverSocket.accept();
                 out = new DataOutputStream(socket.getOutputStream());
                 in = new DataInputStream(socket.getInputStream());
-                Users temp = new Users(out, in, USERS, connections);
+                Users temp = new Users(out, in, USERS);
                 USERS[currentConnection] = temp;
                 ips[currentConnection] = socket.getInetAddress().toString();
                 System.out.println("Connection from: " + socket.getInetAddress());
@@ -57,15 +57,14 @@ public class TestServer {
 
 class Users implements Runnable {
 
-    public static int CONNECTIONS;
+    public static int CONNECTIONS = 10;
     DataOutputStream STREAM_OUT;
     DataInputStream STREAM_IN;
     Users[] USERS;
 
-    public Users(DataOutputStream out, DataInputStream in, Users[] users, int connections) {
+    public Users(DataOutputStream out, DataInputStream in, Users[] users) {
         STREAM_OUT = out;
         STREAM_IN = in;
-        CONNECTIONS = connections;
         USERS = users;
     }
 
@@ -75,6 +74,7 @@ class Users implements Runnable {
                 String message = STREAM_IN.readUTF();
                 for (int currentUser = 0; currentUser < CONNECTIONS; currentUser++) {
                     if (USERS[currentUser] != null) {
+                        System.out.println("Message sent: " + message);
                         USERS[currentUser].STREAM_OUT.writeUTF(message);
                     }
                 }
