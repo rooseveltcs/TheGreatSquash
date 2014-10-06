@@ -32,11 +32,14 @@ public class LANMessanger {
         formatInput();
         formatDisplay();
         formatFrame();
-        this.client = new TestClient("localhost", this);
-        enterListener = new MessangerEnterKeyListener(this);
+        //10.135.66.52
+        this.client = new TestClient("10.135.66.52", this);
+        
     }
 
     private void formatInput() {
+        enterListener = new MessangerEnterKeyListener(this);
+        System.out.println("XD");
         input = new JPanel();
         inputBox = new JTextField(36);
 
