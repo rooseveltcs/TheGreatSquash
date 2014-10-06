@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -33,7 +34,6 @@ public class TestServer {
             ex.printStackTrace();
         }
         System.out.println("Server started...");
-        TestClient thisClient = new TestClient("10.135.66.52",MESSANGER);
         for (int currentConnection = 0; currentConnection < Users.CONNECTIONS; currentConnection++) {
             try {
                 socket = serverSocket.accept();
@@ -75,12 +75,17 @@ class Users implements Runnable {
     public void run() {
         while (!false) {
             try {
+                try{
                 String message = STREAM_IN.readUTF();
                 for (int currentUser = 0; currentUser < CONNECTIONS; currentUser++) {
                     if (USERS[currentUser] != null) {
                         System.out.println("Message sent: " + message);
                         USERS[currentUser].STREAM_OUT.writeUTF(message);
                     }
+                }
+                }catch(SocketException se){
+                    System.out.println("A client has disconnected");
+                    break;
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

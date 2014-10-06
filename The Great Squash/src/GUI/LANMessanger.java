@@ -27,7 +27,8 @@ public class LANMessanger {
     public LANMessanger(boolean shouldServer) {
         if (shouldServer) {
             ServerThread servThread = new ServerThread(this);
-            servThread.run();
+            Thread serverThread = new Thread(servThread);
+            serverThread.start();
         }
         formatInput();
         formatDisplay();
