@@ -26,8 +26,7 @@ public class LANMessanger {
 
     public LANMessanger(boolean shouldServer) {
         if (shouldServer) {
-//            SERVER = new TestServer(this);
-            ServerThread servThread = new ServerThread();
+            ServerThread servThread = new ServerThread(this);
             servThread.run();
         }
         formatInput();
@@ -114,11 +113,17 @@ public class LANMessanger {
         SERVER = toSet;
     }
 }
-class ServerThread implements Runnable{
 
-    @Override
-    public void run() {
-        
+class ServerThread implements Runnable {
+
+    LANMessanger MESSANGER;
+    
+    public ServerThread(LANMessanger messanger){
+        MESSANGER = messanger;
     }
     
+    @Override
+    public void run() {
+        MESSANGER.setServer(new TestServer(MESSANGER));
+    }
 }
