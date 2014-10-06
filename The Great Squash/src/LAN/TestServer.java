@@ -19,7 +19,6 @@ public class TestServer {
     private DataOutputStream out;
     private DataInputStream in;
     private Users[] USERS;
-    private boolean shouldRun = true;
     private String[] ips;
     private LANMessanger MESSANGER;
 
@@ -46,7 +45,6 @@ public class TestServer {
                 System.out.println("User is " + USERS[currentConnection]);
                 Thread thread = new Thread(USERS[currentConnection]);
                 thread.start();
-                shouldRun = false;
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -95,4 +93,3 @@ class Users implements Runnable {
 }
 //how to do threads
 //http://docs.oracle.com/javase/tutorial/essential/concurrency/runthread.html
-//https://www.youtube.com/watch?v=_1ThWf9Fkfo I'm att 8:10 in the video
