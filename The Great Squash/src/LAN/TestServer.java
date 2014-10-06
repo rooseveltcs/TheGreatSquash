@@ -1,5 +1,6 @@
 package LAN;
 
+import GUI.LANMessanger;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,8 +20,10 @@ public class TestServer {
     private Users[] USERS;
     private boolean shouldRun = true;
     private String[] ips;
+    private LANMessanger MESSANGER;
 
-    public TestServer(int connections) {
+    public TestServer(LANMessanger messanger) {
+        MESSANGER = messanger;
         USERS = new Users[10];
         ips = new String[10];
         System.out.println("Starting server...");
@@ -30,6 +33,7 @@ public class TestServer {
             ex.printStackTrace();
         }
         System.out.println("Server started...");
+        TestClient thisClient = new TestClient("10.135.66.52",MESSANGER);
         for (int currentConnection = 0; currentConnection < Users.CONNECTIONS; currentConnection++) {
             try {
                 socket = serverSocket.accept();
