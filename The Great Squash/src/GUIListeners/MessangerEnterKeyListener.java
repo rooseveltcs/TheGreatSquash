@@ -20,9 +20,7 @@ public class MessangerEnterKeyListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        //System.out.println(e.getExtendedKeyCode() + "|" + e.getKeyChar());
         if (e.getExtendedKeyCode() == 10) {
-            //formatOutput(messanger.getInputContents());
             messanger.getClient().sendMessage(formatOutput(messanger.getInputContents()));
             messanger.clearInput();
 

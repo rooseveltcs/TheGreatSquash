@@ -6,8 +6,9 @@ package gameworld;
 
 /**
  *
- * @author ros_aljacobson001
+ * @author ros_dmlamarca
  */
-public abstract class Floor implements Displayable {
-    
+public interface Displayable {
+    void setSprite(char sprite);
+    char displaySprite();
 }

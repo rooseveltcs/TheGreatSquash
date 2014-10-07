@@ -8,6 +8,6 @@ package gameworld;
  *
  * @author ros_aljacobson001
  */
-public interface Obstacle {
+public abstract class Obstacle implements Displayable {
     
 }

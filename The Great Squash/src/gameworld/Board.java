@@ -11,7 +11,9 @@ import java.awt.Graphics;
  * @author ros_aljacobson001
  */
 public class Board {
-    private Tile[][] THE_GAME_BOARD;
+    private Tile[][] GAME_BOARD;
+    private int sizeX;
+    private int sizeY;
     private Graphics GRAPHICS;
     
     /**
@@ -20,12 +22,30 @@ public class Board {
      * @param y
      */
     public Board(int x,int y,Graphics graphics){
-        THE_GAME_BOARD = new Tile[y][x];
+        GAME_BOARD = new Tile[y][x];
+        sizeX = x;
+        sizeY = y;
         GRAPHICS = graphics;
     }
     
+    public Board(int x,int y){
+        GAME_BOARD = new Tile[y][x];
+        sizeX = x;
+        sizeY = y;
+        GRAPHICS = null;
+    }
+    
     public void show(){
-        //to implement
+        for(int i = 0; i < sizeX; i++) {
+            for(int j = 0; j < sizeY; j++) {
+                System.out.print(GAME_BOARD[j][i]);
+            }
+            System.out.println();
+        }
+    }
+    
+    public void setBoardTiles() {
+        
     }
     
     /**
@@ -33,7 +53,7 @@ public class Board {
      * @return The game board
      */
     public Tile[][] getGameBoard(){
-        return THE_GAME_BOARD;
+        return GAME_BOARD;
     }
     
     /**
@@ -43,7 +63,7 @@ public class Board {
      * @return The tile specified by the x and y values given
      */
     public Tile getTile(int y,int x){
-        return THE_GAME_BOARD[y][x];
+        return GAME_BOARD[y][x];
     }
     
     /**
@@ -53,6 +73,6 @@ public class Board {
      * @param toSetTo
      */
     public void setTile(int y,int x,Tile toSetTo){
-        THE_GAME_BOARD[y][x] = toSetTo;
+        GAME_BOARD[y][x] = toSetTo;
     }
 }
