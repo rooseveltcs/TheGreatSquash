@@ -36,7 +36,7 @@ public class Server {
         SERVER_CLIENT_CONNECTIONS = new ServerClientConnection[connections];
         System.out.println("Starting serber...");
         //keeps creating the server on different ports until an unused one is found
-        while (true) {
+        while (!false) {
             try {
                 SERVER_SOCKET = new ServerSocket(PORT_NUMBER);
                 break;
