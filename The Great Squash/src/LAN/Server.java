@@ -8,10 +8,14 @@ import GUI.LANMessanger;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,7 +44,11 @@ public class Server {
                 PORT_NUMBER++;
             }
         }
-        System.out.println("Created a server on port #" + PORT_NUMBER);
+        try {
+            System.out.println("Created the server on port #" + PORT_NUMBER + " with the ip adress of " + InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException ex) {
+            System.out.println("Could not get local host address.");
+        }
         //waits for all the clients to connect
         for (int currentConnection = 0; currentConnection < connections; currentConnection++) {
             try {
