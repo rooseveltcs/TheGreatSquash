@@ -20,10 +20,8 @@ public class TestServer {
     private DataInputStream in;
     private Users[] USERS;
     private String[] ips;
-    private LANMessanger MESSANGER;
 
-    public TestServer(LANMessanger messanger) {
-        MESSANGER = messanger;
+    public TestServer() {
         USERS = new Users[10];
         ips = new String[10];
         System.out.println("Starting server...");

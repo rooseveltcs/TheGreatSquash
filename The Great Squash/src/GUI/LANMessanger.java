@@ -128,6 +128,6 @@ class ServerThread implements Runnable {
     
     @Override
     public void run() {
-        MESSANGER.setServer(new TestServer(MESSANGER));
+        MESSANGER.setServer(new TestServer());
     }
 }

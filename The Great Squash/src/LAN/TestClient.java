@@ -16,12 +16,10 @@ public class TestClient {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
-    private Scanner sc;
 
     public TestClient(String IP, LANMessanger messanger) {
         connectToServer(IP);
         this.messanger = messanger;
-        sc = new Scanner(System.in);
     }
 
     public void connectToServer(String IP) {
@@ -39,15 +37,12 @@ public class TestClient {
     }
 
     public void sendMessage(String input) {
-        //while (!false) {
         try {
             String outMessage = input;
             out.writeUTF(outMessage);
-            //System.out.println(input);
         } catch (IOException io) {
             System.out.println("Sorry-bub, didn' work.");
         }
-        //}
     }
 
     public LANMessanger getMessanger() {
@@ -71,7 +66,6 @@ class Input implements Runnable {
                 try {
                     LANMessanger messanger = client.getMessanger();
                     String message = STREAM_IN.readUTF();
-                    //System.out.println(message);
                     messanger.printToDisplay(message);
                 } catch (SocketException se) {
                     System.out.println("\nConnection Terminated.\nBeat it Fucker");
