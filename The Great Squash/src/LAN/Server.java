@@ -136,7 +136,7 @@ class ServerClientChat implements Runnable{
             try {
                 String toSend = STREAM_IN.readUTF();
                 System.out.println("Incoming Chat " + toSend);
-                for(int currentConnection = 0;currentConnection < )
+                //for(int currentConnection = 0;currentConnection < )
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
