@@ -19,7 +19,12 @@ public class Tile {
         FLOOR = floor;
         CREATURE = creature;
     }
+    
+    public void setCreature(Creature creature) {
+        CREATURE = creature;
+    }
 
+    @Override
     public String toString() {
         String output = "";
         if (CREATURE != null) {

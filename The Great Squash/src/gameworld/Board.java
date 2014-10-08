@@ -44,8 +44,15 @@ public class Board {
         }
     }
     
-    public void setBoardTiles() {
-        
+    /**
+     *
+     */
+    public void setBoardTilesNull() {
+        for(int i = 0; i < sizeX; i++) {
+            for(int j = 0; j < sizeY; j++) {
+                GAME_BOARD[j][i] = new Tile(null,null,null);
+            }
+        }
     }
     
     /**
@@ -74,5 +81,9 @@ public class Board {
      */
     public void setTile(int y,int x,Tile toSetTo){
         GAME_BOARD[y][x] = toSetTo;
+    }
+    
+    public void setTileCreature(int y, int x, Creature creature) {
+        getTile(y,x).setCreature(creature);
     }
 }
