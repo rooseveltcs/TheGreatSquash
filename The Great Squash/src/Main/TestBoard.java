@@ -5,6 +5,8 @@
 package Main;
 
 import gameworld.Board;
+import gameworld.Creature;
+import gameworld.Player;
 
 /**
  *
@@ -13,6 +15,8 @@ import gameworld.Board;
 public class TestBoard {
    public static void main(String[] args) {
        Board board = new Board(3,3);
-       board.show();
+       board.setBoardTilesNull();
+       board.getTile(1, 1).setCreature(new Player('@'));
+       board.show();       
    } 
 }
