@@ -29,10 +29,12 @@ public abstract class Creature implements Displayable {
         
     }
     
+    @Override
     public void setSprite(char sprite) {
         SPRITE = sprite;
     }
     
+    @Override
     public char displaySprite() {        
         return SPRITE;
     }
