@@ -107,7 +107,6 @@ class ServerClientConnection implements Runnable {
                 for (int currentConnection = 0; currentConnection < SERVER_CLIENT_CONNECTIONS.length; currentConnection++) {
                     try {
                         SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
-
                     } catch (SocketException ex) {
                         System.out.println("A client has disconnected.");
                         break;
