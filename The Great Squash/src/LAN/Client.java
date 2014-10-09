@@ -4,34 +4,42 @@
  */
 package LAN;
 
+import gameworld.Tile;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author ros_aljacobson001
  */
 public class Client {
-    
+
     private DataInputStream STREAM_IN;
     private DataOutputStream STREAM_OUT;
     private Socket SOCKET;
-    
-    public Client(String ip,int portNumber){
-        connectToServer(ip,portNumber);
+    private DataInputStream CHAT_IN;
+    private DataOutputStream CHAT_OUT;
+    private Socket CHAT_SOCKET;
+
+    public Client(String ip, int portNumber) {
+        connectToServer(ip, portNumber);
     }
-    
-    public void connectToServer(String ip,int portNumber){
+
+    public void connectToServer(String ip, int portNumber) {
         System.out.println("Connecting to server at " + ip);
         try {
-            SOCKET = new Socket(ip,portNumber);
+            SOCKET = new Socket(ip, portNumber);
             System.out.println("Connection successful.");
             STREAM_IN = new DataInputStream(SOCKET.getInputStream());
             STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
-            ServerInput serverInput = new ServerInput(STREAM_IN,this);
+            ServerDataHandler serverInput = new ServerDataHandler(STREAM_IN, this);
             Thread serverDataThread = new Thread(serverInput);
             serverDataThread.start();
         } catch (UnknownHostException ex) {
@@ -39,19 +47,38 @@ public class Client {
         } catch (IOException ex) {
             System.out.println("Sorry but we could not connect to the server with that port.");
         }
+        System.out.println("Connecting to chat server.");
+        try {
+            CHAT_SOCKET = new Socket(ip, portNumber++);
+            System.out.println("Connection successful.");
+            CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
+            CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
+            ChatInput chatHandler = new ChatInput(CHAT_IN, CHAT_OUT, this);
+            Thread chatThread = new Thread(chatHandler);
+            chatThread.start();
+        } catch (UnknownHostException ex) {
+            System.out.println("Sorry but that ip address was not found for the chat server.");
+        } catch (IOException ex) {
+            System.out.println("Sorry but a chat server was not found on that port number.");
+        }
+
     }
 }
-class ServerInput implements Runnable{
+
+class ServerDataHandler implements Runnable {
+
     private DataInputStream STREAM_IN;
+    private DataOutputStream STREAM_OUT;
     private Client MY_CLIENT;
 
-    public ServerInput(DataInputStream in,Client myClient){
+    public ServerDataHandler(DataInputStream in, Client myClient) {
         STREAM_IN = in;
         MY_CLIENT = myClient;
     }
+
     @Override
     public void run() {
-        while(!false){
+        while (!false) {
             try {
                 String serverData = STREAM_IN.readUTF();
                 interpretServerData(serverData);
@@ -61,8 +88,57 @@ class ServerInput implements Runnable{
             }
         }
     }
-    
-    public void interpretServerData(String serverData){
+
+    public void interpretServerData(String serverData) {
         System.out.println("Need to implement interpretServerData()");
+        Scanner messageScanner = new Scanner(serverData);
+        String theCommand = messageScanner.next();
+        if(theCommand.equals(CommandHolder.MOVING)){
+            int yValue = messageScanner.nextInt();
+            int xValue = messageScanner.nextInt();
+        }
+    }
+
+    public void sendMove(Tile toMoveTo) {
+        String toSend = CommandHolder.MOVING + " n m";
+       // toSend = toSend + toMoveTo.
+        //must wait until the tiles have their own coordinates
+    }
+}
+
+class ChatInput implements Runnable {
+
+    DataInputStream STREAM_IN;
+    DataOutputStream STREAM_OUT;
+    Client CLIENT;
+
+    public ChatInput(DataInputStream in, DataOutputStream out, Client client) {
+        STREAM_IN = in;
+        STREAM_OUT = out;
+        CLIENT = client;
+    }
+
+    @Override
+    public void run() {
+        while (!false) {
+            try {
+                try {
+                    String message = STREAM_IN.readUTF();
+                    //this is where the client would send the message to the GUI to display
+                } catch (SocketException se) {
+                    System.out.println("Connection to chat server lost.");
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void sendChatMessage(String toSend) {
+        try {
+            STREAM_OUT.writeUTF(toSend);
+        } catch (IOException ex) {
+            System.out.println("Failure to send chat message.");
+        }
     }
 }
