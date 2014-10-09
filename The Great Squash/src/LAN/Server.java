@@ -24,23 +24,32 @@ import java.util.logging.Logger;
 public class Server {
 
     private ServerSocket SERVER_SOCKET;
+    private ServerSocket CHAT_SERVER_SOCKET;
     private Socket SOCKET;
-    private DataOutputStream OUT;
-    private DataInputStream IN;
+    private Socket CHAT_SOCKET;
+    private DataOutputStream CHAT_OUT;
+    private DataInputStream CHAT_IN;
+    private DataOutputStream DATA_OUT;
+    private DataInputStream DATA_IN;
     private String[] IPS;
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
+    private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
     private int PORT_NUMBER = 45005;
+    private int CHAT_PORT_NUMBER = 45006;
 
     public Server(int connections) {
         IPS = new String[connections];
         SERVER_CLIENT_CONNECTIONS = new ServerClientConnection[connections];
+        SERVER_CHAT_CONNECTIONS = new ServerClientChat[connections];
         System.out.println("Starting serber...");
         //keeps creating the server on different ports until an unused one is found
-        while (!false) {
+        while (true) {
             try {
                 SERVER_SOCKET = new ServerSocket(PORT_NUMBER);
+                CHAT_SERVER_SOCKET = new ServerSocket(CHAT_PORT_NUMBER);
                 break;
             } catch (IOException ex) {
+                CHAT_PORT_NUMBER++;
                 PORT_NUMBER++;
             }
         }
@@ -52,10 +61,14 @@ public class Server {
         //waits for all the clients to connect
         for (int currentConnection = 0; currentConnection < connections; currentConnection++) {
             try {
+                CHAT_SOCKET = CHAT_SERVER_SOCKET.accept();
+                CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
+                CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
+                ServerClientChat chatTemp = new ServerClientChat(CHAT_IN,CHAT_OUT,SERVER_CHAT_CONNECTIONS);
                 SOCKET = SERVER_SOCKET.accept();
-                OUT = new DataOutputStream(SOCKET.getOutputStream());
-                IN = new DataInputStream(SOCKET.getInputStream());
-                ServerClientConnection newConnect = new ServerClientConnection(IN, OUT, SERVER_CLIENT_CONNECTIONS);
+                DATA_OUT = new DataOutputStream(SOCKET.getOutputStream());
+                DATA_IN = new DataInputStream(SOCKET.getInputStream());
+                ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS);
                 IPS[currentConnection] = SOCKET.getInetAddress().toString();
                 System.out.println("Connection from " + IPS[currentConnection]);
                 Thread CurrentConnection = new Thread(newConnect);
@@ -105,4 +118,29 @@ class ServerClientConnection implements Runnable {
             }
         }
     }
+}
+class ServerClientChat implements Runnable{
+
+    DataInputStream STREAM_IN;
+    DataOutputStream STREAM_OUT;
+    ServerClientChat[] SERVER_CHAT_CONNECTIONS;
+    
+    public ServerClientChat(DataInputStream in,DataOutputStream out,ServerClientChat[] serverChatConnections){
+        STREAM_IN = in;
+        STREAM_OUT = out;
+        SERVER_CHAT_CONNECTIONS = serverChatConnections;
+    }
+    @Override
+    public void run() {
+        while(!false){
+            try {
+                String toSend = STREAM_IN.readUTF();
+                System.out.println("Incoming Chat " + toSend);
+                //for(int currentConnection = 0;currentConnection < )
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
 }
