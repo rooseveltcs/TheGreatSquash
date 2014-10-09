@@ -135,7 +135,14 @@ class ServerClientChat implements Runnable{
             try {
                 String toSend = STREAM_IN.readUTF();
                 System.out.println("Incoming Chat " + toSend);
-                //for(int currentConnection = 0;currentConnection < )
+                for(int currentConnection = 0;currentConnection < SERVER_CHAT_CONNECTIONS.length;currentConnection++){
+                    try {
+                        SERVER_CHAT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
+                    }catch(SocketException ex){
+                        System.out.println("A client has disonnected");
+                        break;
+                    }
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
