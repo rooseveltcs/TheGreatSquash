@@ -5,6 +5,7 @@
 package gameworld;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 /**
  * The board stores everything on the level
@@ -15,6 +16,7 @@ public class Board {
     private int sizeX;
     private int sizeY;
     private Graphics GRAPHICS;
+    private ArrayList<Creature> CREATURES = new ArrayList<Creature>();
     
     /**
      *
@@ -85,6 +87,7 @@ public class Board {
     
     public void setTileCreature(int y, int x, Creature creature) {
         getTile(y,x).setCreature(creature);
+        CREATURES.add(creature);
     }
     
     public String toString() {
@@ -96,5 +99,13 @@ public class Board {
             output += "\n";
         }
         return output;
+    }
+    
+    public int getY(){
+        return sizeY;
+    }
+    
+    public int getX(){
+        return sizeX;
     }
 }

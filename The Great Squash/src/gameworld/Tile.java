@@ -38,4 +38,14 @@ public class Tile {
         }
         return output;
     }
+    
+    public String toServerData(){
+        String toReturn = "";
+        if(CREATURE != null){
+            toReturn += CREATURE.displaySprite();
+        }else{
+            toReturn += ".";
+        }
+        return toReturn;
+    }
 }

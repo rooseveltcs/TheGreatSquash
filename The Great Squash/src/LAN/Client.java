@@ -29,7 +29,8 @@ public class Client {
     private Socket CHAT_SOCKET;
 
     public Client(String ip, int portNumber) {
-        connectToServer(ip, portNumber);
+        
+        Thread connectToServerThread = new Thread();
     }
 
     public void connectToServer(String ip, int portNumber) {
@@ -96,13 +97,17 @@ class ServerDataHandler implements Runnable {
         if(theCommand.equals(CommandHolder.MOVING)){
             int yValue = messageScanner.nextInt();
             int xValue = messageScanner.nextInt();
+            //change what is on this client's version of the board
         }
     }
 
-    public void sendMove(Tile toMoveTo) {
-        String toSend = CommandHolder.MOVING + " n m";
-       // toSend = toSend + toMoveTo.
-        //must wait until the tiles have their own coordinates
+    public void sendMove(int y,int x) {
+        String toSend = CommandHolder.MOVING + " " + y + " " + x;
+        try {
+            STREAM_OUT.writeUTF(toSend);
+        } catch (IOException ex) {
+            System.out.println("Failed to send the movement command to the server, please check you connection.");
+        }
     }
 }
 
@@ -141,4 +146,15 @@ class ChatInput implements Runnable {
             System.out.println("Failure to send chat message.");
         }
     }
+}
+class ConnectToServerThread implements Runnable{
+    Client CLIENT;
+    
+    public ConnectToServerThread(Client client){
+        CLIENT = client;
+    }
+    @Override
+    public void run() {
+    }
+    
 }

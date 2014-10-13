@@ -5,6 +5,7 @@
 package LAN;
 
 import GUI.LANMessanger;
+import gameworld.Board;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -36,12 +37,14 @@ public class Server {
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
     private int PORT_NUMBER = 45005;
     private int CHAT_PORT_NUMBER = PORT_NUMBER++;
+    private Board GAME_BOARD;
 
-    public Server(int connections) {
+    public Server(int connections,Board gameBoard) {
+        GAME_BOARD = gameBoard;
         IPS = new String[connections];
         SERVER_CLIENT_CONNECTIONS = new ServerClientConnection[connections];
         SERVER_CHAT_CONNECTIONS = new ServerClientChat[connections];
-        System.out.println("Starting serber...");
+        System.out.println("Starting server...");
         //keeps creating the server on different ports until an unused one is found
         while (true) {
             try {
@@ -64,13 +67,14 @@ public class Server {
                 CHAT_SOCKET = CHAT_SERVER_SOCKET.accept();
                 CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
                 CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
-                ServerClientChat chatTemp = new ServerClientChat(CHAT_IN,CHAT_OUT,SERVER_CHAT_CONNECTIONS);
+                ServerClientChat chatTemp = new ServerClientChat(CHAT_IN, CHAT_OUT, SERVER_CHAT_CONNECTIONS);
                 SOCKET = SERVER_SOCKET.accept();
                 DATA_OUT = new DataOutputStream(SOCKET.getOutputStream());
                 DATA_IN = new DataInputStream(SOCKET.getInputStream());
-                ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS);
                 IPS[currentConnection] = SOCKET.getInetAddress().toString();
                 System.out.println("Connection from " + IPS[currentConnection]);
+                ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS,IPS);
+                SERVER_CLIENT_CONNECTIONS[currentConnection] = newConnect;
                 Thread CurrentConnection = new Thread(newConnect);
                 CurrentConnection.start();
             } catch (IOException ex) {
@@ -80,9 +84,8 @@ public class Server {
         //once all clients have connected the server sends the message to load into the game
         startGame();
     }
-    
-    public void startGame(){
-        
+
+    public void startGame() {
     }
 }
 
@@ -91,11 +94,13 @@ class ServerClientConnection implements Runnable {
     DataInputStream STREAM_IN;
     DataOutputStream STREAM_OUT;
     ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
+    String[] IPS;
 
-    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections) {
+    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections,String[] ips) {
         SERVER_CLIENT_CONNECTIONS = serverClientConnections;
         STREAM_IN = in;
         STREAM_OUT = out;
+        IPS = ips;
     }
 
     @Override
@@ -108,7 +113,7 @@ class ServerClientConnection implements Runnable {
                     try {
                         SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
                     } catch (SocketException ex) {
-                        System.out.println("A client has disconnected.");
+                        System.out.println("A client has disconnected. IP: " + IPS[currentConnection]);
                         break;
                     }
                 }
@@ -117,28 +122,44 @@ class ServerClientConnection implements Runnable {
             }
         }
     }
+    
+    public void sendCreatures(){
+        
+    }
+    
+//    public String formatBoard(Board board){
+//        String theReturn = "";
+//        for(int currentRow = 0;currentRow < board.getY();currentRow++){
+//            for(int currentCol = 0;currentCol < board.getX();currentCol++){
+//                
+//            }
+//        }
+//        return theReturn;
+//    }
 }
-class ServerClientChat implements Runnable{
+
+class ServerClientChat implements Runnable {
 
     DataInputStream STREAM_IN;
     DataOutputStream STREAM_OUT;
     ServerClientChat[] SERVER_CHAT_CONNECTIONS;
-    
-    public ServerClientChat(DataInputStream in,DataOutputStream out,ServerClientChat[] serverChatConnections){
+
+    public ServerClientChat(DataInputStream in, DataOutputStream out, ServerClientChat[] serverChatConnections) {
         STREAM_IN = in;
         STREAM_OUT = out;
         SERVER_CHAT_CONNECTIONS = serverChatConnections;
     }
+
     @Override
     public void run() {
-        while(!false){
+        while (!false) {
             try {
                 String toSend = STREAM_IN.readUTF();
                 System.out.println("Incoming Chat " + toSend);
-                for(int currentConnection = 0;currentConnection < SERVER_CHAT_CONNECTIONS.length;currentConnection++){
+                for (int currentConnection = 0; currentConnection < SERVER_CHAT_CONNECTIONS.length; currentConnection++) {
                     try {
                         SERVER_CHAT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
-                    }catch(SocketException ex){
+                    } catch (SocketException ex) {
                         System.out.println("A client has disonnected");
                         break;
                     }
@@ -148,5 +169,4 @@ class ServerClientChat implements Runnable{
             }
         }
     }
-    
 }
