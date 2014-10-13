@@ -35,7 +35,7 @@ public class Server {
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
     private int PORT_NUMBER = 45005;
-    private int CHAT_PORT_NUMBER = 45006;
+    private int CHAT_PORT_NUMBER = PORT_NUMBER++;
 
     public Server(int connections) {
         IPS = new String[connections];
