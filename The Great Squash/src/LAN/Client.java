@@ -29,8 +29,9 @@ public class Client {
     private Socket CHAT_SOCKET;
 
     public Client(String ip, int portNumber) {
-        
-        Thread connectToServerThread = new Thread();
+        ConnectToServerThread connectThread = new ConnectToServerThread(this,ip,portNumber);
+        Thread connectToServerThread = new Thread(connectThread);
+        connectToServerThread.start();
     }
 
     public void connectToServer(String ip, int portNumber) {
@@ -149,12 +150,17 @@ class ChatInput implements Runnable {
 }
 class ConnectToServerThread implements Runnable{
     Client CLIENT;
+    String IP = "";
+    int PORT_NUMBER;
     
-    public ConnectToServerThread(Client client){
+    public ConnectToServerThread(Client client,String ip,int portNumber){
         CLIENT = client;
+        IP = ip;
+        PORT_NUMBER = portNumber;
     }
     @Override
     public void run() {
+        connectToServer(IP,PORT_NUMBER);
     }
     
 }
