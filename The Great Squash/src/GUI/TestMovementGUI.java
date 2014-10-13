@@ -1,7 +1,10 @@
 package GUI;
 
 import GUIListeners.MovementListener;
+import gameworld.Board;
+import gameworld.Creature;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,9 +21,13 @@ public class TestMovementGUI {
     private MovementListener MOVEMENT_LISTENER;
     private JFrame FRAME = new JFrame("Board Test");
     private JPanel BASE = new JPanel();   
+    private Creature CREATURE;
+    private Board BOARD;
     
-    public TestMovementGUI(){
-        MOVEMENT_LISTENER = new MovementListener(this);
+    public TestMovementGUI(Board board, Creature creature){
+        CREATURE = creature;
+        BOARD = board;
+        MOVEMENT_LISTENER = new MovementListener(this,CREATURE);
         formatDisplay();
         formatFrame();
     }
@@ -28,11 +35,13 @@ public class TestMovementGUI {
     private void formatDisplay() {
         DISPLAY_PANEL.setBounds(0,0,500,400);
         
-        DISPLAY_BOX.setColumns(41);
+        DISPLAY_BOX.setColumns(61);
         DISPLAY_BOX.setRows(21);
+        DISPLAY_BOX.setPreferredSize(new Dimension(61,21));
         DISPLAY_BOX.setEditable(false);
         DISPLAY_BOX.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createBevelBorder(EtchedBorder.RAISED), BorderFactory.createEtchedBorder(EtchedBorder.LOWERED)));
         DISPLAY_BOX.addKeyListener(MOVEMENT_LISTENER);
+        DISPLAY_BOX.setFont(new Font("Monospaced", Font.PLAIN, 12));
         
         DISPLAY_PANEL.addKeyListener(MOVEMENT_LISTENER);
         DISPLAY_PANEL.add(DISPLAY_BOX);
@@ -49,5 +58,9 @@ public class TestMovementGUI {
         FRAME.setSize(new Dimension(500,400));
         FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         FRAME.setVisible(true);
+    }
+    
+    public void updateDisplay() {
+        DISPLAY_BOX.setText(BOARD.toString());
     }
 }

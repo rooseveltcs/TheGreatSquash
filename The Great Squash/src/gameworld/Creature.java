@@ -15,30 +15,42 @@ public abstract class Creature implements Displayable {
     Board BOARD;
     int LOCATION_X;
     int LOCATION_Y;
-    
+
     public Creature(char sprite, Board board, int y, int x) {
         SPRITE = sprite;
         LOCATION_X = x;
         LOCATION_Y = y;
         BOARD = board;
-        
+
         BOARD.setTileCreature(y, x, this);
     }
-    
+
     public void moveSelf(int y, int x) {
-        BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
-        BOARD.setTileCreature(y, x, this);
-        LOCATION_Y = y;
-        LOCATION_X = x;
+        try {
+            BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
+            BOARD.setTileCreature(y, x, this);
+            LOCATION_Y = y;
+            LOCATION_X = x;
+        } catch(ArrayIndexOutOfBoundsException ex) {
+            BOARD.setTileCreature(LOCATION_Y, LOCATION_X, this);
+        }
     }
-    
+
     @Override
     public void setSprite(char sprite) {
         SPRITE = sprite;
     }
-    
+
     @Override
-    public char displaySprite() {        
+    public char displaySprite() {
         return SPRITE;
+    }
+
+    public int getX() {
+        return LOCATION_X;
+    }
+
+    public int getY() {
+        return LOCATION_Y;
     }
 }

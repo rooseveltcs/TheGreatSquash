@@ -21,7 +21,7 @@ public class Board {
      * @param x
      * @param y
      */
-    public Board(int x,int y,Graphics graphics){
+    public Board(int y,int x,Graphics graphics){
         GAME_BOARD = new Tile[y][x];
         sizeX = x;
         sizeY = y;
@@ -85,5 +85,16 @@ public class Board {
     
     public void setTileCreature(int y, int x, Creature creature) {
         getTile(y,x).setCreature(creature);
+    }
+    
+    public String toString() {
+        String output = "";
+        for(int i = 0; i < sizeX; i++) {
+            for(int j = 0; j < sizeY; j++) {
+                output += GAME_BOARD[j][i];
+            }
+            output += "\n";
+        }
+        return output;
     }
 }
