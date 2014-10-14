@@ -127,6 +127,10 @@ public class Board {
     public ArrayList<Creature> getCreatures(){
         return CREATURES;
     }
+    
+    public Client getClient(){
+        return MY_CLIENT;
+    }
 }
 class CreateServer implements Runnable{
     
