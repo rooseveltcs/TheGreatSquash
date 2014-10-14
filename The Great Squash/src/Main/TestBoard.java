@@ -8,6 +8,7 @@ import GUI.TestMovementGUI;
 import gameworld.Board;
 import gameworld.Creature;
 import gameworld.Player;
+import gameworld.Wall;
 import java.util.Scanner;
 
 /**
@@ -17,8 +18,14 @@ import java.util.Scanner;
 public class TestBoard {
    public static void main(String[] args) {
        Board board = new Board(21,61);
+       
        board.setBoardTilesNull();
-       Player playerBilly = new Player(1,1,'@',board);
+       // 198 = Æ
+       //  64 = @
+       Player playerBilly = new Player(1,1,(char)(198),board);
+       
+       Wall wall = new Wall(board,10,10);
+       
        board.show();  
        TestMovementGUI gui = new TestMovementGUI(board, playerBilly);
        

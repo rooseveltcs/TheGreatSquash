@@ -27,11 +27,20 @@ public abstract class Creature implements Displayable {
 
     public void moveSelf(int y, int x) {
         try {
-            BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
-            BOARD.setTileCreature(y, x, this);
-            LOCATION_Y = y;
-            LOCATION_X = x;
-        } catch(ArrayIndexOutOfBoundsException ex) {
+            try {
+                if (BOARD.getTile(y, x).getObstacle().getPassable()) {
+                    BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
+                    BOARD.setTileCreature(y, x, this);
+                    LOCATION_Y = y;
+                    LOCATION_X = x;
+                }
+            } catch (NullPointerException e) {
+                BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
+                BOARD.setTileCreature(y, x, this);
+                LOCATION_Y = y;
+                LOCATION_X = x;
+            }
+        } catch (ArrayIndexOutOfBoundsException ex) {
             BOARD.setTileCreature(LOCATION_Y, LOCATION_X, this);
         }
     }
