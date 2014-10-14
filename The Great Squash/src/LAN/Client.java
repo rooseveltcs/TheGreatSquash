@@ -4,6 +4,9 @@
  */
 package LAN;
 
+import gameworld.Board;
+import gameworld.Creature;
+import gameworld.Player;
 import gameworld.Tile;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -27,9 +30,10 @@ public class Client {
     private DataInputStream CHAT_IN;
     private DataOutputStream CHAT_OUT;
     private Socket CHAT_SOCKET;
+    private Board MY_BOARD;
 
-    public Client(String ip, int portNumber) {
-        
+    public Client(String ip, int portNumber,Board myBoard) {
+        MY_BOARD = myBoard;
         Thread connectToServerThread = new Thread();
     }
 
@@ -64,6 +68,9 @@ public class Client {
         }
 
     }
+    public Board getBoard(){
+        return MY_BOARD;
+    }
 }
 
 class ServerDataHandler implements Runnable {
@@ -94,14 +101,17 @@ class ServerDataHandler implements Runnable {
         System.out.println("Need to implement interpretServerData()");
         Scanner messageScanner = new Scanner(serverData);
         String theCommand = messageScanner.next();
-        if(theCommand.equals(CommandHolder.MOVING)){
-            int yValue = messageScanner.nextInt();
-            int xValue = messageScanner.nextInt();
-            //change what is on this client's version of the board
+        if (theCommand.equals(CommandHolder.CREATURE)) {
+            int newY = messageScanner.nextInt();
+            int newX = messageScanner.nextInt();
+            char character = (char) messageScanner.nextInt();
+            Player temp = new Player(character,MY_CLIENT.getBoard(),newY,newX);
+            MY_CLIENT.getBoard().setTileCreature(newX, newX, temp);
         }
+
     }
 
-    public void sendMove(int y,int x) {
+    public void sendMove(int y, int x) {
         String toSend = CommandHolder.MOVING + " " + y + " " + x;
         try {
             STREAM_OUT.writeUTF(toSend);
@@ -147,14 +157,16 @@ class ChatInput implements Runnable {
         }
     }
 }
-class ConnectToServerThread implements Runnable{
+
+class ConnectToServerThread implements Runnable {
+
     Client CLIENT;
-    
-    public ConnectToServerThread(Client client){
+
+    public ConnectToServerThread(Client client) {
         CLIENT = client;
     }
+
     @Override
     public void run() {
     }
-    
 }

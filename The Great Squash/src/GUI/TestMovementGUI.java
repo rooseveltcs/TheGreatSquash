@@ -24,10 +24,8 @@ public class TestMovementGUI {
     private JPanel BASE = new JPanel();   
     private Creature CREATURE;
     private Board BOARD;
-    private Client CLIENT;
     
     public TestMovementGUI(Board board, Creature creature){
-        CLIENT = new Client("10.135.66.52",45005);
         CREATURE = creature;
         BOARD = board;
         MOVEMENT_LISTENER = new MovementListener(this,CREATURE);

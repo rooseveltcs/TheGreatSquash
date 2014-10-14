@@ -16,9 +16,9 @@ import java.util.Scanner;
  */
 public class TestBoard {
    public static void main(String[] args) {
-       Board board = new Board(21,61);
+       Board board = new Board(21,61,false);
        board.setBoardTilesNull();
-       Player playerBilly = new Player(1,1,'@',board);
+       Player playerBilly = new Player('@',board,1,1);
        board.show();  
        TestMovementGUI gui = new TestMovementGUI(board, playerBilly);
        
@@ -28,9 +28,9 @@ public class TestBoard {
    public static void testMoveConsole() {
        Scanner console = new Scanner(System.in);
        
-       Board board = new Board(3,3);
+       Board board = new Board(3,3,false);
        board.setBoardTilesNull();
-       Player playerBilly = new Player(1,1,'@',board);
+       Player playerBilly = new Player('@',board,1,1);
        board.show();  
        
        playerBilly.moveSelf(console.nextInt(), console.nextInt());

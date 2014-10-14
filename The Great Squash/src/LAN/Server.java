@@ -14,7 +14,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,10 +36,8 @@ public class Server {
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
     private int PORT_NUMBER = 45005;
     private int CHAT_PORT_NUMBER = PORT_NUMBER++;
-    private Board GAME_BOARD;
 
     public Server(int connections,Board gameBoard) {
-        GAME_BOARD = gameBoard;
         IPS = new String[connections];
         SERVER_CLIENT_CONNECTIONS = new ServerClientConnection[connections];
         SERVER_CHAT_CONNECTIONS = new ServerClientChat[connections];
@@ -73,7 +70,7 @@ public class Server {
                 DATA_IN = new DataInputStream(SOCKET.getInputStream());
                 IPS[currentConnection] = SOCKET.getInetAddress().toString();
                 System.out.println("Connection from " + IPS[currentConnection]);
-                ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS,IPS);
+                ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS,IPS,gameBoard);
                 SERVER_CLIENT_CONNECTIONS[currentConnection] = newConnect;
                 Thread CurrentConnection = new Thread(newConnect);
                 CurrentConnection.start();
@@ -95,8 +92,9 @@ class ServerClientConnection implements Runnable {
     DataOutputStream STREAM_OUT;
     ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     String[] IPS;
+    Board GAME_BOARD;
 
-    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections,String[] ips) {
+    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections,String[] ips,Board gameBoard) {
         SERVER_CLIENT_CONNECTIONS = serverClientConnections;
         STREAM_IN = in;
         STREAM_OUT = out;
@@ -107,6 +105,7 @@ class ServerClientConnection implements Runnable {
     public void run() {
         while (!false) {
             try {
+                //need to interpret the string
                 String toSend = STREAM_IN.readUTF();
                 System.out.println("Incoming message: " + toSend);
                 for (int currentConnection = 0; currentConnection < SERVER_CLIENT_CONNECTIONS.length; currentConnection++) {
@@ -124,7 +123,14 @@ class ServerClientConnection implements Runnable {
     }
     
     public void sendCreatures(){
-        
+        for(int currentCreature = 0;currentCreature < GAME_BOARD.getCreatures().size();currentCreature++){
+            String toSend = CommandHolder.CREATURE + " " + GAME_BOARD.getCreatures().get(currentCreature).getY() + " " + GAME_BOARD.getCreatures().get(currentCreature).getY() + " " + (int)GAME_BOARD.getCreatures().get(currentCreature).displaySprite();
+            try {
+                STREAM_OUT.writeUTF(toSend);
+            } catch (IOException ex) {
+                System.out.println("Unable to send data to: " + IPS[currentCreature]);
+            }
+        }
     }
     
 //    public String formatBoard(Board board){

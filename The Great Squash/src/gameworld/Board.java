@@ -4,6 +4,8 @@
  */
 package gameworld;
 
+import LAN.Client;
+import LAN.Server;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -17,21 +19,34 @@ public class Board {
     private int sizeY;
     private Graphics GRAPHICS;
     private ArrayList<Creature> CREATURES = new ArrayList<Creature>();
+    private Client MY_CLIENT;
     
     /**
      *
      * @param x
      * @param y
      */
-    public Board(int y,int x,Graphics graphics){
+    public Board(int y,int x,boolean toServer,Graphics graphics){
+        if(toServer){
+            CreateServer temp = new CreateServer(this,10);
+            Thread serverThread = new Thread(temp);
+            serverThread.start();
+        }
         GAME_BOARD = new Tile[y][x];
+        MY_CLIENT = new Client("10.135.66.52",45005,this);
         sizeX = x;
         sizeY = y;
         GRAPHICS = graphics;
     }
     
-    public Board(int x,int y){
+    public Board(int x,int y,boolean toServer){
+        if(toServer){
+            CreateServer temp = new CreateServer(this,10);
+            Thread serverThread = new Thread(temp);
+            serverThread.start();
+        }
         GAME_BOARD = new Tile[y][x];
+        MY_CLIENT = new Client("10.135.66.52",45005,this);
         sizeX = x;
         sizeY = y;
         GRAPHICS = null;
@@ -108,4 +123,23 @@ public class Board {
     public int getX(){
         return sizeX;
     }
+    
+    public ArrayList<Creature> getCreatures(){
+        return CREATURES;
+    }
+}
+class CreateServer implements Runnable{
+    
+    private Board THE_BOARD;
+    private int CONNECTIONS;
+    
+    public CreateServer(Board theBoard,int connections){
+        THE_BOARD = theBoard;
+        CONNECTIONS = connections;
+    }
+    @Override
+    public void run() {
+        Server theServer = new Server(CONNECTIONS,THE_BOARD);
+    }
+    
 }
