@@ -24,6 +24,22 @@ public class Tile {
         CREATURE = creature;
     }
 
+    /**
+     *
+     * @param obstacle
+     */
+    public void setObstacle(Obstacle obstacle) {
+        OBSTACLE = obstacle;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public Obstacle getObstacle() {
+        return OBSTACLE;
+    }
+    
     @Override
     public String toString() {
         String output = "";

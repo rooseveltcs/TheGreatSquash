@@ -32,9 +32,15 @@ public class Client {
     private Socket CHAT_SOCKET;
     private Board MY_BOARD;
 
-    public Client(String ip, int portNumber,Board myBoard) {
+    public Client(String ip, int portNumber, Board myBoard) {
         MY_BOARD = myBoard;
         Thread connectToServerThread = new Thread();
+    }
+
+    public Client(String ip, int portNumber) {
+        ConnectToServerThread connectThread = new ConnectToServerThread(this, ip, portNumber);
+        Thread connectToServerThread = new Thread(connectThread);
+        connectToServerThread.start();
     }
 
     public void connectToServer(String ip, int portNumber) {
@@ -68,7 +74,8 @@ public class Client {
         }
 
     }
-    public Board getBoard(){
+
+    public Board getBoard() {
         return MY_BOARD;
     }
 }
@@ -105,7 +112,7 @@ class ServerDataHandler implements Runnable {
             int newY = messageScanner.nextInt();
             int newX = messageScanner.nextInt();
             char character = (char) messageScanner.nextInt();
-            Player temp = new Player(character,MY_CLIENT.getBoard(),newY,newX);
+            Player temp = new Player(character, MY_CLIENT.getBoard(), newY, newX);
             MY_CLIENT.getBoard().setTileCreature(newX, newX, temp);
         }
 
@@ -161,12 +168,23 @@ class ChatInput implements Runnable {
 class ConnectToServerThread implements Runnable {
 
     Client CLIENT;
+    String IP = "";
+    int PORT_NUMBER;
 
     public ConnectToServerThread(Client client) {
         CLIENT = client;
+        String IP = "10.135.66.52";
+        PORT_NUMBER = 45005;
+    }
+
+    public ConnectToServerThread(Client client, String ip, int portNumber) {
+        CLIENT = client;
+        IP = ip;
+        PORT_NUMBER = portNumber;
     }
 
     @Override
     public void run() {
+        CLIENT.connectToServer(IP, PORT_NUMBER);
     }
 }
