@@ -33,6 +33,10 @@ public abstract class Obstacle implements Displayable {
          return PASSABLE;
      }
     
+    public void setPassable(boolean passable) {
+        PASSABLE = passable;
+    }
+    
     @Override
     public void setSprite(char sprite) {
         SPRITE = sprite;

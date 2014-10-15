@@ -6,7 +6,9 @@ package Main;
 
 import GUI.TestMovementGUI;
 import gameworld.Board;
+import gameworld.CreateDungeon;
 import gameworld.Creature;
+import gameworld.Door;
 import gameworld.Player;
 import gameworld.Wall;
 import java.util.Scanner;
@@ -19,7 +21,11 @@ public class TestBoard {
    public static void main(String[] args) {
        Board board = new Board(21,61,false);
        board.setBoardTilesNull();
-       Player playerBilly = new Player('@',board,1,1);
+       Player playerBilly = new Player((char)(198),board,6,6);
+ 
+       CreateDungeon.drawRoom(board, 11, 11, 1, 1);
+       Door door = new Door(board, 6, 11);
+       
        // 198 = Æ
        //  64 = @
        board.show();  

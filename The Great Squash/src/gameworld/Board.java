@@ -19,6 +19,7 @@ public class Board {
     private int sizeY;
     private Graphics GRAPHICS;
     private ArrayList<Creature> CREATURES = new ArrayList<Creature>();
+    private ArrayList<Obstacle> OBSTACLES = new ArrayList<Obstacle>();
     private Client MY_CLIENT;
     
     /**
@@ -103,6 +104,15 @@ public class Board {
     public void setTileCreature(int y, int x, Creature creature) {
         getTile(y,x).setCreature(creature);
         CREATURES.add(creature);
+    }
+    
+    public void setTileObstacle(int y, int x, Obstacle obstacle) {
+        getTile(y,x).setObstacle(obstacle);
+        OBSTACLES.add(obstacle);
+    }
+    
+    public Obstacle getTileObstacle(int y, int x) {
+        return getTile(y,x).getObstacle();
     }
     
     public String toString() {
