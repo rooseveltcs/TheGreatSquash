@@ -17,9 +17,12 @@ public class MovementListener implements KeyListener {
     private Creature CREATURE;
     private TestMovementGUI GUI;
     
-    public MovementListener(TestMovementGUI gui, Creature creature) {
-        CREATURE = creature;
+    public MovementListener(TestMovementGUI gui) {
         GUI = gui;
+    }
+    
+    public void setCreature(Creature creature) {
+        CREATURE = creature;
     }
     
     @Override
