@@ -19,9 +19,11 @@ import java.util.Scanner;
  */
 public class TestBoard {
    public static void main(String[] args) {
-       Board board = new Board(21,61,false);
+       TestMovementGUI gui = new TestMovementGUI();
+       Board board = gui.getBoard();
        board.setBoardTilesNull();
        Player playerBilly = new Player((char)(198),board,6,6);
+       gui.setCreature(playerBilly);
  
        //CreateDungeon.drawRoom(board, 11, 11, 1, 1);
        //Door door = new Door(board, 6, 11);
@@ -29,21 +31,7 @@ public class TestBoard {
        // 198 = Æ
        //  64 = @
        board.show();  
-       TestMovementGUI gui = new TestMovementGUI(board, playerBilly);
        
        gui.updateDisplay();
    } 
-   
-   public static void testMoveConsole() {
-       Scanner console = new Scanner(System.in);
-       
-       Board board = new Board(3,3,false);
-       board.setBoardTilesNull();
-       Player playerBilly = new Player('@',board,1,1);
-       board.show();  
-       
-       playerBilly.moveSelf(console.nextInt(), console.nextInt());
-       
-       board.show();
-   }
 }

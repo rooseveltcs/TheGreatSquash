@@ -4,6 +4,7 @@
  */
 package LAN;
 
+import GUI.TestMovementGUI;
 import gameworld.Board;
 import gameworld.Creature;
 import gameworld.Player;
@@ -31,8 +32,10 @@ public class Client {
     private DataOutputStream CHAT_OUT;
     private Socket CHAT_SOCKET;
     private Board MY_BOARD;
+    private TestMovementGUI GUI;
 
-    public Client(String ip, int portNumber, Board myBoard) {
+    public Client(String ip, int portNumber, Board myBoard,TestMovementGUI gui) {
+        GUI = gui;
         MY_BOARD = myBoard;
         Thread connectToServerThread = new Thread();
     }
@@ -111,15 +114,15 @@ class ServerDataHandler implements Runnable {
         if (theCommand.equals(CommandHolder.CREATURE)) {
             int newY = messageScanner.nextInt();
             int newX = messageScanner.nextInt();
-            char character = (char) messageScanner.nextInt();
-            Player temp = new Player(character, MY_CLIENT.getBoard(), newY, newX);
-            MY_CLIENT.getBoard().setTileCreature(newX, newX, temp);
+            String name = messageScanner.next();
+            MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
+            
         }
 
     }
 
-    public void sendMove(int y, int x) {
-        String toSend = CommandHolder.MOVING + " " + y + " " + x;
+    public void sendMove(int y, int x,Creature theCreature) {
+        String toSend = CommandHolder.MOVING + " " + y + " " + x + " " + theCreature.getName();
         try {
             STREAM_OUT.writeUTF(toSend);
         } catch (IOException ex) {

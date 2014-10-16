@@ -49,7 +49,7 @@ public abstract class Creature implements Displayable {
 
     private void move(int y, int x) {
         BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
-        BOARD.setTileCreature(y, x, this);
+        BOARD.getCreatures().remove(this);
         LOCATION_Y = y;
         LOCATION_X = x;
     }

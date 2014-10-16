@@ -4,6 +4,7 @@
  */
 package gameworld;
 
+import GUI.TestMovementGUI;
 import LAN.Client;
 import LAN.Server;
 import java.awt.Graphics;
@@ -27,27 +28,27 @@ public class Board {
      * @param x
      * @param y
      */
-    public Board(int y,int x,boolean toServer,Graphics graphics){
+    public Board(int y,int x,boolean toServer,Graphics graphics,TestMovementGUI gui){
         if(toServer){
             CreateServer temp = new CreateServer(this,10);
             Thread serverThread = new Thread(temp);
             serverThread.start();
         }
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.66.52",45005,this);
+        MY_CLIENT = new Client("10.135.66.52",45005,this,gui);
         sizeX = x;
         sizeY = y;
         GRAPHICS = graphics;
     }
     
-    public Board(int x,int y,boolean toServer){
+    public Board(int x,int y,boolean toServer,TestMovementGUI gui){
         if(toServer){
             CreateServer temp = new CreateServer(this,10);
             Thread serverThread = new Thread(temp);
             serverThread.start();
         }
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.66.52",45005,this);
+        MY_CLIENT = new Client("10.135.66.52",45005,this,gui);
         sizeX = x;
         sizeY = y;
         GRAPHICS = null;
