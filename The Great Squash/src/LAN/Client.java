@@ -33,6 +33,7 @@ public class Client {
     private Socket CHAT_SOCKET;
     private Board MY_BOARD;
     private TestMovementGUI GUI;
+    private ServerDataHandler DATA_HANDLER;
 
     public Client(String ip, int portNumber, Board myBoard,TestMovementGUI gui) {
         GUI = gui;
@@ -53,8 +54,8 @@ public class Client {
             System.out.println("Connection successful.");
             STREAM_IN = new DataInputStream(SOCKET.getInputStream());
             STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
-            ServerDataHandler serverInput = new ServerDataHandler(STREAM_IN, this);
-            Thread serverDataThread = new Thread(serverInput);
+            DATA_HANDLER = new ServerDataHandler(STREAM_IN, this);
+            Thread serverDataThread = new Thread(DATA_HANDLER);
             serverDataThread.start();
         } catch (UnknownHostException ex) {
             System.out.println("Sorry but that ip adress was not found.");
@@ -85,53 +86,9 @@ public class Client {
     public TestMovementGUI getGUI(){
         return GUI;
     }
-}
-
-class ServerDataHandler implements Runnable {
-
-    private DataInputStream STREAM_IN;
-    private DataOutputStream STREAM_OUT;
-    private Client MY_CLIENT;
-
-    public ServerDataHandler(DataInputStream in, Client myClient) {
-        STREAM_IN = in;
-        MY_CLIENT = myClient;
-    }
-
-    @Override
-    public void run() {
-        while (!false) {
-            try {
-                String serverData = STREAM_IN.readUTF();
-                interpretServerData(serverData);
-            } catch (IOException ex) {
-                System.out.println("Sorry but we lost connection to the server");
-                break;
-            }
-        }
-    }
-
-    public void interpretServerData(String serverData) {
-        System.out.println("Need to implement interpretServerData()");
-        Scanner messageScanner = new Scanner(serverData);
-        String theCommand = messageScanner.next();
-        if (theCommand.equals(CommandHolder.CREATURE)) {
-            int newY = messageScanner.nextInt();
-            int newX = messageScanner.nextInt();
-            String name = messageScanner.next();
-            MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
-            MY_CLIENT.getGUI().updateDisplay();
-        }
-
-    }
-
-    public void sendMove(int y, int x,Creature theCreature) {
-        String toSend = CommandHolder.MOVING + " " + y + " " + x + " " + theCreature.getName();
-        try {
-            STREAM_OUT.writeUTF(toSend);
-        } catch (IOException ex) {
-            System.out.println("Failed to send the movement command to the server, please check you connection.");
-        }
+    
+    public ServerDataHandler getHandler(){
+        return DATA_HANDLER;
     }
 }
 

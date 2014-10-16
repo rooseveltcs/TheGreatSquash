@@ -26,7 +26,7 @@ public class TestMovementGUI {
     private Board BOARD;
     
     public TestMovementGUI(){
-        BOARD = new Board(21,61,false,this);
+        BOARD = new Board(21,61,true,this);
         System.out.print("Poop on my butt and call me a sandwitch!");
         MOVEMENT_LISTENER = new MovementListener(this);
         formatDisplay();
