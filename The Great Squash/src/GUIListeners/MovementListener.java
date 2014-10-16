@@ -8,6 +8,7 @@ import GUI.TestMovementGUI;
 import gameworld.Creature;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javafx.scene.input.KeyCode;
 
 /**
  *
@@ -24,29 +25,29 @@ public class MovementListener implements KeyListener {
     
     @Override
     public void keyTyped(KeyEvent ke) {
-        
+        System.out.println(ke.getExtendedKeyCode());
     }
 
     @Override
     public void keyPressed(KeyEvent key) {
         int keyCode = key.getExtendedKeyCode();
         if(keyCode == 37) {
-            System.out.println("left");
+            //System.out.println("left");
             CREATURE.moveSelf(CREATURE.getY() - 1, CREATURE.getX());
             GUI.updateDisplay();
         } else if(keyCode == 38) {
-            System.out.println("up");
+            //System.out.println("up");
             CREATURE.moveSelf(CREATURE.getY(), CREATURE.getX() - 1);
             GUI.updateDisplay();
         } else if(keyCode == 39) {
-            System.out.println("right");
+            //System.out.println("right");
             CREATURE.moveSelf(CREATURE.getY() + 1, CREATURE.getX());
             GUI.updateDisplay();
         } else if(keyCode == 40) {
-            System.out.println("down");
+            //System.out.println("down");
             CREATURE.moveSelf(CREATURE.getY(), CREATURE.getX() + 1);
             GUI.updateDisplay();
-        }
+        }  
     }
 
     @Override

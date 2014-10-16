@@ -4,6 +4,8 @@
  */
 package gameworld;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ros_aljacobson001
@@ -30,17 +32,14 @@ public abstract class Creature implements Displayable {
             try {
                 Obstacle moveTo = BOARD.getTileObstacle(y, x);
                 if (moveTo.getPassable()) {
-                    move(y,x);
-                } else if(moveTo instanceof Door){
-                    Door door = (Door)(moveTo);
-                    door.open();
+                    move(y, x);
                 }
+//                } else if(moveTo instanceof Door){
+//                    Door door = (Door)(moveTo);
+//                    door.open();
+//                }
             } catch (NullPointerException e) {
-                BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
-
-                BOARD.setTileCreature(y, x, this);
-                LOCATION_Y = y;
-                LOCATION_X = x;
+                move(y, x);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             BOARD.setTileCreature(LOCATION_Y, LOCATION_X, this);
@@ -49,7 +48,6 @@ public abstract class Creature implements Displayable {
 
     private void move(int y, int x) {
         BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
-
         BOARD.setTileCreature(y, x, this);
         LOCATION_Y = y;
         LOCATION_X = x;
@@ -58,6 +56,19 @@ public abstract class Creature implements Displayable {
     @Override
     public void setSprite(char sprite) {
         SPRITE = sprite;
+    }
+
+    public ArrayList<Tile> getSurroundingTiles() {
+        ArrayList<Tile> surroundingTiles = new ArrayList<Tile>();
+        for(int i = -1; i < 2; i++) {
+            for(int j = -1; j < 2; j++) {
+                if(i != 0 && j != 0) {
+                    Tile current = BOARD.getTile(LOCATION_Y + i, LOCATION_X + j);
+                    surroundingTiles.add(current);
+                }
+            }
+        }
+        return surroundingTiles;
     }
 
     @Override
