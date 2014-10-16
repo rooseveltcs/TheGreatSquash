@@ -11,6 +11,6 @@ package gameworld;
 public class Player extends Creature {
     
     public Player(char sprite, Board board, int y, int x) {
-         super(sprite,board,y,x);
+         super(sprite,board,y,x,"player 1");
     }
 }

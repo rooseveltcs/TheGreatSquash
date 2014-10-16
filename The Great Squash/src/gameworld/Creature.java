@@ -15,15 +15,16 @@ public abstract class Creature implements Displayable {
 
     char SPRITE;
     Board BOARD;
+    private String NAME = "";
     int LOCATION_X;
     int LOCATION_Y;
 
-    public Creature(char sprite, Board board, int y, int x) {
+    public Creature(char sprite, Board board, int y, int x,String name) {
+        NAME = name;
         SPRITE = sprite;
         LOCATION_X = x;
         LOCATION_Y = y;
         BOARD = board;
-
         BOARD.setTileCreature(y, x, this);
     }
 
@@ -82,5 +83,13 @@ public abstract class Creature implements Displayable {
 
     public int getY() {
         return LOCATION_Y;
+    }
+    
+    public void setName(String toSet){
+        NAME = toSet;
+    }
+    
+    public String getName(){
+        return NAME;
     }
 }
