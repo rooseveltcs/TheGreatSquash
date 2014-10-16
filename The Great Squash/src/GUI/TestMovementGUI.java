@@ -28,6 +28,7 @@ public class TestMovementGUI {
     public TestMovementGUI(Board board, Creature creature){
         CREATURE = creature;
         BOARD = board;
+        System.out.print("Poop on my butt and call me a sandwitch!");
         MOVEMENT_LISTENER = new MovementListener(this,CREATURE);
         formatDisplay();
         formatFrame();

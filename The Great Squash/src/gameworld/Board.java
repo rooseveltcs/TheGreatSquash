@@ -134,6 +134,17 @@ public class Board {
         return sizeX;
     }
     
+    public Creature getCreature(String name) {
+        Creature creature = null;
+        for(int i = 0; i < CREATURES.size(); i++) {
+            Creature current = CREATURES.get(i);
+            if(current.getName() == name) {
+                creature = current;
+            }
+        }
+        return creature;
+    }
+    
     public ArrayList<Creature> getCreatures(){
         return CREATURES;
     }
