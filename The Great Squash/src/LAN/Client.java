@@ -81,6 +81,10 @@ public class Client {
     public Board getBoard() {
         return MY_BOARD;
     }
+    
+    public TestMovementGUI getGUI(){
+        return GUI;
+    }
 }
 
 class ServerDataHandler implements Runnable {
@@ -116,7 +120,7 @@ class ServerDataHandler implements Runnable {
             int newX = messageScanner.nextInt();
             String name = messageScanner.next();
             MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
-            
+            MY_CLIENT.getGUI().updateDisplay();
         }
 
     }
