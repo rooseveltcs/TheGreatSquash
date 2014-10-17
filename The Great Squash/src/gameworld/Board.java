@@ -35,7 +35,7 @@ public class Board {
             serverThread.start();
         }
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.66.52",45005,this,gui);
+        MY_CLIENT = new Client("10.135.66.52",90006,this,gui);
         sizeX = x;
         sizeY = y;
         GRAPHICS = graphics;

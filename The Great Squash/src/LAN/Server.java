@@ -34,7 +34,7 @@ public class Server {
     private String[] IPS;
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
-    private int PORT_NUMBER = 45005;
+    private int PORT_NUMBER = 90006;
     private int CHAT_PORT_NUMBER = PORT_NUMBER++;
 
     public Server(int connections,Board gameBoard) {
