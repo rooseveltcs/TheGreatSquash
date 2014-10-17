@@ -38,7 +38,9 @@ public class Client {
     public Client(String ip, int portNumber, Board myBoard,TestMovementGUI gui) {
         GUI = gui;
         MY_BOARD = myBoard;
-        Thread connectToServerThread = new Thread();
+        ConnectToServerThread connectThread = new ConnectToServerThread(this);
+        Thread connectToServerThread = new Thread(connectThread);
+        connectToServerThread.start();
     }
 
     public Client(String ip, int portNumber) {
