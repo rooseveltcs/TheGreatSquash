@@ -5,20 +5,24 @@
 package GUIListeners;
 
 import GUI.TestMovementGUI;
+import LAN.ServerDataHandler;
 import gameworld.Creature;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.activation.DataHandler;
 
 /**
  *
  * @author ros_dmlamarca
  */
 public class MovementListener implements KeyListener {
+    private ServerDataHandler DATA_HANDLER;
     private Creature CREATURE;
     private TestMovementGUI GUI;
     
     public MovementListener(TestMovementGUI gui) {
         GUI = gui;
+        DATA_HANDLER = GUI.getBoard().getClient().getHandler();
     }
     
     public void setCreature(Creature creature) {
@@ -33,22 +37,23 @@ public class MovementListener implements KeyListener {
     @Override
     public void keyPressed(KeyEvent key) {
         int keyCode = key.getExtendedKeyCode();
+        
         if(keyCode == 37) {
             //move left
             CREATURE.moveSelf(CREATURE.getY() - 1, CREATURE.getX());
-            GUI.getBoard().getClient().getHandler().sendMove(CREATURE.getY() - 1, CREATURE.getX(),CREATURE);
+            DATA_HANDLER.sendMove(CREATURE.getY() - 1, CREATURE.getX(),CREATURE);
         } else if(keyCode == 38) {
             //move up
             CREATURE.moveSelf(CREATURE.getY(), CREATURE.getX() - 1);
-            GUI.getBoard().getClient().getHandler().sendMove(CREATURE.getY(), CREATURE.getX() - 1,CREATURE);
+           DATA_HANDLER.sendMove(CREATURE.getY(), CREATURE.getX() - 1,CREATURE);
         } else if(keyCode == 39) {
             //move right
             CREATURE.moveSelf(CREATURE.getY() + 1, CREATURE.getX());
-            GUI.getBoard().getClient().getHandler().sendMove(CREATURE.getY() + 1, CREATURE.getX(),CREATURE);
+            DATA_HANDLER.sendMove(CREATURE.getY() + 1, CREATURE.getX(),CREATURE);
         } else if(keyCode == 40) {
             //move down
             CREATURE.moveSelf(CREATURE.getY(), CREATURE.getX() + 1);
-            GUI.getBoard().getClient().getHandler().sendMove(CREATURE.getY(), CREATURE.getX() + 1,CREATURE);
+            DATA_HANDLER.sendMove(CREATURE.getY(), CREATURE.getX() + 1,CREATURE);
         }  
     }
 
