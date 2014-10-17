@@ -14,8 +14,9 @@ public class ServerDataHandler implements Runnable {
     private DataOutputStream STREAM_OUT;
     private Client MY_CLIENT;
 
-    public ServerDataHandler(DataInputStream in, Client myClient) {
+    public ServerDataHandler(DataInputStream in,DataOutputStream out,Client myClient) {
         STREAM_IN = in;
+        STREAM_OUT = out;
         MY_CLIENT = myClient;
     }
 

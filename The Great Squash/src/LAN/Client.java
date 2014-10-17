@@ -54,7 +54,7 @@ public class Client {
             System.out.println("Connection successful.");
             STREAM_IN = new DataInputStream(SOCKET.getInputStream());
             STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
-            DATA_HANDLER = new ServerDataHandler(STREAM_IN, this);
+            DATA_HANDLER = new ServerDataHandler(STREAM_IN,STREAM_OUT,this);
             Thread serverDataThread = new Thread(DATA_HANDLER);
             serverDataThread.start();
         } catch (UnknownHostException ex) {
