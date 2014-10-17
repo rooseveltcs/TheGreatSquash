@@ -140,7 +140,7 @@ class ConnectToServerThread implements Runnable {
     public ConnectToServerThread(Client client) {
         CLIENT = client;
         String IP = "10.135.66.52";
-        PORT_NUMBER = 45005;
+        PORT_NUMBER = 7778;
     }
 
     public ConnectToServerThread(Client client, String ip, int portNumber) {
@@ -151,6 +151,7 @@ class ConnectToServerThread implements Runnable {
 
     @Override
     public void run() {
+        System.out.println(IP);
         CLIENT.connectToServer(IP, PORT_NUMBER);
     }
 }

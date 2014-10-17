@@ -34,8 +34,8 @@ public class Server {
     private String[] IPS;
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
-    private int PORT_NUMBER = 90006;
-    private int CHAT_PORT_NUMBER = PORT_NUMBER++;
+    private int PORT_NUMBER = 7777;
+    private int CHAT_PORT_NUMBER = PORT_NUMBER + 1;
 
     public Server(int connections,Board gameBoard) {
         IPS = new String[connections];
@@ -45,12 +45,12 @@ public class Server {
         //keeps creating the server on different ports until an unused one is found
         while (true) {
             try {
-                SERVER_SOCKET = new ServerSocket(PORT_NUMBER);
-                CHAT_SERVER_SOCKET = new ServerSocket(CHAT_PORT_NUMBER);
+                SERVER_SOCKET = new ServerSocket(7778);
+                //CHAT_SERVER_SOCKET = new ServerSocket(7778);
                 break;
             } catch (IOException ex) {
-                CHAT_PORT_NUMBER++;
-                PORT_NUMBER++;
+//                CHAT_PORT_NUMBER++;
+//                PORT_NUMBER++;
             }
         }
         try {
@@ -61,10 +61,10 @@ public class Server {
         //waits for all the clients to connect
         for (int currentConnection = 0; currentConnection < connections; currentConnection++) {
             try {
-                CHAT_SOCKET = CHAT_SERVER_SOCKET.accept();
-                CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
-                CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
-                ServerClientChat chatTemp = new ServerClientChat(CHAT_IN, CHAT_OUT, SERVER_CHAT_CONNECTIONS);
+//                CHAT_SOCKET = CHAT_SERVER_SOCKET.accept();
+//                CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
+//                CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
+//                ServerClientChat chatTemp = new ServerClientChat(CHAT_IN, CHAT_OUT, SERVER_CHAT_CONNECTIONS);
                 SOCKET = SERVER_SOCKET.accept();
                 DATA_OUT = new DataOutputStream(SOCKET.getOutputStream());
                 DATA_IN = new DataInputStream(SOCKET.getInputStream());
