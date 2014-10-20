@@ -38,6 +38,19 @@ public class Client {
     public Client(String ip, int portNumber, Board myBoard,TestMovementGUI gui) {
         GUI = gui;
         MY_BOARD = myBoard;
+        try {
+            SOCKET = new Socket(ip,CommandHolder.COMMAND_PORT_NUMBER);
+            System.out.println("Connection successful.");
+            STREAM_IN = new DataInputStream(SOCKET.getInputStream());
+            STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
+            DATA_HANDLER = new ServerDataHandler(STREAM_IN,STREAM_OUT,this);
+            Thread serverDataThread = new Thread(DATA_HANDLER);
+            serverDataThread.start();
+        } catch (UnknownHostException ex) {
+            System.out.println("Sorry but that ip adress was not found.");
+        } catch (IOException ex) {
+            System.out.println("Sorry but we could not connect to the server with that port.");
+        }
         ConnectToServerThread connectThread = new ConnectToServerThread(this);
         Thread connectToServerThread = new Thread(connectThread);
         connectToServerThread.start();

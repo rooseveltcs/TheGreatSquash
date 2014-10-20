@@ -18,6 +18,9 @@ public class ServerDataHandler implements Runnable {
         STREAM_IN = in;
         STREAM_OUT = out;
         MY_CLIENT = myClient;
+        System.out.println(MY_CLIENT);
+        System.out.println(STREAM_OUT);
+        System.out.println(STREAM_IN);
     }
 
     @Override
