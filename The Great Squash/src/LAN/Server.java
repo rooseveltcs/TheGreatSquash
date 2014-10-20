@@ -45,7 +45,7 @@ public class Server {
         //keeps creating the server on different ports until an unused one is found
         while (true) {
             try {
-                SERVER_SOCKET = new ServerSocket(7778);
+                SERVER_SOCKET = new ServerSocket(CommandHolder.COMMAND_PORT_NUMBER);
                 //CHAT_SERVER_SOCKET = new ServerSocket(7778);
                 break;
             } catch (IOException ex) {
@@ -61,10 +61,6 @@ public class Server {
         //waits for all the clients to connect
         for (int currentConnection = 0; currentConnection < connections; currentConnection++) {
             try {
-//                CHAT_SOCKET = CHAT_SERVER_SOCKET.accept();
-//                CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
-//                CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
-//                ServerClientChat chatTemp = new ServerClientChat(CHAT_IN, CHAT_OUT, SERVER_CHAT_CONNECTIONS);
                 SOCKET = SERVER_SOCKET.accept();
                 DATA_OUT = new DataOutputStream(SOCKET.getOutputStream());
                 DATA_IN = new DataInputStream(SOCKET.getInputStream());

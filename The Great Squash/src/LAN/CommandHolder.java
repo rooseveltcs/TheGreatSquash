@@ -11,4 +11,5 @@ package LAN;
 public class CommandHolder {
     public static final String MOVING = "COMMAND_MOVING";
     public static final String CREATURE = "THIS_IS_A_CREATURE";
+    public static final int COMMAND_PORT_NUMBER = 7777;
 }

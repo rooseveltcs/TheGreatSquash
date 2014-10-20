@@ -6,6 +6,7 @@ package gameworld;
 
 import GUI.TestMovementGUI;
 import LAN.Client;
+import LAN.CommandHolder;
 import LAN.Server;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class Board {
             serverThread.start();
         }
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.66.52",7778,this,gui);
+        MY_CLIENT = new Client("10.135.66.52",CommandHolder.COMMAND_PORT_NUMBER,this,gui);
         sizeX = x;
         sizeY = y;
         GRAPHICS = graphics;
@@ -48,7 +49,7 @@ public class Board {
             serverThread.start();
         }
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.66.52",7778,this,gui);
+        MY_CLIENT = new Client("10.135.66.52",CommandHolder.COMMAND_PORT_NUMBER,this,gui);
         sizeX = x;
         sizeY = y;
         GRAPHICS = null;
