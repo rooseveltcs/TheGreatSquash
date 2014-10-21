@@ -29,6 +29,7 @@ public class TestBoard {
        //Door door = new Door(board, 6, 11);
        
        // 198 = Æ
+       // 223 = ß
        //  64 = @
        board.show();  
        
