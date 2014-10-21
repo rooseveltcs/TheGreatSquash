@@ -105,6 +105,7 @@ public class Board {
     
     public void setTileCreature(int y, int x, Creature creature) {
         getTile(y,x).setCreature(creature);
+        MY_CLIENT.getHandler().sendMove(y, x, creature);
         CREATURES.add(creature);
     }
     

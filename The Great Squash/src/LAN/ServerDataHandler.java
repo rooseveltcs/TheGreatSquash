@@ -40,6 +40,7 @@ public class ServerDataHandler implements Runnable {
        // System.out.println("Need to implement interpretServerData()");
         Scanner messageScanner = new Scanner(serverData);
         String theCommand = messageScanner.next();
+        System.out.println(serverData);
         if (theCommand.equals(CommandHolder.CREATURE)) {
             int newY = messageScanner.nextInt();
             int newX = messageScanner.nextInt();
@@ -51,7 +52,7 @@ public class ServerDataHandler implements Runnable {
     }
 
     public void sendMove(int y, int x,Creature theCreature) {
-        String toSend = CommandHolder.MOVING + " " + y + " " + x + " " + theCreature.getName();
+        String toSend = CommandHolder.CREATURE + " " + y + " " + x + " " + theCreature.getName();
         try {
             STREAM_OUT.writeUTF(toSend);
         } catch (IOException ex) {

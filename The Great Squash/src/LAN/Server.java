@@ -111,6 +111,7 @@ class ServerClientConnection implements Runnable {
                     } catch (SocketException ex) {
                         System.out.println("A client has disconnected. IP: " + IPS[currentConnection]);
                         break;
+                    } catch (NullPointerException ex){
                     }
                 }
             } catch (IOException ex) {
