@@ -22,6 +22,10 @@ public class MovementListener implements KeyListener {
     
     public MovementListener(TestMovementGUI gui) {
         GUI = gui;
+        System.out.println(GUI);
+        System.out.println(GUI.getBoard().hashCode());
+        System.out.println(GUI.getBoard().getClient());
+        System.out.println(GUI.getBoard().getClient().getHandler());
         DATA_HANDLER = GUI.getBoard().getClient().getHandler();
     }
     
@@ -37,7 +41,7 @@ public class MovementListener implements KeyListener {
     @Override
     public void keyPressed(KeyEvent key) {
         int keyCode = key.getExtendedKeyCode();
-        
+        System.out.println(DATA_HANDLER);
         if(keyCode == 37) {
             //move left
             CREATURE.moveSelf(CREATURE.getY() - 1, CREATURE.getX());

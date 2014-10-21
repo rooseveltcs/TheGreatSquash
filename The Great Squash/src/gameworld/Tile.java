@@ -23,6 +23,10 @@ public class Tile {
     public void setCreature(Creature creature) {
         CREATURE = creature;
     }
+    
+    public void clearTileCreature() {
+        CREATURE = null;
+    }
 
     /**
      *

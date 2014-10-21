@@ -6,6 +6,8 @@ import gameworld.Board;
 import gameworld.Creature;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,8 +27,13 @@ public class TestMovementGUI {
     private Creature CREATURE;
     private Board BOARD;
     
-    public TestMovementGUI(){
-        BOARD = new Board(21,61,true,this);
+    public TestMovementGUI() {
+        BOARD = new Board(21,61,false,this);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestMovementGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         MOVEMENT_LISTENER = new MovementListener(this);
         formatDisplay();
         formatFrame();
