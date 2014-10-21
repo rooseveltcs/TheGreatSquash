@@ -37,7 +37,7 @@ public class ServerDataHandler implements Runnable {
     }
 
     public void interpretServerData(String serverData) {
-        System.out.println("Need to implement interpretServerData()");
+       // System.out.println("Need to implement interpretServerData()");
         Scanner messageScanner = new Scanner(serverData);
         String theCommand = messageScanner.next();
         if (theCommand.equals(CommandHolder.CREATURE)) {

@@ -51,9 +51,6 @@ public class Client {
         } catch (IOException ex) {
             System.out.println("Sorry but we could not connect to the server with that port.");
         }
-        ConnectToServerThread connectThread = new ConnectToServerThread(this);
-        Thread connectToServerThread = new Thread(connectThread);
-        connectToServerThread.start();
     }
 
     public Client(String ip, int portNumber) {
