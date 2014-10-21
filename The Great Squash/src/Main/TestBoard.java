@@ -31,7 +31,7 @@ public class TestBoard {
        // 198 = Æ
        // 223 = ß
        //  64 = @
-       board.show();  
+       //board.show();  
        
        gui.updateDisplay();
    } 

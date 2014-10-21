@@ -106,7 +106,6 @@ class ServerClientConnection implements Runnable {
                 System.out.println("Incoming message: " + toSend);
                 for (int currentConnection = 0; currentConnection < SERVER_CLIENT_CONNECTIONS.length; currentConnection++) {
                     try {
-                        System.out.println(SERVER_CLIENT_CONNECTIONS[currentConnection]);
                         SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
                     } catch (SocketException ex) {
                         System.out.println("A client has disconnected. IP: " + IPS[currentConnection]);

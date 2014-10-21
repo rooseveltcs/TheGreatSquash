@@ -25,7 +25,7 @@ public abstract class Creature implements Displayable {
         LOCATION_X = x;
         LOCATION_Y = y;
         BOARD = board;
-        BOARD.setTileCreature(y, x, this);
+        BOARD.getClient().getHandler().sendMove(y, x, this);
     }
 
     public void moveSelf(int y, int x) {
@@ -43,12 +43,12 @@ public abstract class Creature implements Displayable {
                 move(y, x);
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
-            BOARD.setTileCreature(LOCATION_Y, LOCATION_X, this);
+            BOARD.getClient().getHandler().sendMove(y, x, this);
         }
     }
 
     private void move(int y, int x) {
-        BOARD.setTileCreature(LOCATION_Y, LOCATION_X, null);
+        BOARD.getClient().getHandler().sendMove(LOCATION_Y, LOCATION_X, null);
         LOCATION_Y = y;
         LOCATION_X = x;
     }

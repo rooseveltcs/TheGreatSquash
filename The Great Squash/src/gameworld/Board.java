@@ -105,7 +105,6 @@ public class Board {
     
     public void setTileCreature(int y, int x, Creature creature) {
         getTile(y,x).setCreature(creature);
-        MY_CLIENT.getHandler().sendMove(y, x, creature);
         CREATURES.add(creature);
     }
     
@@ -141,7 +140,7 @@ public class Board {
         Creature creature = null;
         for(int i = 0; i < CREATURES.size(); i++) {
             Creature current = CREATURES.get(i);
-            if(current.getName() == name) {
+            if(current.getName().equals(name)) {
                 creature = current;
             }
         }
