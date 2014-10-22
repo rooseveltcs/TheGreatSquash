@@ -28,7 +28,7 @@ public class TestMovementGUI {
     private Board BOARD;
     
     public TestMovementGUI() {
-        BOARD = new Board(21,61,false,this);
+        BOARD = new Board(21,61,true,this);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ex) {
@@ -77,6 +77,7 @@ public class TestMovementGUI {
     
     public void setCreature(Creature creature){
         CREATURE = creature;
+        BOARD.getCreatures().add(creature);
         MOVEMENT_LISTENER.setCreature(creature);
     }
 }

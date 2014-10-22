@@ -22,10 +22,10 @@ public class MovementListener implements KeyListener {
     
     public MovementListener(TestMovementGUI gui) {
         GUI = gui;
-        System.out.println(GUI);
-        System.out.println(GUI.getBoard().hashCode());
-        System.out.println(GUI.getBoard().getClient());
-        System.out.println(GUI.getBoard().getClient().getHandler());
+//        System.out.println(GUI);
+//        System.out.println(GUI.getBoard().hashCode());
+//        System.out.println(GUI.getBoard().getClient());
+//        System.out.println(GUI.getBoard().getClient().getHandler());
         DATA_HANDLER = GUI.getBoard().getClient().getHandler();
     }
     
@@ -45,19 +45,15 @@ public class MovementListener implements KeyListener {
         if(keyCode == 37) {
             //move left
             CREATURE.moveSelf(CREATURE.getY() - 1, CREATURE.getX());
-            DATA_HANDLER.sendMove(CREATURE.getY() - 1, CREATURE.getX(),CREATURE);
         } else if(keyCode == 38) {
             //move up
             CREATURE.moveSelf(CREATURE.getY(), CREATURE.getX() - 1);
-           DATA_HANDLER.sendMove(CREATURE.getY(), CREATURE.getX() - 1,CREATURE);
         } else if(keyCode == 39) {
             //move right
             CREATURE.moveSelf(CREATURE.getY() + 1, CREATURE.getX());
-            DATA_HANDLER.sendMove(CREATURE.getY() + 1, CREATURE.getX(),CREATURE);
         } else if(keyCode == 40) {
             //move down
             CREATURE.moveSelf(CREATURE.getY(), CREATURE.getX() + 1);
-            DATA_HANDLER.sendMove(CREATURE.getY(), CREATURE.getX() + 1,CREATURE);
         }  
     }
 

@@ -1,12 +1,12 @@
-
 package LAN;
+
 import gameworld.Creature;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
-
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServerDataHandler implements Runnable {
 
@@ -14,7 +14,7 @@ public class ServerDataHandler implements Runnable {
     private DataOutputStream STREAM_OUT;
     private Client MY_CLIENT;
 
-    public ServerDataHandler(DataInputStream in,DataOutputStream out,Client myClient) {
+    public ServerDataHandler(DataInputStream in, DataOutputStream out, Client myClient) {
         STREAM_IN = in;
         STREAM_OUT = out;
         MY_CLIENT = myClient;
@@ -43,23 +43,28 @@ public class ServerDataHandler implements Runnable {
             int newY = messageScanner.nextInt();
             int newX = messageScanner.nextInt();
             String name = messageScanner.next();
+            int oldY = messageScanner.nextInt();
+            int oldX = messageScanner.nextInt();
+            MY_CLIENT.getBoard().setTileCreature(oldY,oldX,null);
             MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
             MY_CLIENT.getGUI().updateDisplay();
         }
 
     }
 
-    public void sendMove(int y, int x,Creature theCreature) {
-//        System.out.println(CommandHolder.CREATURE);
-//        System.out.println(y);
-//        System.out.println(x);
-//        System.out.println(theCreature.getName());
-        //String toSend = CommandHolder.CREATURE + " " + y + " " + x + " " + theCreature.getName();
-        String toSend = "THIS_IS_A_CREATURE 2 3 " + theCreature.getName();
+    public void sendMove(int newY, int newX, int oldY, int oldX, Creature theCreature) {
+        System.out.println(theCreature);
+        String toSend = CommandHolder.CREATURE + " " + newY + " " + newX + " " + theCreature.getName() + " " + oldY + " " + oldX;
         try {
             STREAM_OUT.writeUTF(toSend);
         } catch (IOException ex) {
             System.out.println("Failed to send the movement command to the server, please check you connection.");
+        }
+        toSend = CommandHolder.REMOVE_CREATURE + " " + oldY + " " + oldX;
+        try {
+            STREAM_OUT.writeUTF(toSend);
+        } catch (IOException ex) {
+            System.out.println("Failed to send the remove creature command to the server, please check you connection.");
         }
     }
 }

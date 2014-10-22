@@ -137,14 +137,13 @@ public class Board {
     }
     
     public Creature getCreature(String name) {
-        Creature creature = null;
         for(int i = 0; i < CREATURES.size(); i++) {
             Creature current = CREATURES.get(i);
             if(current.getName().equals(name)) {
-                creature = current;
+                return current;
             }
         }
-        return creature;
+        return null;
     }
     
     public ArrayList<Creature> getCreatures(){
