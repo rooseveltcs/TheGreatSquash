@@ -4,6 +4,7 @@
  */
 package gameworld;
 
+import LAN.Sendable;
 import java.util.ArrayList;
 
 /**
@@ -11,13 +12,14 @@ import java.util.ArrayList;
  * @author ros_aljacobson001
  */
 //Feel free to move this class to another package. I put it here because creatures go on the board.
-public abstract class Creature implements Displayable {
+public abstract class Creature implements Displayable,Sendable{
 
     char SPRITE;
     Board BOARD;
     private String NAME = "";
     int LOCATION_X;
     int LOCATION_Y;
+    double HEALTH;
 
     public Creature(char sprite, Board board, int y, int x,String name) {
         NAME = name;
@@ -90,5 +92,9 @@ public abstract class Creature implements Displayable {
     
     public String getName(){
         return NAME;
+    }
+    
+    public String toServerData(){
+        return " | " + NAME + " " + LOCATION_Y + "  " + LOCATION_X + " " +  HEALTH;
     }
 }
