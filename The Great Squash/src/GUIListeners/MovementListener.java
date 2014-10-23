@@ -41,7 +41,6 @@ public class MovementListener implements KeyListener {
     @Override
     public void keyPressed(KeyEvent key) {
         int keyCode = key.getExtendedKeyCode();
-        System.out.println(DATA_HANDLER);
         if(keyCode == 37) {
             //move left
             CREATURE.moveSelf(CREATURE.getY() - 1, CREATURE.getX());
@@ -55,6 +54,10 @@ public class MovementListener implements KeyListener {
             //move down
             CREATURE.moveSelf(CREATURE.getY(), CREATURE.getX() + 1);
         }  
+        
+        if(keyCode == 32) {
+            //CREATURE.
+        }
     }
 
     @Override
