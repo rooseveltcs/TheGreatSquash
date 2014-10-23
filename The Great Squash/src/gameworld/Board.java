@@ -49,7 +49,7 @@ public class Board {
             serverThread.start();
         }
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.66.52",CommandHolder.COMMAND_PORT_NUMBER,this,gui);
+        MY_CLIENT = new Client("10.135.65.230",CommandHolder.COMMAND_PORT_NUMBER,this,gui);
         sizeX = x;
         sizeY = y;
         GRAPHICS = null;
