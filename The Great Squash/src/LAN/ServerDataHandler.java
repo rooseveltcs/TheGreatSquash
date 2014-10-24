@@ -41,7 +41,7 @@ public class ServerDataHandler implements Runnable {
     public void interpretServerData(String serverData) {
         Scanner messageScanner = new Scanner(serverData);
         String theCommand = messageScanner.next();
-        if (theCommand.equals(CommandHolder.CREATURE)) {
+        if (theCommand.equals(CommandHolder.MOVE_CREATURE)) {
             int newY = messageScanner.nextInt();
             int newX = messageScanner.nextInt();
             String name = messageScanner.next();
@@ -56,17 +56,11 @@ public class ServerDataHandler implements Runnable {
 
     public void sendMove(int newY, int newX, int oldY, int oldX, Creature theCreature) {
         System.out.println(theCreature);
-        String toSend = CommandHolder.CREATURE + " " + newY + " " + newX + " " + theCreature.getName() + " " + oldY + " " + oldX;
+        String toSend = CommandHolder.MOVE_CREATURE + " " + newY + " " + newX + " " + theCreature.getName() + " " + oldY + " " + oldX;
         try {
             STREAM_OUT.writeUTF(toSend);
         } catch (IOException ex) {
             System.out.println("Failed to send the movement command to the server, please check you connection.");
-        }
-        toSend = CommandHolder.REMOVE_CREATURE + " " + oldY + " " + oldX;
-        try {
-            STREAM_OUT.writeUTF(toSend);
-        } catch (IOException ex) {
-            System.out.println("Failed to send the remove creature command to the server, please check you connection.");
         }
     }
     
@@ -74,8 +68,7 @@ public class ServerDataHandler implements Runnable {
         String toSend = "";
         if(displayable instanceof Obstacle) {
             Obstacle obstacle = (Obstacle)(displayable);
-            toSend = CommandHolder.CREATURE + " " + obstacle.getY() + " " + obstacle.getX() + " " + obstacle.getLabel() + obstacle.getPassable();
+            toSend = CommandHolder.MOVE_CREATURE + " " + obstacle.getY() + " " + obstacle.getX() + " " + obstacle.getLabel() + obstacle.getPassable();
         }
-        STREAM_OUT.writeUTF(toSend);
     }
 }
