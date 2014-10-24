@@ -9,13 +9,16 @@ package gameworld;
  * @author ros_aljacobson001
  */
 public abstract class Obstacle implements Displayable {
+    String LABEL;
     boolean PASSABLE;
     int LOCATION_X;
     int LOCATION_Y;
     Board BOARD;
     char SPRITE;
     
-     public Obstacle(char sprite, boolean passable, Board board, int y, int x) {
+     public Obstacle(char sprite, String label, boolean passable, Board board, int y, int x) {
+        //BOARD.getClient().getHandler()
+        LABEL = label;
         PASSABLE = passable;
         SPRITE = sprite;
         LOCATION_X = x;
@@ -24,6 +27,10 @@ public abstract class Obstacle implements Displayable {
 
         BOARD.getTile(y, x).setObstacle(this);
     }
+     
+     public String getLabel() {
+         return LABEL;
+     }
      
      /**
      *

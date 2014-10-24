@@ -149,7 +149,7 @@ class ConnectToServerThread implements Runnable {
 
     public ConnectToServerThread(Client client) {
         CLIENT = client;
-        String IP = "10.135.66.52";
+        String IP = "10.135.65.230"; //"10.135.66.52";
         PORT_NUMBER = CommandHolder.COMMAND_PORT_NUMBER;
     }
 

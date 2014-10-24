@@ -1,6 +1,8 @@
 package LAN;
 
 import gameworld.Creature;
+import gameworld.Displayable;
+import gameworld.Obstacle;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -66,5 +68,14 @@ public class ServerDataHandler implements Runnable {
         } catch (IOException ex) {
             System.out.println("Failed to send the remove creature command to the server, please check you connection.");
         }
+    }
+    
+    public void sendLocation(Displayable displayable) {
+        String toSend = "";
+        if(displayable instanceof Obstacle) {
+            Obstacle obstacle = (Obstacle)(displayable);
+            toSend = CommandHolder.CREATURE + " " + obstacle.getY() + " " + obstacle.getX() + " " + obstacle.getLabel() + obstacle.getPassable();
+        }
+        STREAM_OUT.writeUTF(toSend);
     }
 }
