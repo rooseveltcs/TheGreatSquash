@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author ros_aljacobson001
  */
 //Feel free to move this class to another package. I put it here because creatures go on the board.
-public abstract class Creature implements Displayable,Sendable{
+public abstract class Creature implements Displayable,Sendable {
 
     char SPRITE;
     Board BOARD;
@@ -59,14 +59,30 @@ public abstract class Creature implements Displayable,Sendable{
     public void setSprite(char sprite) {
         SPRITE = sprite;
     }
+    
+    public void interactWithSurroundings() {
+        ArrayList<Tile> surroundingTiles = getSurroundingTiles();
+        for(int i = 0; i < surroundingTiles.size(); i++) {
+            Tile current = surroundingTiles.get(i);
+            try {
+                Obstacle currentObstacle = current.getObstacle();
+                if(currentObstacle instanceof Interactive) {
+                    Interactive currentInteractive = (Interactive)(currentObstacle);
+                    currentInteractive.update();
+                }
+            } catch(NullPointerException ex) {}
+        }
+    }
 
-    public ArrayList<Tile> getSurroundingTiles() {
+    private ArrayList<Tile> getSurroundingTiles() {
         ArrayList<Tile> surroundingTiles = new ArrayList<Tile>();
         for(int i = -1; i < 2; i++) {
             for(int j = -1; j < 2; j++) {
                 if(i != 0 && j != 0) {
-                    Tile current = BOARD.getTile(LOCATION_Y + i, LOCATION_X + j);
-                    surroundingTiles.add(current);
+                    try {
+                        Tile current = BOARD.getTile(LOCATION_Y + i, LOCATION_X + j);
+                        surroundingTiles.add(current);
+                    } catch(IndexOutOfBoundsException e){}
                 }
             }
         }

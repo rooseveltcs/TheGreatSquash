@@ -8,13 +8,13 @@ package gameworld;
  *
  * @author ros_dmlamarca
  */
-public class Door extends Obstacle implements Interactiveodular{
+public class Door extends Obstacle implements Interactive {
     private boolean DOOR_POSITION;
     private char CLOSE_SPRITE = '+';
     private char OPEN_SPRITE = '_';
     
     public Door(Board board, int y, int x) {
-        super('+', false, board, y, x);
+        super('+',"",false, board, y, x);
         DOOR_POSITION = false;
     }
     
