@@ -94,6 +94,7 @@ public abstract class Creature implements Displayable,Sendable{
         return NAME;
     }
     
+    //the toServerData() method
     public String toServerData(){
         return " | " + NAME + " " + LOCATION_Y + "  " + LOCATION_X + " " +  HEALTH;
     }
