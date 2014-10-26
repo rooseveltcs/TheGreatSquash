@@ -10,6 +10,6 @@ package gameworld;
  */
 public class Wall extends Obstacle {
     public Wall(Board board, int y, int x) {
-        super('#',false,board,y,x);
+        super('#',"",false,board,y,x);
     }
 }

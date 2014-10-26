@@ -8,6 +8,6 @@ package items;
  *
  * @author ros_dmlamarca
  */
-public abstract class SpellBook {
+public abstract class SpellBook implements Item {
     //ok
 }

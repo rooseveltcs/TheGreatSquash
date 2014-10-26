@@ -8,6 +8,6 @@ package items;
  *
  * @author ros_dmlamarca
  */
-public abstract class Weapon {
+public abstract class Weapon implements Item {
     
 }

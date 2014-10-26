@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gameworld;
 
 import items.Armour;
 import items.Consumable;
+import items.Item;
 import items.SpellBook;
 import items.Weapon;
 import java.util.ArrayList;
@@ -36,9 +33,31 @@ public class Inventory {
         WEAPONS_SIZE_LIMIT = weaponSize;
     }
     
-    public void addWeapon(Weapon weapon) {
-        if(WEAPONS.size() < WEAPONS_SIZE_LIMIT) {
-            WEAPONS.add(weapon);
+     public void addToInventory(Item item) {
+        if(item instanceof Weapon && WEAPONS.size() < WEAPONS_SIZE_LIMIT) {
+           WEAPONS.add((Weapon)(item));
+        } else if(item instanceof Armour && ARMOURS.size() < ARMOURS_SIZE_LIMIT) {
+           ARMOURS.add((Armour)(item));
+        } else if(item instanceof SpellBook && SPELLBOOKS.size() < SPELLBOOKS_SIZE_LIMIT) {
+           SPELLBOOKS.add((SpellBook)(item));
+        } else if(item instanceof Consumable && CONSUMABLES.size() < CONSUMABLES_SIZE_LIMIT) {
+           CONSUMABLES.add((Consumable)(item));
         }
+    }
+     
+    public ArrayList<Weapon> getWeaponList() {
+        return WEAPONS;
+    }
+    
+    public ArrayList<Armour> getArmourList() {
+        return ARMOURS;
+    }
+      
+    public ArrayList<SpellBook> getSpellBookList() {
+        return SPELLBOOKS;
+    }
+    
+    public ArrayList<Consumable> getConsumableList() {
+        return CONSUMABLES;
     }
 }
