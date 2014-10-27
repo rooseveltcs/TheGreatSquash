@@ -4,10 +4,21 @@
  */
 package items;
 
+import gameworld.Displayable;
+
 /**
  *
  * @author ros_dmlamarca
  */
-public abstract class Consumable implements Item {
+public abstract class Consumable implements Item, Displayable {
+    private char SPRITE = (char)(164);
+    // 164 = ¤
     
+    public void setSprite(char sprite) {
+        SPRITE = sprite;
+    }
+    
+    public char displaySprite() {
+        return SPRITE;
+    }
 }

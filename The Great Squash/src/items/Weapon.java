@@ -4,10 +4,24 @@
  */
 package items;
 
+import gameworld.Displayable;
+
 /**
  *
  * @author ros_dmlamarca
  */
-public abstract class Weapon implements Item {
+public abstract class Weapon implements Item, Displayable {
+     private char SPRITE = (char)(167);
+     // 167 = §
+     private int DEFENSE;
+     private int ATTACK;
+     private int SPEED;
     
+    public void setSprite(char sprite) {
+        SPRITE = sprite;
+    }
+    
+    public char displaySprite() {
+        return SPRITE;
+    }
 }

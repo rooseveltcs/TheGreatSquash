@@ -4,10 +4,22 @@
  */
 package items;
 
+import gameworld.Displayable;
+import items.Item;
+
 /**
  *
  * @author ros_dmlamarca
  */
-public abstract class Armour implements Item {
+public abstract class Armour implements Item, Displayable {
+    private char SPRITE = (char)(177);
+    // 177 = ±
     
+    public void setSprite(char sprite) {
+        SPRITE = sprite;
+    }
+    
+    public char displaySprite() {
+        return SPRITE;
+    }
 }
