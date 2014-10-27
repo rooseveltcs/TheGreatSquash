@@ -22,7 +22,7 @@ public class TestBoard {
        TestMovementGUI gui = new TestMovementGUI();
        Board board = gui.getBoard();
        board.setBoardTilesNull();
-       Player playerBilly = new Player((char)(64),board,8,7);
+       Player playerBilly = new Player((char)(64),board,8,7,"Guardian");
        gui.setCreature(playerBilly);
  
        //CreateDungeon.drawRoom(board, 11, 11, 1, 1);

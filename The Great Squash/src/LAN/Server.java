@@ -142,6 +142,11 @@ class ServerClientConnection implements Runnable {
     }
 
     public void sendObstacles() {
+        String toSend = CommandHolder.THE_OBSTACLES + " " + THE_SERVER.getBoard().getObstacles().size();
+        for (int currentObstacle = 0; currentObstacle < THE_SERVER.getBoard().getObstacles().size(); currentObstacle++) {
+            toSend += THE_SERVER.getBoard().getObstacles().get(currentObstacle);
+        }
+        sendCommandOne(toSend);
     }
 
     public void sendCreatures() {
@@ -149,7 +154,15 @@ class ServerClientConnection implements Runnable {
         for (int currentCreature = 0; currentCreature < THE_SERVER.getBoard().getCreatures().size(); currentCreature++) {
             toSend += THE_SERVER.getBoard().getCreatures().get(currentCreature).toServerData();
         }
-        sendCommand(toSend);
+        sendCommandOne(toSend);
+    }
+    
+    public void sendCommandOne(String toSend){
+        try {
+            STREAM_OUT.writeUTF(toSend);
+        } catch (IOException ex) {
+            System.out.println("Unable to connect to a client");
+        }
     }
 
     public void sendCommand(String toSend) {
@@ -160,10 +173,9 @@ class ServerClientConnection implements Runnable {
                 } catch (IOException ex) {
                     System.out.println("A client has disconnected: " + IPS[currentConnection]);
                 }
-            }catch (NullPointerException ex) {
+            } catch (NullPointerException ex) {
             }
         }
-
     }
 }
 

@@ -3,6 +3,7 @@ package LAN;
 import gameworld.Creature;
 import gameworld.Displayable;
 import gameworld.Obstacle;
+import gameworld.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -50,8 +51,24 @@ public class ServerDataHandler implements Runnable {
             MY_CLIENT.getBoard().setTileCreature(oldY,oldX,null);
             MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
             MY_CLIENT.getGUI().updateDisplay();
+        }else if(theCommand.equals(CommandHolder.THE_CREATURES)){
+            int numberOfCreatures = messageScanner.nextInt();
+            for(int currentCreature = 0;currentCreature < numberOfCreatures;currentCreature++){
+                messageScanner.next();
+                String label = messageScanner.next();
+                int newY = messageScanner.nextInt();
+                int newX = messageScanner.nextInt();
+                double health = messageScanner.nextInt();
+                String type = messageScanner.next();
+                char sprite = messageScanner.next().charAt(0);
+                if(type.equals(TypeHolder.Player)){
+                    Player john = new Player(sprite,MY_CLIENT.getBoard(),newY,newX,label);
+                    MY_CLIENT.getBoard().getCreatures().add(john);
+                }
+            }
+        }else if(theCommand.equals(CommandHolder.THE_OBSTACLES)){
+            
         }
-
     }
 
     public void sendMove(int newY, int newX, int oldY, int oldX, Creature theCreature) {

@@ -16,10 +16,11 @@ public abstract class Creature implements Displayable,Sendable {
 
     char SPRITE;
     Board BOARD;
-    private String NAME = "";
+    private String NAME = "Creature";
     int LOCATION_X;
     int LOCATION_Y;
     double HEALTH;
+    private String TYPE = "abstract";
 
     public Creature(char sprite, Board board, int y, int x,String name) {
         NAME = name;
@@ -110,7 +111,15 @@ public abstract class Creature implements Displayable,Sendable {
         return NAME;
     }
     
+    public void setType(String toSet){
+        TYPE = toSet;
+    }
+    
+    public String getType(){
+        return TYPE;
+    }
+    
     public String toServerData(){
-        return " | " + NAME + " " + LOCATION_Y + "  " + LOCATION_X + " " +  HEALTH;
+        return " | " + NAME + " " + LOCATION_Y + "  " + LOCATION_X + " " +  HEALTH + " " + TYPE + " " + SPRITE;
     }
 }

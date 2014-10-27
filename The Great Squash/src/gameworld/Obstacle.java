@@ -4,17 +4,20 @@
  */
 package gameworld;
 
+import LAN.Sendable;
+
 /**
  *
  * @author ros_aljacobson001
  */
-public abstract class Obstacle implements Displayable {
+public abstract class Obstacle implements Displayable, Sendable {
     String LABEL;
     boolean PASSABLE;
     int LOCATION_X;
     int LOCATION_Y;
     Board BOARD;
     char SPRITE;
+    double HEALTH;
     
      public Obstacle(char sprite, String label, boolean passable, Board board, int y, int x) {
         //BOARD.getClient().getHandler()
@@ -60,5 +63,9 @@ public abstract class Obstacle implements Displayable {
 
     public int getY() {
         return LOCATION_Y;
+    }
+    
+    public String getServerData(){
+        return " | " + LABEL + " " + LOCATION_Y + " " + LOCATION_X + " " + PASSABLE + " " + HEALTH;
     }
 }

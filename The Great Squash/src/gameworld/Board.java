@@ -153,6 +153,10 @@ public class Board {
     public Client getClient(){
         return MY_CLIENT;
     }
+    
+    public ArrayList<Obstacle> getObstacles(){
+        return OBSTACLES;
+    }
 }
 class CreateServer implements Runnable{
     
