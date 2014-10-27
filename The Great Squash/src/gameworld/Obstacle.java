@@ -66,6 +66,6 @@ public abstract class Obstacle implements Displayable, Sendable {
     }
     
     public String getServerData(){
-        return " | " + LABEL + " " + LOCATION_Y + " " + LOCATION_X + " " + PASSABLE + " " + HEALTH;
+        return " | " + LABEL + " " + LOCATION_Y + " " + LOCATION_X + " " + PASSABLE + " " + HEALTH + " " + SPRITE;
     }
 }

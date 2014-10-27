@@ -39,7 +39,8 @@ public class Server {
     private int CHAT_PORT_NUMBER = PORT_NUMBER + 1;
     private Board THE_BOARD;
 
-    public Server(int connections, Board gameBoard) {
+    public Server(int connections,Board gameBoard) {
+        THE_BOARD = gameBoard;
         IPS = new String[connections];
         SERVER_CLIENT_CONNECTIONS = new ServerClientConnection[connections];
         SERVER_CHAT_CONNECTIONS = new ServerClientChat[connections];
@@ -47,12 +48,12 @@ public class Server {
         //keeps creating the server on different ports until an unused one is found
         while (true) {
             try {
-                SERVER_SOCKET = new ServerSocket(CommandHolder.COMMAND_PORT_NUMBER);
-                //CHAT_SERVER_SOCKET = new ServerSocket(7778);
+                SERVER_SOCKET = new ServerSocket(PORT_NUMBER);
+                CHAT_SERVER_SOCKET = new ServerSocket(CHAT_PORT_NUMBER);
                 break;
             } catch (IOException ex) {
-//                CHAT_PORT_NUMBER++;
-//                PORT_NUMBER++;
+                CHAT_PORT_NUMBER++;
+                PORT_NUMBER++;
             }
         }
         try {

@@ -65,9 +65,20 @@ public class ServerDataHandler implements Runnable {
                     Player john = new Player(sprite,MY_CLIENT.getBoard(),newY,newX,label);
                     MY_CLIENT.getBoard().getCreatures().add(john);
                 }
+                //this is where other types of creatures go
             }
         }else if(theCommand.equals(CommandHolder.THE_OBSTACLES)){
-            
+            int numberOfObstacles = messageScanner.nextInt();
+            for(int currentObject = 0;currentObject < numberOfObstacles;currentObject++){
+                messageScanner.next();
+                String label = messageScanner.next();
+                int newY = messageScanner.nextInt();
+                int newX = messageScanner.nextInt();
+                boolean passable = messageScanner.nextBoolean();
+                double health = messageScanner.nextDouble();
+                char sprite = messageScanner.next().charAt(0);
+                System.out.println("TODO implement types of obstacles");
+            }
         }
     }
 
