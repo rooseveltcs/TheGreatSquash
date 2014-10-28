@@ -6,6 +6,7 @@ package LAN;
 
 import GUI.LANMessanger;
 import gameworld.Board;
+import gameworld.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -35,11 +36,11 @@ public class Server {
     private String[] IPS;
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
-    private int PORT_NUMBER = 7777;
+    private int PORT_NUMBER = CommandHolder.COMMAND_PORT_NUMBER;
     private int CHAT_PORT_NUMBER = PORT_NUMBER + 1;
     private Board THE_BOARD;
 
-    public Server(int connections,Board gameBoard) {
+    public Server(int connections, Board gameBoard) {
         THE_BOARD = gameBoard;
         IPS = new String[connections];
         SERVER_CLIENT_CONNECTIONS = new ServerClientConnection[connections];
@@ -52,8 +53,8 @@ public class Server {
                 CHAT_SERVER_SOCKET = new ServerSocket(CHAT_PORT_NUMBER);
                 break;
             } catch (IOException ex) {
-                CHAT_PORT_NUMBER++;
-                PORT_NUMBER++;
+//                CHAT_PORT_NUMBER++;
+//                PORT_NUMBER++;
             }
         }
         try {
@@ -137,6 +138,7 @@ class ServerClientConnection implements Runnable {
         } else if (theCommand.equals(CommandHolder.INITIALIZE_FLOORS)) {
             sendFloors();
         }
+
     }
 
     public void sendFloors() {
@@ -156,9 +158,24 @@ class ServerClientConnection implements Runnable {
             toSend += THE_SERVER.getBoard().getCreatures().get(currentCreature).toServerData();
         }
         sendCommandOne(toSend);
+        Scanner messageScanner = new Scanner(toSend);
+        int numberOfCreatures = messageScanner.nextInt();
+        for (int currentCreature = 0; currentCreature < numberOfCreatures; currentCreature++) {
+            messageScanner.next();
+            String label = messageScanner.next();
+            int newY = messageScanner.nextInt();
+            int newX = messageScanner.nextInt();
+            double health = messageScanner.nextInt();
+            String type = messageScanner.next();
+            char sprite = messageScanner.next().charAt(0);
+            if (type.equals(TypeHolder.Player)) {
+                Player john = new Player(sprite, THE_SERVER.getBoard(), newY, newX, label);
+                THE_SERVER.getBoard().getCreatures().add(john);
+            }
+        }
     }
-    
-    public void sendCommandOne(String toSend){
+
+    public void sendCommandOne(String toSend) {
         try {
             STREAM_OUT.writeUTF(toSend);
         } catch (IOException ex) {

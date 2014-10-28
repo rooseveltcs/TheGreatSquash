@@ -27,4 +27,9 @@ public class Door extends Obstacle implements Interactive {
             super.setPassable(true);
         }
     }
+
+    @Override
+    public String toServerData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

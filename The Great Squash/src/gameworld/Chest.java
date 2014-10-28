@@ -23,4 +23,9 @@ public class Chest extends Obstacle implements Interactive,HasInventory {
     public Inventory getInventory() {
         return INVENTORY;
     }  
+
+    @Override
+    public String toServerData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

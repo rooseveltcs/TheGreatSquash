@@ -18,11 +18,14 @@ import java.util.Scanner;
  * @author ros_dmlamarca
  */
 public class TestBoard {
-   public static void main(String[] args) {
+   public static void main(String[] args) throws InterruptedException {
        TestMovementGUI gui = new TestMovementGUI();
        Board board = gui.getBoard();
        board.setBoardTilesNull();
-       Player playerBilly = new Player((char)(64),board,8,7,"Guardian");
+       Player playerBilly = new Player((char)(198),board,8,7,"Guardian");
+       while(!board.getShouldPlayer()){
+           
+       }
        gui.setCreature(playerBilly);
  
        //CreateDungeon.drawRoom(board, 11, 11, 1, 1);

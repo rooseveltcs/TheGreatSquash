@@ -23,6 +23,7 @@ public class Board {
     private ArrayList<Creature> CREATURES = new ArrayList<Creature>();
     private ArrayList<Obstacle> OBSTACLES = new ArrayList<Obstacle>();
     private Client MY_CLIENT;
+    private boolean SHOULD_PLAYER = false;
     
     /**
      *
@@ -160,6 +161,14 @@ public class Board {
     
     public ArrayList<Obstacle> getObstacles(){
         return OBSTACLES;
+    }
+    
+    public void setShouldPlayer(boolean toSet){
+        SHOULD_PLAYER = toSet;
+    }
+    
+    public boolean getShouldPlayer(){
+        return SHOULD_PLAYER;
     }
 }
 class CreateServer implements Runnable{
