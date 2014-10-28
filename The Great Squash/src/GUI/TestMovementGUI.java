@@ -19,7 +19,7 @@ import javax.swing.border.EtchedBorder;
  * @author ros_dmlamarca
  */
 public class TestMovementGUI {
-    private JTextArea DISPLAY_BOX = new JTextArea();
+    private JTextArea DISPLAY_AREA = new JTextArea();
     private JPanel DISPLAY_PANEL = new JPanel();
     private MovementListener MOVEMENT_LISTENER;
     private JFrame FRAME = new JFrame("Board Test");
@@ -42,16 +42,16 @@ public class TestMovementGUI {
     private void formatDisplay() {
         DISPLAY_PANEL.setBounds(0,0,500,400);
         
-        DISPLAY_BOX.setColumns(61);
-        DISPLAY_BOX.setRows(21);
-        DISPLAY_BOX.setPreferredSize(new Dimension(61,21));
-        DISPLAY_BOX.setEditable(false);
-        DISPLAY_BOX.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createBevelBorder(EtchedBorder.RAISED), BorderFactory.createEtchedBorder(EtchedBorder.LOWERED)));
-        DISPLAY_BOX.addKeyListener(MOVEMENT_LISTENER);
-        DISPLAY_BOX.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        DISPLAY_AREA.setColumns(61);
+        DISPLAY_AREA.setRows(21);
+        DISPLAY_AREA.setPreferredSize(new Dimension(61,21));
+        DISPLAY_AREA.setEditable(false);
+        DISPLAY_AREA.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createBevelBorder(EtchedBorder.RAISED), BorderFactory.createEtchedBorder(EtchedBorder.LOWERED)));
+        DISPLAY_AREA.addKeyListener(MOVEMENT_LISTENER);
+        DISPLAY_AREA.setFont(new Font("Monospaced", Font.PLAIN, 12));
         
         DISPLAY_PANEL.addKeyListener(MOVEMENT_LISTENER);
-        DISPLAY_PANEL.add(DISPLAY_BOX);
+        DISPLAY_PANEL.add(DISPLAY_AREA);
     }
     
     private void formatFrame() {
@@ -67,8 +67,8 @@ public class TestMovementGUI {
         FRAME.setVisible(true);
     }
     
-    public void updateDisplay() {
-        DISPLAY_BOX.setText(BOARD.toString());
+    public JTextArea getDisplay() {
+        return DISPLAY_AREA;
     }
     
     public Board getBoard(){

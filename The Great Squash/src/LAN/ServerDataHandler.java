@@ -50,7 +50,7 @@ public class ServerDataHandler implements Runnable {
             int oldX = messageScanner.nextInt();
             MY_CLIENT.getBoard().setTileCreature(oldY,oldX,null);
             MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
-            MY_CLIENT.getGUI().updateDisplay();
+            MY_CLIENT.getBoard().updateDisplay();
         }else if(theCommand.equals(CommandHolder.THE_CREATURES)){
             int numberOfCreatures = messageScanner.nextInt();
             for(int currentCreature = 0;currentCreature < numberOfCreatures;currentCreature++){

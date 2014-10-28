@@ -38,10 +38,6 @@ public abstract class Creature implements Displayable,Sendable {
                 if (moveTo.getPassable()) {
                     move(y, x);
                 }
-//                } else if(moveTo instanceof Door){
-//                    Door door = (Door)(moveTo);
-//                    door.open();
-//                }
             } catch (NullPointerException e) {
                 move(y, x);
             }

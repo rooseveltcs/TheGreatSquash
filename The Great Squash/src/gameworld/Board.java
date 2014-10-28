@@ -55,6 +55,10 @@ public class Board {
         GRAPHICS = null;
     }
     
+    public void updateDisplay() {
+        MY_CLIENT.getGUI().getDisplay().setText(this.toString());
+    }
+    
     public void show(){
         for(int i = 0; i < sizeX; i++) {
             for(int j = 0; j < sizeY; j++) {
@@ -170,6 +174,5 @@ class CreateServer implements Runnable{
     @Override
     public void run() {
         Server theServer = new Server(CONNECTIONS,THE_BOARD);
-    }
-    
+    }   
 }
