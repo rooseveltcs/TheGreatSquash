@@ -34,6 +34,7 @@ public class Server {
     private DataOutputStream DATA_OUT;
     private DataInputStream DATA_IN;
     private String[] IPS;
+    private boolean[] INITS;
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
     private int PORT_NUMBER = CommandHolder.COMMAND_PORT_NUMBER;
@@ -43,6 +44,10 @@ public class Server {
     public Server(int connections, Board gameBoard) {
         THE_BOARD = gameBoard;
         IPS = new String[connections];
+        INITS = new boolean[connections];
+        for (int currentInit = 0; currentInit < connections; currentInit++) {
+            INITS[currentInit] = false;
+        }
         SERVER_CLIENT_CONNECTIONS = new ServerClientConnection[connections];
         SERVER_CHAT_CONNECTIONS = new ServerClientChat[connections];
         System.out.println("Starting server...");
@@ -70,7 +75,7 @@ public class Server {
                 DATA_IN = new DataInputStream(SOCKET.getInputStream());
                 IPS[currentConnection] = SOCKET.getInetAddress().toString();
                 System.out.println("Connection from " + IPS[currentConnection]);
-                ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS, IPS, gameBoard, this);
+                ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS, IPS, gameBoard, this, INITS);
                 SERVER_CLIENT_CONNECTIONS[currentConnection] = newConnect;
                 Thread CurrentConnection = new Thread(newConnect);
                 CurrentConnection.start();
@@ -96,15 +101,17 @@ class ServerClientConnection implements Runnable {
     DataOutputStream STREAM_OUT;
     ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     String[] IPS;
+    boolean[] INITS;
     Board GAME_BOARD;
     Server THE_SERVER;
 
-    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections, String[] ips, Board gameBoard, Server server) {
+    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections, String[] ips, Board gameBoard, Server server, boolean[] inits) {
         SERVER_CLIENT_CONNECTIONS = serverClientConnections;
         THE_SERVER = server;
         STREAM_IN = in;
         STREAM_OUT = out;
         IPS = ips;
+        INITS = inits;
     }
 
     @Override
@@ -112,7 +119,7 @@ class ServerClientConnection implements Runnable {
         while (!false) {
             try {
                 String toSend = STREAM_IN.readUTF();
-                System.out.println("Incoming message: " + toSend);
+                System.out.println("Incoming message:s " + toSend);
                 interpretMessage(toSend);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -124,6 +131,7 @@ class ServerClientConnection implements Runnable {
         Scanner messageScanner = new Scanner(theMessage);
         String theCommand = messageScanner.next();
         if (theCommand.equals(CommandHolder.MOVE_CREATURE)) {
+            System.out.println(theMessage);
             int newY = messageScanner.nextInt();
             int newX = messageScanner.nextInt();
             String name = messageScanner.next();
@@ -149,7 +157,7 @@ class ServerClientConnection implements Runnable {
         for (int currentObstacle = 0; currentObstacle < THE_SERVER.getBoard().getObstacles().size(); currentObstacle++) {
             toSend += THE_SERVER.getBoard().getObstacles().get(currentObstacle);
         }
-        sendCommandOne(toSend);
+        sendBoardInit(toSend);
     }
 
     public void sendCreatures() {
@@ -157,8 +165,8 @@ class ServerClientConnection implements Runnable {
         for (int currentCreature = 0; currentCreature < THE_SERVER.getBoard().getCreatures().size(); currentCreature++) {
             toSend += THE_SERVER.getBoard().getCreatures().get(currentCreature).toServerData();
         }
-        sendCommandOne(toSend);
         Scanner messageScanner = new Scanner(toSend);
+        messageScanner.next();
         int numberOfCreatures = messageScanner.nextInt();
         for (int currentCreature = 0; currentCreature < numberOfCreatures; currentCreature++) {
             messageScanner.next();
@@ -172,14 +180,22 @@ class ServerClientConnection implements Runnable {
                 Player john = new Player(sprite, THE_SERVER.getBoard(), newY, newX, label);
                 THE_SERVER.getBoard().getCreatures().add(john);
             }
+            //this is where other types of creatures go
         }
+        sendBoardInit(toSend);
     }
 
-    public void sendCommandOne(String toSend) {
-        try {
-            STREAM_OUT.writeUTF(toSend);
-        } catch (IOException ex) {
-            System.out.println("Unable to connect to a client");
+    public void sendBoardInit(String toSend) {
+        for (int currentConnection = 0; currentConnection < SERVER_CLIENT_CONNECTIONS.length; currentConnection++) {
+            if (!INITS[currentConnection]) {
+                INITS[currentConnection] = true;
+                try {
+                    SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
+                } catch (IOException ex) {
+                    System.out.println("Unable to connect to a client at: " + IPS[currentConnection]);
+                } catch (NullPointerException ex) {
+                }
+            }
         }
     }
 

@@ -37,22 +37,22 @@ public class Board {
             serverThread.start();
         }
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.66.52",CommandHolder.COMMAND_PORT_NUMBER,this,gui);
+        MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP,CommandHolder.COMMAND_PORT_NUMBER,this,gui);
         sizeX = x;
         sizeY = y;
         GRAPHICS = graphics;
     }
     
-    public Board(int x,int y,boolean toServer,TestMovementGUI gui){
+    public Board(int y,int x,boolean toServer,TestMovementGUI gui){
         if(toServer){
             CreateServer temp = new CreateServer(this,10);
             Thread serverThread = new Thread(temp);
             serverThread.start();
         }
-        GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client("10.135.65.230",CommandHolder.COMMAND_PORT_NUMBER,this,gui);
-        sizeX = x;
-        sizeY = y;
+        GAME_BOARD = new Tile[x][y];
+        MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP,CommandHolder.COMMAND_PORT_NUMBER,this,gui);
+        sizeX = y;
+        sizeY = x;
         GRAPHICS = null;
     }
     

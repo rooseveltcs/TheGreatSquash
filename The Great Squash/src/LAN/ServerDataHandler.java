@@ -68,6 +68,7 @@ public class ServerDataHandler implements Runnable {
                 }
                 //this is where other types of creatures go
             }
+            MY_CLIENT.getBoard().setShouldPlayer(true);
         } else if (theCommand.equals(CommandHolder.THE_OBSTACLES)) {
             int numberOfObstacles = messageScanner.nextInt();
             for (int currentObject = 0; currentObject < numberOfObstacles; currentObject++) {
@@ -102,6 +103,7 @@ public class ServerDataHandler implements Runnable {
     }
 
     public void initEverything() {
+        System.out.println("wub wub");
         try {
             //STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_FLOORS);
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_OBSTACLES);

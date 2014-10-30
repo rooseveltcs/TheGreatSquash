@@ -18,4 +18,6 @@ public class CommandHolder {
     public static final String THE_OBSTACLES = "HERE_ARE_THE_OBSTACLES";
     public static final String THE_FLOORS = "HERE_ARE_THE_FLOORS";
     public static final int COMMAND_PORT_NUMBER = 7777;
+    public static final String AARON_WORK_IP = "10.135.66.52";
+    public static final String DYLAN_WORK_IP = "10.135.65.230";
 }
