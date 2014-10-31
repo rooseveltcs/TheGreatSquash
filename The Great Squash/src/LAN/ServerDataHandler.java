@@ -16,20 +16,22 @@ public class ServerDataHandler implements Runnable {
     private DataInputStream STREAM_IN;
     private DataOutputStream STREAM_OUT;
     private Client MY_CLIENT;
+    private boolean hasFloors = false;
+    private boolean hasObstacles = false;
+    private boolean hasCreatures = false;
 
     public ServerDataHandler(DataInputStream in, DataOutputStream out, Client myClient) {
         STREAM_IN = in;
         STREAM_OUT = out;
         MY_CLIENT = myClient;
-        System.out.println(MY_CLIENT);
-        System.out.println(STREAM_OUT);
-        System.out.println(STREAM_IN);
     }
 
     @Override
     public void run() {
+        InitEverythingThread initStuff = new InitEverythingThread(this);
+        Thread initBoardThread = new Thread(initStuff);
+        initBoardThread.start();
         while (!false) {
-            initEverything();
             try {
                 String serverData = STREAM_IN.readUTF();
                 interpretServerData(serverData);
@@ -43,6 +45,7 @@ public class ServerDataHandler implements Runnable {
     public void interpretServerData(String serverData) {
         Scanner messageScanner = new Scanner(serverData);
         String theCommand = messageScanner.next();
+        System.out.println("Client: Recieved the following command: " + theCommand + " what do?");
         if (theCommand.equals(CommandHolder.MOVE_CREATURE)) {
             int newY = messageScanner.nextInt();
             int newX = messageScanner.nextInt();
@@ -53,6 +56,7 @@ public class ServerDataHandler implements Runnable {
             MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
             MY_CLIENT.getBoard().updateDisplay();
         } else if (theCommand.equals(CommandHolder.THE_CREATURES)) {
+            System.out.println("Client: Recieved the creatures.");
             int numberOfCreatures = messageScanner.nextInt();
             for (int currentCreature = 0; currentCreature < numberOfCreatures; currentCreature++) {
                 messageScanner.next();
@@ -68,8 +72,11 @@ public class ServerDataHandler implements Runnable {
                 }
                 //this is where other types of creatures go
             }
+            System.out.println("Client: The creatures have been initialized");
+            hasCreatures = true;
             MY_CLIENT.getBoard().setShouldPlayer(true);
         } else if (theCommand.equals(CommandHolder.THE_OBSTACLES)) {
+            System.out.println("Client: Recieved the obstacles");
             int numberOfObstacles = messageScanner.nextInt();
             for (int currentObject = 0; currentObject < numberOfObstacles; currentObject++) {
                 messageScanner.next();
@@ -81,6 +88,9 @@ public class ServerDataHandler implements Runnable {
                 char sprite = messageScanner.next().charAt(0);
                 System.out.println("TODO implement types of obstacles");
             }
+            System.out.println("Client: Obstacles have been initialized");
+            hasObstacles = true;
+        } else if (theCommand.equals(CommandHolder.THE_FLOORS)) {
         }
     }
 
@@ -103,13 +113,30 @@ public class ServerDataHandler implements Runnable {
     }
 
     public void initEverything() {
-        System.out.println("wub wub");
         try {
             //STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_FLOORS);
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_OBSTACLES);
+            while (!hasObstacles) {
+            }
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_CREATURES);
+            while (!hasCreatures) {
+            }
         } catch (IOException ex) {
             System.out.println("Unable to communicate with the server");
         }
     }
+}
+
+class InitEverythingThread implements Runnable{
+
+    private ServerDataHandler HANDLER;
+    
+    public InitEverythingThread(ServerDataHandler handler){
+        HANDLER = handler;
+    }
+    @Override
+    public void run() {
+        HANDLER.initEverything();
+    }
+    
 }

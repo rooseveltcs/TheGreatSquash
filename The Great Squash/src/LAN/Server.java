@@ -119,7 +119,7 @@ class ServerClientConnection implements Runnable {
         while (!false) {
             try {
                 String toSend = STREAM_IN.readUTF();
-                System.out.println("Incoming message:s " + toSend);
+                System.out.println("Server: Incoming message: " + toSend);
                 interpretMessage(toSend);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -182,6 +182,7 @@ class ServerClientConnection implements Runnable {
             }
             //this is where other types of creatures go
         }
+        System.out.println("Server: sent the creatures");
         sendBoardInit(toSend);
     }
 
