@@ -4,6 +4,8 @@
  */
 package gameworld;
 
+import LAN.TypeHolder;
+
 /**
  *
  * @author ros_dmlamarca
@@ -13,9 +15,14 @@ public class Door extends Obstacle implements Interactive {
     private char CLOSE_SPRITE = '+';
     private char OPEN_SPRITE = '_';
     
-    public Door(Board board, int y, int x) {
-        super('+',"",false, board, y, x);
-        DOOR_POSITION = false;
+    public Door(Board board, boolean open, int y, int x) {
+        super(TypeHolder.ERROR_CHAR,"",open, board, y, x);
+        if(open) {
+            super.setSprite(OPEN_SPRITE);
+        } else {
+            super.setSprite(CLOSE_SPRITE);
+        }
+        DOOR_POSITION = open;
     }
     
     public void update() {

@@ -14,6 +14,6 @@ public class Player extends Creature {
     
     public Player(char sprite, Board board, int y, int x,String name) {
          super(sprite,board,y,x,name);
-         setType(TypeHolder.Player);
+         setType(TypeHolder.PLAYER);
     }
 }

@@ -62,7 +62,7 @@ public class ServerDataHandler implements Runnable {
                 double health = messageScanner.nextInt();
                 String type = messageScanner.next();
                 char sprite = messageScanner.next().charAt(0);
-                if (type.equals(TypeHolder.Player)) {
+                if (type.equals(TypeHolder.PLAYER)) {
                     Player john = new Player(sprite, MY_CLIENT.getBoard(), newY, newX, label);
                     MY_CLIENT.getBoard().getCreatures().add(john);
                 }

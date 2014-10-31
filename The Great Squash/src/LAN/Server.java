@@ -176,7 +176,7 @@ class ServerClientConnection implements Runnable {
             double health = messageScanner.nextInt();
             String type = messageScanner.next();
             char sprite = messageScanner.next().charAt(0);
-            if (type.equals(TypeHolder.Player)) {
+            if (type.equals(TypeHolder.PLAYER)) {
                 Player john = new Player(sprite, THE_SERVER.getBoard(), newY, newX, label);
                 THE_SERVER.getBoard().getCreatures().add(john);
             }

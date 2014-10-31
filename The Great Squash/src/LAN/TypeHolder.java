@@ -9,5 +9,6 @@ package LAN;
  * @author ros_aljacobson001
  */
 public class TypeHolder {
-    public static final String Player = "Player";
+    public static final String PLAYER = "Player";
+    public static final char ERROR_CHAR = 'X';
 }
