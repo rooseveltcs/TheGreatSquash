@@ -10,13 +10,23 @@ import LAN.TypeHolder;
  *
  * @author ros_dmlamarca
  */
-public class Door extends Obstacle implements Interactive {
+public class Door extends Obstacle implements Interactive, Cloneable {
     private boolean DOOR_POSITION;
     private char CLOSE_SPRITE = '+';
     private char OPEN_SPRITE = '_';
     
     public Door(Board board, boolean open, int y, int x) {
         super(TypeHolder.ERROR_CHAR,"",open, board, y, x);
+        if(open) {
+            super.setSprite(OPEN_SPRITE);
+        } else {
+            super.setSprite(CLOSE_SPRITE);
+        }
+        DOOR_POSITION = open;
+    }
+    
+    public Door(boolean open) {
+        super(TypeHolder.ERROR_CHAR,"",open);
         if(open) {
             super.setSprite(OPEN_SPRITE);
         } else {
@@ -33,6 +43,12 @@ public class Door extends Obstacle implements Interactive {
             super.setSprite(OPEN_SPRITE);
             super.setPassable(true);
         }
+    }
+    
+     public Door clone() {
+        Door clone = new Door(DOOR_POSITION);
+        clone.setLocation(BOARD, LOCATION_Y, LOCATION_X);
+        return clone;
     }
 
     @Override

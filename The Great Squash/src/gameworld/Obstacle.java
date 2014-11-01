@@ -31,6 +31,13 @@ public abstract class Obstacle implements Displayable, Sendable {
         BOARD.getTile(y, x).setObstacle(this);
     }
      
+     public Obstacle(char sprite, String label, boolean passable) {
+        //BOARD.getClient().getHandler()
+        LABEL = label;
+        PASSABLE = passable;
+        SPRITE = sprite;
+    }
+     
      public String getLabel() {
          return LABEL;
      }
@@ -63,6 +70,13 @@ public abstract class Obstacle implements Displayable, Sendable {
 
     public int getY() {
         return LOCATION_Y;
+    }
+    
+    public void setLocation(Board board, int y, int x) {
+        LOCATION_X = x;
+        LOCATION_Y = y;
+        BOARD = board;
+        //BOARD.getTile(y, x).setObstacle(this);
     }
     
     public String getServerData(){

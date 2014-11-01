@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class Board {
     private Tile[][] GAME_BOARD;
-    private int sizeX;
-    private int sizeY;
+    private int SIZE_X;
+    private int SIZE_Y;
     private Graphics GRAPHICS;
     private ArrayList<Creature> CREATURES = new ArrayList<Creature>();
     private ArrayList<Obstacle> OBSTACLES = new ArrayList<Obstacle>();
@@ -38,8 +38,8 @@ public class Board {
         }
         GAME_BOARD = new Tile[y][x];
         MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP,CommandHolder.COMMAND_PORT_NUMBER,this,gui);
-        sizeX = x;
-        sizeY = y;
+        SIZE_X = x;
+        SIZE_Y = y;
         GRAPHICS = graphics;
     }
     
@@ -51,8 +51,28 @@ public class Board {
         }
         GAME_BOARD = new Tile[x][y];
         MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP,CommandHolder.COMMAND_PORT_NUMBER,this,gui);
-        sizeX = y;
-        sizeY = x;
+        SIZE_X = y;
+        SIZE_Y = x;
+        GRAPHICS = null;
+    }
+    
+    public Board(int y,int x) {
+        GAME_BOARD = new Tile[x][y];
+        SIZE_X = y;
+        SIZE_Y = x;
+        GRAPHICS = null;
+    }
+    
+    public Board(Board board, boolean toServer, TestMovementGUI gui) {
+        if(toServer){
+            CreateServer temp = new CreateServer(this,10);
+            Thread serverThread = new Thread(temp);
+            serverThread.start();
+        }
+        GAME_BOARD = board.getGameBoard();
+        MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP,CommandHolder.COMMAND_PORT_NUMBER,this,gui);
+        SIZE_X = board.getY();
+        SIZE_Y = board.getX();
         GRAPHICS = null;
     }
     
@@ -61,8 +81,8 @@ public class Board {
     }
     
     public void show(){
-        for(int i = 0; i < sizeX; i++) {
-            for(int j = 0; j < sizeY; j++) {
+        for(int i = 0; i < SIZE_X; i++) {
+            for(int j = 0; j < SIZE_Y; j++) {
                 System.out.print(GAME_BOARD[j][i]);
             }
             System.out.println();
@@ -73,8 +93,8 @@ public class Board {
      *
      */
     public void setBoardTilesNull() {
-        for(int i = 0; i < sizeX; i++) {
-            for(int j = 0; j < sizeY; j++) {
+        for(int i = 0; i < SIZE_X; i++) {
+            for(int j = 0; j < SIZE_Y; j++) {
                 GAME_BOARD[j][i] = new Tile(null,null,null);
             }
         }
@@ -124,8 +144,8 @@ public class Board {
     
     public String toString() {
         String output = "";
-        for(int i = 0; i < sizeX; i++) {
-            for(int j = 0; j < sizeY; j++) {
+        for(int i = 0; i < SIZE_X; i++) {
+            for(int j = 0; j < SIZE_Y; j++) {
                 output += GAME_BOARD[j][i];
             }
             output += "\n";
@@ -134,11 +154,11 @@ public class Board {
     }
     
     public int getY(){
-        return sizeY;
+        return SIZE_Y;
     }
     
     public int getX(){
-        return sizeX;
+        return SIZE_X;
     }
     
     public Creature getCreature(String name) {
