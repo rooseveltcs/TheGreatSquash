@@ -18,37 +18,26 @@ import java.util.logging.Logger;
 public class DocumentToBoard {
 
     public static Board createBoard(String filePath) {
-
+        Board board = null;
         try {
             File textFile = new File(filePath);
             Scanner readFile = new Scanner(textFile);
-            String objectCode = "";
-            while (readFile.hasNextLine()) {
-                String line = readFile.nextLine();
-                if (!line.equals("")) {
-                    if (objectCode.equals("")) {
-                        objectCode += line;
-                    } else {
-                        objectCode += "\n" + line;
-                        System.out.println(line);
-                    }
-                } else {
-                    break;
-                }
-            }
-            
-            System.out.println(objectCode);
+
+            String objectCode = getNextFileElement(readFile);
+            String stringBoard = getNextFileElement(readFile);
+
+            //System.out.println(stringBoard);
+            //System.out.println(objectCode);
+
             Hashtable<String, Displayable> creatorTable = getCreatorTable(objectCode);
-            
-            System.out.println(creatorTable.get("#"));
-            System.out.println(creatorTable.get("+"));
-            
+
+            board = makeBoard(creatorTable, stringBoard);
         } catch (FileNotFoundException ex) {
             System.out.println("Sorry bub, but we couldn't make your file (well File Scanner). It just wasn't in the numbers.");
         }
 
         System.out.println();
-        return null;
+        return board;
     }
 
     private static Hashtable<String, Displayable> getCreatorTable(String input) {
@@ -75,16 +64,70 @@ public class DocumentToBoard {
         if (objectName.equals("wall")) {
             object = new Wall();
         } else if (objectName.equals("closeddoor")) {
-            object = new Door(true);
-        } else if (objectName.equals("opendoor")) {
             object = new Door(false);
+        } else if (objectName.equals("opendoor")) {
+            object = new Door(true);
         }
 
         return object;
     }
-    
-    private static Board makeBoard(Hashtable<String, Displayable> creatorTable) {
+
+    private static String getNextFileElement(Scanner readFile) {
+        String string = "";
+        while (readFile.hasNextLine()) {
+            String line = readFile.nextLine();
+            if (!line.equals("")) {
+                if (string.equals("")) {
+                    string += line;
+                } else {
+                    string += "\n" + line;
+                }
+            } else {
+                break;
+            }
+        }
+        return string;
+    }
+
+    private static Board makeBoard(Hashtable<String, Displayable> creatorTable, String stringBoard) {
+        Scanner getSize = new Scanner(stringBoard);
+        int sizeX = 0;
+        int sizeY = 0;
+        while (getSize.hasNextLine()) {
+            String line = getSize.nextLine();
+            int lineX = line.length();
+            if (lineX > sizeX) {
+                sizeX = lineX;
+            }
+            sizeY++;
+        }
+
+        Board board = new Board(sizeY, sizeX);
+        board.setBoardTilesNull();
+        //System.out.println(sizeX + "|" + sizeY);
+        Scanner getBoard = new Scanner(stringBoard);
+        int y = 0;
+        while (getBoard.hasNextLine()) {
+            String line = getBoard.nextLine();
+            for (int x = 0; x < line.length(); x++) {
+                String currentChar = line.charAt(x) + "";
+                Displayable displayable = creatorTable.get(currentChar);
+                if(displayable != null) {
+                    if(displayable instanceof Wall) {
+                        Wall wall = ((Wall)(displayable)).clone();
+                        //System.out.println(wall);
+                        board.setTileObstacle(x, y,wall);
+                    } else if(displayable instanceof Door) {
+                        Door door = ((Door)(displayable)).clone();
+                        //System.out.println(door);
+                        board.setTileObstacle(x, y,door);
+                    }
+                }
+            }
+            //System.out.println();
+            y++;
+        }
         
-        return null;
+        return board;
     }
 }

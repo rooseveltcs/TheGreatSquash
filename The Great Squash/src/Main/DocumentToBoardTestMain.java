@@ -13,9 +13,10 @@ import gameworld.Wall;
  * @author ros_dmlamarca
  */
 public class DocumentToBoardTestMain {
+
     public static void main(String[] args) {
         Board board = DocumentToBoard.createBoard("C:\\Users\\Dylan\\Documents\\testboard.txt");
-        
+        board.show();
 //        Wall shenanay = new Wall();
 //        shenanay.setLocation(null, 7, 43);
 //        Wall bartleby = (Wall) shenanay.clone();

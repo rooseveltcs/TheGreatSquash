@@ -10,7 +10,7 @@ import LAN.Sendable;
  *
  * @author ros_aljacobson001
  */
-public abstract class Obstacle implements Displayable, Sendable {
+public abstract class Obstacle implements Displayable, Sendable, Cloneable {
     String LABEL;
     boolean PASSABLE;
     int LOCATION_X;
