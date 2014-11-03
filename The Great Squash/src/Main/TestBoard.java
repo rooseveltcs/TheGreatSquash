@@ -25,7 +25,7 @@ public class TestBoard {
         board.setBoardTilesNull();
         while (!board.getShouldPlayer()) {
         }
-        Player playerBilly = new Player((char) (223), board, 8, 7, "Joe");
+        Player playerBilly = new Player((char) (64), board, 9, 9, "StaticShock");
         gui.setCreature(playerBilly);
 
         //CreateDungeon.drawRoom(board, 11, 11, 1, 1);
