@@ -40,7 +40,7 @@ public class Client {
         MY_BOARD = myBoard;
         try {
             SOCKET = new Socket(ip,CommandHolder.COMMAND_PORT_NUMBER);
-            System.out.println("Connection successful.");
+            System.out.println("Client: Connection successful.");
             STREAM_IN = new DataInputStream(SOCKET.getInputStream());
             STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
             DATA_HANDLER = new ServerDataHandler(STREAM_IN,STREAM_OUT,this);

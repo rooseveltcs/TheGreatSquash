@@ -23,10 +23,9 @@ public class TestBoard {
         TestMovementGUI gui = new TestMovementGUI();
         Board board = gui.getBoard();
         board.setBoardTilesNull();
-        System.out.println("wub");
         while (!board.getShouldPlayer()) {
         }
-        Player playerBilly = new Player((char) (198), board, 8, 7, "Guardian");
+        Player playerBilly = new Player((char) (223), board, 8, 7, "Joe");
         gui.setCreature(playerBilly);
 
         //CreateDungeon.drawRoom(board, 11, 11, 1, 1);

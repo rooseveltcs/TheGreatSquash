@@ -17,8 +17,8 @@ public class ServerDataHandler implements Runnable {
     private DataOutputStream STREAM_OUT;
     private Client MY_CLIENT;
     private boolean hasFloors = false;
-    private boolean hasObstacles = false;
-    private boolean hasCreatures = false;
+    private boolean WAIT_FOR_OBSTACLES = true;
+    private boolean WAIT_FOR_CREATURES = true;
 
     public ServerDataHandler(DataInputStream in, DataOutputStream out, Client myClient) {
         STREAM_IN = in;
@@ -34,6 +34,7 @@ public class ServerDataHandler implements Runnable {
         while (!false) {
             try {
                 String serverData = STREAM_IN.readUTF();
+                System.out.println("Client: " + serverData);
                 interpretServerData(serverData);
             } catch (IOException ex) {
                 System.out.println("Sorry but we lost connection to the server");
@@ -54,8 +55,8 @@ public class ServerDataHandler implements Runnable {
             int oldX = messageScanner.nextInt();
             MY_CLIENT.getBoard().setTileCreature(oldY, oldX, null);
             MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
-            MY_CLIENT.getBoard().updateDisplay();
         } else if (theCommand.equals(CommandHolder.THE_CREATURES)) {
+            WAIT_FOR_CREATURES = false;
             System.out.println("Client: Recieved the creatures.");
             int numberOfCreatures = messageScanner.nextInt();
             for (int currentCreature = 0; currentCreature < numberOfCreatures; currentCreature++) {
@@ -72,8 +73,7 @@ public class ServerDataHandler implements Runnable {
                 }
                 //this is where other types of creatures go
             }
-            System.out.println("Client: The creatures have been initialized");
-            hasCreatures = true;
+            WAIT_FOR_CREATURES = false;
             MY_CLIENT.getBoard().setShouldPlayer(true);
         } else if (theCommand.equals(CommandHolder.THE_OBSTACLES)) {
             System.out.println("Client: Recieved the obstacles");
@@ -88,20 +88,42 @@ public class ServerDataHandler implements Runnable {
                 char sprite = messageScanner.next().charAt(0);
                 System.out.println("TODO implement types of obstacles");
             }
-            System.out.println("Client: Obstacles have been initialized");
-            hasObstacles = true;
+            WAIT_FOR_OBSTACLES = false;
         } else if (theCommand.equals(CommandHolder.THE_FLOORS)) {
+        } else if (theCommand.equals(CommandHolder.CREATE_CREATURE)) {
+            messageScanner.next();
+            String name = messageScanner.next();
+            int locY = messageScanner.nextInt();
+            int locX = messageScanner.nextInt();
+            double health = messageScanner.nextDouble();
+            String type = messageScanner.next();
+            char sprite = messageScanner.next().charAt(0);
+            if (type.equals(TypeHolder.PLAYER)) {
+                Player john = new Player(sprite, MY_CLIENT.getBoard(), locY, locX, name);
+                MY_CLIENT.getBoard().getCreatures().add(john);
+                MY_CLIENT.getBoard().setTileCreature(locY, locX, john);
+            }
+        }
+        MY_CLIENT.getBoard().updateDisplay();
+    }
+
+    public void sendCreature(Creature toSend) {
+        String commandToSend = CommandHolder.CREATE_CREATURE + "|" + toSend.toServerData();
+        sendCommand(commandToSend);
+    }
+
+    public void sendCommand(String toSend) {
+        try {
+            STREAM_OUT.writeUTF(toSend);
+        } catch (IOException ex) {
+            System.out.println("Client: Connection with the server lost");
         }
     }
 
     public void sendMove(int newY, int newX, int oldY, int oldX, Creature theCreature) {
         System.out.println(theCreature);
         String toSend = CommandHolder.MOVE_CREATURE + " " + newY + " " + newX + " " + theCreature.getName() + " " + oldY + " " + oldX;
-        try {
-            STREAM_OUT.writeUTF(toSend);
-        } catch (IOException ex) {
-            System.out.println("Failed to send the movement command to the server, please check you connection.");
-        }
+        sendCommand(toSend);
     }
 
     public void sendLocation(Displayable displayable) {
@@ -116,27 +138,29 @@ public class ServerDataHandler implements Runnable {
         try {
             //STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_FLOORS);
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_OBSTACLES);
-            while (!hasObstacles) {
+            while (WAIT_FOR_OBSTACLES) {
             }
+            System.out.println("Client: Obstacles have been initialized");
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_CREATURES);
-            while (!hasCreatures) {
+            while (WAIT_FOR_CREATURES) {
             }
+            System.out.println("Client:The creatures have been initialized");
         } catch (IOException ex) {
             System.out.println("Unable to communicate with the server");
         }
     }
 }
 
-class InitEverythingThread implements Runnable{
+class InitEverythingThread implements Runnable {
 
     private ServerDataHandler HANDLER;
-    
-    public InitEverythingThread(ServerDataHandler handler){
+
+    public InitEverythingThread(ServerDataHandler handler) {
         HANDLER = handler;
     }
+
     @Override
     public void run() {
         HANDLER.initEverything();
     }
-    
 }

@@ -14,12 +14,12 @@ import java.util.ArrayList;
 //Feel free to move this class to another package. I put it here because creatures go on the board.
 public abstract class Creature implements Displayable,Sendable {
 
-    char SPRITE;
+    char SPRITE = 'X';
     Board BOARD;
     private String NAME = "Creature";
     int LOCATION_X;
     int LOCATION_Y;
-    double HEALTH;
+    double HEALTH = 666;
     private String TYPE = "abstract";
 
     public Creature(char sprite, Board board, int y, int x,String name) {
@@ -28,7 +28,7 @@ public abstract class Creature implements Displayable,Sendable {
         LOCATION_X = x;
         LOCATION_Y = y;
         BOARD = board;
-        BOARD.getClient().getHandler().sendMove(y, x,0,0, this);
+        BOARD.getClient().getHandler().sendCreature(this);
     }
 
     public void moveSelf(int y, int x) {
