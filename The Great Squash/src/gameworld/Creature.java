@@ -17,10 +17,15 @@ public abstract class Creature implements Displayable,Sendable {
     char SPRITE = 'X';
     Board BOARD;
     private String NAME = "Creature";
+    private String TYPE = "abstract";
     int LOCATION_X;
     int LOCATION_Y;
-    double HEALTH = 666;
-    private String TYPE = "abstract";
+    double HEALTH = 0;
+    int ENDURANCE_MODIFIER;
+    int SPEED_MODIFIER;
+    int STRENGTH_MODIFIER;
+    int INTELLIGENCE_MODIFIER;
+    int DEXTERITY_MODIFIER;
 
     public Creature(char sprite, Board board, int y, int x,String name) {
         NAME = name;
@@ -31,6 +36,9 @@ public abstract class Creature implements Displayable,Sendable {
         BOARD.getClient().getHandler().sendCreature(this);
     }
 
+    public Creature() {
+    }
+    
     public void moveSelf(int y, int x) {
         try {
             try {
@@ -87,7 +95,7 @@ public abstract class Creature implements Displayable,Sendable {
     }
 
     @Override
-    public char displaySprite() {
+    public char getSprite() {
         return SPRITE;
     }
 
@@ -107,12 +115,52 @@ public abstract class Creature implements Displayable,Sendable {
         return NAME;
     }
     
-    public void setType(String toSet){
-        TYPE = toSet;
+    public void setType(String type){
+        TYPE = type;
     }
     
     public String getType(){
         return TYPE;
+    }
+    
+    public void setDexterityMod(int modifier) {
+        DEXTERITY_MODIFIER = modifier;
+    }
+    
+    public int getDexterityMod() {
+        return DEXTERITY_MODIFIER;
+    }
+    
+    public void setIntelligenceMod(int modifier) {
+        INTELLIGENCE_MODIFIER = modifier;
+    }
+        
+    public int getIntelligenceMod() {
+        return INTELLIGENCE_MODIFIER;
+    }
+    
+    public void setStrengthMod(int modifier) {
+        STRENGTH_MODIFIER = modifier;
+    }
+        
+    public int getStrengthMod() {
+        return STRENGTH_MODIFIER;
+    }
+    
+    public void setSpeedMod(int modifier) {
+        SPEED_MODIFIER = modifier;
+    }
+        
+    public int getSpeedMod() {
+        return SPEED_MODIFIER;
+    }
+    
+    public void setEnduranceMod(int modifier) {
+        ENDURANCE_MODIFIER = modifier;
+    }
+        
+    public int getEnduranceMod() {
+        return ENDURANCE_MODIFIER;
     }
     
     public String toServerData(){

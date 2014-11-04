@@ -1,2 +1,7 @@
 Human
 h
+1 2 *Speed
+1 2 *Endurance
+1 3 *Strength
+1 3 *Intelligence
+1 3 *Dexterity

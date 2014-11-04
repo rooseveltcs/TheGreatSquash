@@ -12,8 +12,13 @@ import gameworld.monsters.Monster;
  */
 public class MonsterTestMain {
     public static void main(String[] args) {
-        Monster lolita = new Monster("Human");
+        Monster lolita = new Monster("tigon");
         System.out.println(lolita.getType());
         System.out.println(lolita.getSprite());
+        System.out.println("Spd: " + lolita.getSpeedMod());
+        System.out.println("End: " + lolita.getEnduranceMod());
+        System.out.println("Str: " + lolita.getStrengthMod());
+        System.out.println("Int: " + lolita.getIntelligenceMod());
+        System.out.println("Dex: " + lolita.getDexterityMod());
     }
 }

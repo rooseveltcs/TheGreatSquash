@@ -48,11 +48,11 @@ public class Tile {
     public String toString() {
         String output = "";
         if (CREATURE != null) {
-            output += CREATURE.displaySprite();
+            output += CREATURE.getSprite();
         } else if(OBSTACLE != null){
-            output += OBSTACLE.displaySprite();
+            output += OBSTACLE.getSprite();
         } else if(FLOOR != null){
-            output += FLOOR.displaySprite();
+            output += FLOOR.getSprite();
         } else {
             output += EMPTY_SPACE_SPRITE;
         }
@@ -62,7 +62,7 @@ public class Tile {
     public String toServerData(){
         String toReturn = "";
         if(CREATURE != null){
-            toReturn += CREATURE.displaySprite();
+            toReturn += CREATURE.getSprite();
         }else{
             toReturn += ".";
         }

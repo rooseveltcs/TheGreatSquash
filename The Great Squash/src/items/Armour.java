@@ -32,7 +32,7 @@ public abstract class Armour implements Item, Displayable, Sendable {
         SPRITE = sprite;
     }
     
-    public char displaySprite() {
+    public char getSprite() {
         return SPRITE;
     }
     

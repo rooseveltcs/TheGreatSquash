@@ -18,7 +18,7 @@ public abstract class Consumable implements Item, Displayable {
         SPRITE = sprite;
     }
     
-    public char displaySprite() {
+    public char getSprite() {
         return SPRITE;
     }
 }

@@ -60,7 +60,7 @@ public abstract class Obstacle implements Displayable, Sendable, Cloneable {
     }
 
     @Override
-    public char displaySprite() {
+    public char getSprite() {
         return SPRITE;
     }
 

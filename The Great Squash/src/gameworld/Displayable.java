@@ -12,5 +12,5 @@ public interface Displayable {
     char SPRITE = '.';
     
     void setSprite(char sprite);
-    char displaySprite();
+    char getSprite();
 }
