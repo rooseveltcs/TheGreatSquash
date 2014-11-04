@@ -190,6 +190,17 @@ public class Board {
     public boolean getShouldPlayer(){
         return SHOULD_PLAYER;
     }
+    
+    public boolean hasCreature(String name){
+        boolean toReturn = false;
+        for(int currentCreature = 0;currentCreature < CREATURES.size();currentCreature++){
+            System.out.println(CREATURES.get(currentCreature).getName());
+            if(CREATURES.get(currentCreature).getName().equals(name)){
+              toReturn = true;
+            }
+        }
+        return toReturn;
+    }
 }
 class CreateServer implements Runnable{
     

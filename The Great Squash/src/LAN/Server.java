@@ -112,6 +112,7 @@ class ServerClientConnection implements Runnable {
         STREAM_OUT = out;
         IPS = ips;
         INITS = inits;
+        GAME_BOARD = gameBoard;
     }
 
     @Override
@@ -153,11 +154,12 @@ class ServerClientConnection implements Runnable {
             double health = messageScanner.nextDouble();
             String type = messageScanner.next();
             char sprite = messageScanner.next().charAt(0);
-            if (type.equals(TypeHolder.PLAYER)) {
-                Player john = new Player(sprite, GAME_BOARD, locY, locX, name);
-                System.out.println("wub wub");
-                GAME_BOARD.setTileCreature(locX, locX, john);
-                GAME_BOARD.getCreatures().add(john);
+            if (!GAME_BOARD.hasCreature(name)) {
+                if (type.equals(TypeHolder.PLAYER)) {
+                    Player john = new Player(sprite, GAME_BOARD, locY, locX, name);
+                    GAME_BOARD.setTileCreature(locX, locX, john);
+                    GAME_BOARD.getCreatures().add(john);
+                }
             }
         }
 
@@ -201,12 +203,12 @@ class ServerClientConnection implements Runnable {
 
     public void sendBoardInit(String toSend) {
         for (int currentConnection = 0; currentConnection < SERVER_CLIENT_CONNECTIONS.length; currentConnection++) {
-                try {
-                    SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
-                } catch (IOException ex) {
-                    System.out.println("Unable to connect to a client at: " + IPS[currentConnection]);
-                } catch (NullPointerException ex) {
-                }
+            try {
+                SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
+            } catch (IOException ex) {
+                System.out.println("Unable to connect to a client at: " + IPS[currentConnection]);
+            } catch (NullPointerException ex) {
+            }
         }
     }
 

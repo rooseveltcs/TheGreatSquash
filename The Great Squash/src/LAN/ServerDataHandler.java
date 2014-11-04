@@ -34,7 +34,6 @@ public class ServerDataHandler implements Runnable {
         while (!false) {
             try {
                 String serverData = STREAM_IN.readUTF();
-                System.out.println("Client: " + serverData);
                 interpretServerData(serverData);
             } catch (IOException ex) {
                 System.out.println("Sorry but we lost connection to the server");
@@ -92,16 +91,20 @@ public class ServerDataHandler implements Runnable {
         } else if (theCommand.equals(CommandHolder.THE_FLOORS)) {
         } else if (theCommand.equals(CommandHolder.CREATE_CREATURE)) {
             messageScanner.next();
+            System.out.println("wib");
             String name = messageScanner.next();
             int locY = messageScanner.nextInt();
             int locX = messageScanner.nextInt();
             double health = messageScanner.nextDouble();
             String type = messageScanner.next();
             char sprite = messageScanner.next().charAt(0);
-            if (type.equals(TypeHolder.PLAYER)) {
-                Player john = new Player(sprite, MY_CLIENT.getBoard(), locY, locX, name);
-                MY_CLIENT.getBoard().getCreatures().add(john);
-                MY_CLIENT.getBoard().setTileCreature(locY, locX, john);
+            if (!MY_CLIENT.getBoard().hasCreature(name)) {
+                System.out.println("wub");
+                if (type.equals(TypeHolder.PLAYER)) {
+                    Player john = new Player(sprite, MY_CLIENT.getBoard(), locY, locX, name);
+                    MY_CLIENT.getBoard().getCreatures().add(john);
+                    MY_CLIENT.getBoard().setTileCreature(locY, locX, john);
+                }
             }
         }
         MY_CLIENT.getBoard().updateDisplay();
@@ -121,7 +124,6 @@ public class ServerDataHandler implements Runnable {
     }
 
     public void sendMove(int newY, int newX, int oldY, int oldX, Creature theCreature) {
-        System.out.println(theCreature);
         String toSend = CommandHolder.MOVE_CREATURE + " " + newY + " " + newX + " " + theCreature.getName() + " " + oldY + " " + oldX;
         sendCommand(toSend);
     }
