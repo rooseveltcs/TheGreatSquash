@@ -4,6 +4,7 @@
  */
 package gameworld;
 
+import gameworld.monsters.Monster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
@@ -25,13 +26,15 @@ public class DocumentToBoard {
 
             String objectCode = getNextFileElement(readFile);
             String stringBoard = getNextFileElement(readFile);
-
-            //System.out.println(stringBoard);
-            //System.out.println(objectCode);
-
+            String creatureCode = getNextFileElement(readFile); 
+            
+            makeMonster(creatureCode);
+            
             Hashtable<String, Displayable> creatorTable = getCreatorTable(objectCode);
 
             board = makeBoard(creatorTable, stringBoard);
+            
+            
         } catch (FileNotFoundException ex) {
             System.out.println("Sorry bub, but we couldn't make your file (well File Scanner). It just wasn't in the numbers.");
         }
@@ -129,5 +132,16 @@ public class DocumentToBoard {
         }
         
         return board;
+    }
+    
+    private static Monster makeMonster(String line) {
+        Scanner readLine = new Scanner(line);
+        String type = readLine.next();
+        int y = readLine.nextInt();
+        int x = readLine.nextInt();
+        System.out.println(type);
+        System.out.println("x: " + x);
+        System.out.println("y: " + y);
+        return null;
     }
 }

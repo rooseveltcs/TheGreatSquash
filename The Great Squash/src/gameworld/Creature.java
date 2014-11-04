@@ -100,6 +100,10 @@ public abstract class Creature implements Displayable,Sendable {
     public char getSprite() {
         return SPRITE;
     }
+    
+    public void setBoard(Board board) {
+        BOARD = board;
+    }
 
     public int getX() {
         return LOCATION_X;
@@ -107,6 +111,14 @@ public abstract class Creature implements Displayable,Sendable {
 
     public int getY() {
         return LOCATION_Y;
+    }
+    
+    public void setX(int x) {
+        LOCATION_X = x;
+    }
+    
+    public void setY(int y) {
+        LOCATION_Y = y;
     }
     
     public void setName(String toSet){

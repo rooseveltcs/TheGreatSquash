@@ -14,6 +14,14 @@ public class Monster extends Creature {
         Scanner scanFile = new Scanner(getClass().getResourceAsStream((type.toLowerCase()) + ".txt"));
         makeFromFile(scanFile);
     }
+    
+     public Monster(String type, Board board, int x, int y) {
+        Scanner scanFile = new Scanner(getClass().getResourceAsStream((type.toLowerCase()) + ".txt"));
+        makeFromFile(scanFile);
+        super.BOARD = board;
+        
+    }
+    
 
     private void makeFromFile(Scanner scanFile) {
         super.setType(scanFile.nextLine());
