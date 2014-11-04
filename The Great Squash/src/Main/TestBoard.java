@@ -21,11 +21,10 @@ public class TestBoard {
 
     public static void main(String[] args) throws InterruptedException {
         TestMovementGUI gui = new TestMovementGUI();
-        Board board = gui.getBoard();
-        board.setBoardTilesNull();
-        while (!board.getShouldPlayer()) {
+        gui.getBoard().setBoardTilesNull();
+        while (!gui.getBoard().getShouldPlayer()) {
         }
-        Player playerBilly = new Player((char) (64), board, 9, 9, "StaticShock");
+        Player playerBilly = new Player((char) (64), gui.getBoard(), 9, 9, "StaticShock");
         gui.setCreature(playerBilly);
 
         //CreateDungeon.drawRoom(board, 11, 11, 1, 1);
@@ -36,6 +35,6 @@ public class TestBoard {
         //  64 = @
         //board.show();  
 
-        board.updateDisplay();
+        gui.getBoard().updateDisplay();
     }
 }

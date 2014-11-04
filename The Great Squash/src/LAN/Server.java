@@ -155,6 +155,8 @@ class ServerClientConnection implements Runnable {
             char sprite = messageScanner.next().charAt(0);
             if (type.equals(TypeHolder.PLAYER)) {
                 Player john = new Player(sprite, GAME_BOARD, locY, locX, name);
+                System.out.println("wub wub");
+                GAME_BOARD.setTileCreature(locX, locX, john);
                 GAME_BOARD.getCreatures().add(john);
             }
         }

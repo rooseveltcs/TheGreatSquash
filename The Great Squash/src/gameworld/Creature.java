@@ -27,12 +27,14 @@ public abstract class Creature implements Displayable,Sendable {
     int INTELLIGENCE_MODIFIER;
     int DEXTERITY_MODIFIER;
 
-    public Creature(char sprite, Board board, int y, int x,String name) {
+    public Creature(char sprite, Board board, int y, int x,String name,String type) {
+        TYPE = type;
         NAME = name;
         SPRITE = sprite;
         LOCATION_X = x;
         LOCATION_Y = y;
         BOARD = board;
+        System.out.println(BOARD.getClient());
         BOARD.getClient().getHandler().sendCreature(this);
     }
 

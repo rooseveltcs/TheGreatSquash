@@ -13,7 +13,6 @@ import LAN.TypeHolder;
 public class Player extends Creature {
     
     public Player(char sprite, Board board, int y, int x,String name) {
-         super(sprite,board,y,x,name);
-         setType(TypeHolder.PLAYER);
+         super(sprite,board,y,x,name,TypeHolder.PLAYER);
     }
 }

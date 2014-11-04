@@ -108,7 +108,7 @@ public class ServerDataHandler implements Runnable {
     }
 
     public void sendCreature(Creature toSend) {
-        String commandToSend = CommandHolder.CREATE_CREATURE + "|" + toSend.toServerData();
+        String commandToSend = CommandHolder.CREATE_CREATURE + toSend.toServerData();
         sendCommand(commandToSend);
     }
 
@@ -144,7 +144,7 @@ public class ServerDataHandler implements Runnable {
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_CREATURES);
             while (WAIT_FOR_CREATURES) {
             }
-            System.out.println("Client:The creatures have been initialized");
+            System.out.println("Client: The creatures have been initialized");
         } catch (IOException ex) {
             System.out.println("Unable to communicate with the server");
         }
