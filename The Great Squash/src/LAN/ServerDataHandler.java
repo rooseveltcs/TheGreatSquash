@@ -64,7 +64,7 @@ public class ServerDataHandler implements Runnable {
                 String label = messageScanner.next();
                 int newY = messageScanner.nextInt();
                 int newX = messageScanner.nextInt();
-                double health = messageScanner.nextInt();
+                double health = messageScanner.nextDouble();
                 String type = messageScanner.next();
                 char sprite = messageScanner.next().charAt(0);
                 if (type.equals(TypeHolder.PLAYER)) {

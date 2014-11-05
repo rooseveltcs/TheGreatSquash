@@ -76,6 +76,7 @@ public class Board {
         SIZE_X = board.getY();
         SIZE_Y = board.getX();
         GRAPHICS = null;
+        setBoardTilesNull();
     }
 
     public void updateDisplay() {
