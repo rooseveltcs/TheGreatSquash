@@ -25,6 +25,7 @@ public class TestBoard {
         while (!gui.getBoard().getShouldPlayer()) {
         }
         Player playerBilly = new Player((char) (64), gui.getBoard(), 9, 9, "StaticShock");
+        gui.getBoard().getClient().getHandler().sendCreature(playerBilly);
         gui.setCreature(playerBilly);
 
         //CreateDungeon.drawRoom(board, 11, 11, 1, 1);

@@ -102,7 +102,6 @@ class ServerClientConnection implements Runnable {
     ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     String[] IPS;
     boolean[] INITS;
-    Board GAME_BOARD;
     Server THE_SERVER;
 
     public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections, String[] ips, Board gameBoard, Server server, boolean[] inits) {
@@ -153,11 +152,13 @@ class ServerClientConnection implements Runnable {
             double health = messageScanner.nextDouble();
             String type = messageScanner.next();
             char sprite = messageScanner.next().charAt(0);
-            if (type.equals(TypeHolder.PLAYER)) {
-                Player john = new Player(sprite, GAME_BOARD, locY, locX, name);
-                System.out.println("wub wub");
-                GAME_BOARD.setTileCreature(locX, locX, john);
-                GAME_BOARD.getCreatures().add(john);
+            if (!THE_SERVER.getBoard().hasCreature(name)) {
+                System.out.println("Server: wib wib");
+                if (type.equals(TypeHolder.PLAYER)) {
+                    Player john = new Player(sprite, THE_SERVER.getBoard(), locY, locX, name);
+                    THE_SERVER.getBoard().setTileCreature(locX, locX, john);
+                    THE_SERVER.getBoard().getCreatures().add(john);
+                }
             }
         }
 
@@ -201,12 +202,12 @@ class ServerClientConnection implements Runnable {
 
     public void sendBoardInit(String toSend) {
         for (int currentConnection = 0; currentConnection < SERVER_CLIENT_CONNECTIONS.length; currentConnection++) {
-                try {
-                    SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
-                } catch (IOException ex) {
-                    System.out.println("Unable to connect to a client at: " + IPS[currentConnection]);
-                } catch (NullPointerException ex) {
-                }
+            try {
+                SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
+            } catch (IOException ex) {
+                System.out.println("Unable to connect to a client at: " + IPS[currentConnection]);
+            } catch (NullPointerException ex) {
+            }
         }
     }
 

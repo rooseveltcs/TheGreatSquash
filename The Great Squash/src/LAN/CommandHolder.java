@@ -20,5 +20,6 @@ public class CommandHolder {
     public static final String CREATE_CREATURE = "CREATURE_THIS_CREATURE";
     public static final int COMMAND_PORT_NUMBER = 7777;
     public static final String AARON_WORK_IP = "10.135.66.52";
+    public static final String AARON_AIE_IP = "10.154.64.105";
     public static final String DYLAN_WORK_IP = "10.135.65.230";
 }

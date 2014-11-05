@@ -98,10 +98,13 @@ public class ServerDataHandler implements Runnable {
             double health = messageScanner.nextDouble();
             String type = messageScanner.next();
             char sprite = messageScanner.next().charAt(0);
-            if (type.equals(TypeHolder.PLAYER)) {
-                Player john = new Player(sprite, MY_CLIENT.getBoard(), locY, locX, name);
-                MY_CLIENT.getBoard().getCreatures().add(john);
-                MY_CLIENT.getBoard().setTileCreature(locY, locX, john);
+            if (!MY_CLIENT.getBoard().hasCreature(name)) {
+                System.out.println("ServerDataHandler: wub wub");
+                if (type.equals(TypeHolder.PLAYER)) {
+                    Player john = new Player(sprite, MY_CLIENT.getBoard(), locY, locX, name);
+                    MY_CLIENT.getBoard().setTileCreature(locX, locX, john);
+                    MY_CLIENT.getBoard().getCreatures().add(john);
+                }
             }
         }
         MY_CLIENT.getBoard().updateDisplay();

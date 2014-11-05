@@ -72,7 +72,7 @@ public class Client {
         } catch (UnknownHostException ex) {
             System.out.println("Sorry but that ip adress was not found.");
         } catch (IOException ex) {
-            System.out.println("Sorry but we could not connect to the server with that port.");
+            System.out.println("Sosrry but we could not connect to the server with that port.");
         }
         System.out.println("Connecting to chat server.");
         try {

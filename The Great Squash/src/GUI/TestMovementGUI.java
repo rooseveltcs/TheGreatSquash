@@ -77,7 +77,6 @@ public class TestMovementGUI {
     
     public void setCreature(Creature creature){
         CREATURE = creature;
-        BOARD.getCreatures().add(creature);
         MOVEMENT_LISTENER.setCreature(creature);
     }
 }
