@@ -34,6 +34,7 @@ public abstract class Creature implements Displayable,Sendable {
         LOCATION_X = x;
         LOCATION_Y = y;
         BOARD = board;
+        System.out.println(BOARD.getClient());
         BOARD.getClient().getHandler().sendCreature(this);
     }
 
