@@ -26,14 +26,13 @@ public class DocumentToBoard {
 
             String objectCode = getNextFileElement(readFile);
             String stringBoard = getNextFileElement(readFile);
-            String creatureCode = getNextFileElement(readFile); 
-            
-            makeMonster(creatureCode);
-            
+            String creatureCode = getNextFileElement(readFile);
+
             Hashtable<String, Displayable> creatorTable = getCreatorTable(objectCode);
 
             board = makeBoard(creatorTable, stringBoard);
-            
+
+            makeMonsters(creatureCode, board);
             
         } catch (FileNotFoundException ex) {
             System.out.println("Sorry bub, but we couldn't make your file (well File Scanner). It just wasn't in the numbers.");
@@ -104,7 +103,7 @@ public class DocumentToBoard {
             }
             sizeY++;
         }
-
+        System.out.println(sizeX + "x" + sizeY);
         Board board = new Board(sizeY, sizeX);
         board.setBoardTilesNull();
         //System.out.println(sizeX + "|" + sizeY);
@@ -115,33 +114,34 @@ public class DocumentToBoard {
             for (int x = 0; x < line.length(); x++) {
                 String currentChar = line.charAt(x) + "";
                 Displayable displayable = creatorTable.get(currentChar);
-                if(displayable != null) {
-                    if(displayable instanceof Wall) {
-                        Wall wall = ((Wall)(displayable)).clone();
+                if (displayable != null) {
+                    if (displayable instanceof Wall) {
+                        Wall wall = ((Wall) (displayable)).clone();
                         //System.out.println(wall);
-                        board.setTileObstacle(x, y,wall);
-                    } else if(displayable instanceof Door) {
-                        Door door = ((Door)(displayable)).clone();
+                        board.setTileObstacle(x, y, wall);
+                    } else if (displayable instanceof Door) {
+                        Door door = ((Door) (displayable)).clone();
                         //System.out.println(door);
-                        board.setTileObstacle(x, y,door);
+                        board.setTileObstacle(x, y, door);
                     }
                 }
             }
             //System.out.println();
             y++;
         }
-        
+
         return board;
     }
-    
-    private static Monster makeMonster(String line) {
-        Scanner readLine = new Scanner(line);
-        String type = readLine.next();
-        int y = readLine.nextInt();
-        int x = readLine.nextInt();
-        System.out.println(type);
-        System.out.println("x: " + x);
-        System.out.println("y: " + y);
-        return null;
+
+    private static void makeMonsters(String creatureCode, Board board) {
+        Scanner scanCreatures = new Scanner(creatureCode);
+        while(scanCreatures.hasNextLine()) {
+            String line = scanCreatures.nextLine();
+            Scanner readLine = new Scanner(line);
+            String type = readLine.next();
+            int x = readLine.nextInt();
+            int y = readLine.nextInt();
+            Monster monster = new Monster(type, board, y, x);
+        }
     }
 }
