@@ -52,18 +52,18 @@ public class Client {
             System.out.println("Sorry but we could not connect to the server with that port.");
         }
     }
-
-    public Client(String ip, int portNumber) {
-        ConnectToServerThread connectThread = new ConnectToServerThread(this, ip, portNumber);
-        Thread connectToServerThread = new Thread(connectThread);
-        connectToServerThread.start();
+    
+    public Client(String ip,int portNumber){
+        ConnectToServerThread connectToServerThread = new ConnectToServerThread(this,ip,portNumber);
+        Thread serverConnection = new Thread(connectToServerThread);
+        serverConnection.start();
     }
 
     public void connectToServer(String ip, int portNumber) {
         System.out.println("Connecting to server at " + ip);
         try {
-            SOCKET = new Socket(ip, portNumber);
-            System.out.println("Connection successful.");
+            SOCKET = new Socket(ip,CommandHolder.COMMAND_PORT_NUMBER);
+            System.out.println("Client: Connection successful.");
             STREAM_IN = new DataInputStream(SOCKET.getInputStream());
             STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
             DATA_HANDLER = new ServerDataHandler(STREAM_IN,STREAM_OUT,this);
@@ -72,7 +72,7 @@ public class Client {
         } catch (UnknownHostException ex) {
             System.out.println("Sorry but that ip adress was not found.");
         } catch (IOException ex) {
-            System.out.println("Sosrry but we could not connect to the server with that port.");
+            System.out.println("Sorry but we could not connect to the server with that port.");
         }
         System.out.println("Connecting to chat server.");
         try {
@@ -89,6 +89,10 @@ public class Client {
             System.out.println("Sorry but a chat server was not found on that port number.");
         }
 
+    }
+    
+    public void setBoard(Board toSet){
+        MY_BOARD = toSet;
     }
 
     public Board getBoard() {
@@ -147,21 +151,14 @@ class ConnectToServerThread implements Runnable {
     String IP = "";
     int PORT_NUMBER;
 
-    public ConnectToServerThread(Client client) {
-        CLIENT = client;
-        String IP = "10.135.65.230"; //"10.135.66.52";
-        PORT_NUMBER = CommandHolder.COMMAND_PORT_NUMBER;
-    }
-
     public ConnectToServerThread(Client client, String ip, int portNumber) {
         CLIENT = client;
         IP = ip;
-        PORT_NUMBER = CommandHolder.COMMAND_PORT_NUMBER;
+        PORT_NUMBER = portNumber;
     }
 
     @Override
     public void run() {
-        System.out.println(IP);
         CLIENT.connectToServer(IP, PORT_NUMBER);
     }
 }

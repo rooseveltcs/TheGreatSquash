@@ -24,7 +24,7 @@ public class TestBoard {
         gui.getBoard().setBoardTilesNull();
         while (!gui.getBoard().getShouldPlayer()) {
         }
-        Player playerBilly = new Player((char) (198), gui.getBoard(), 10, 9, "Guardian");
+        Player playerBilly = new Player((char) (198), gui.getBoard(), 1, 1, "Guardian");
         gui.getBoard().getClient().getHandler().sendCreature(playerBilly);
         gui.setCreature(playerBilly);
 
