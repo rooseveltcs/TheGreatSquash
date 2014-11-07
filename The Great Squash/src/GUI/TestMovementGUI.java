@@ -1,6 +1,6 @@
 package GUI;
 
-import GUIListeners.MovementListener;
+import GUI.listeners.MovementListener;
 import LAN.Client;
 import gameworld.Board;
 import gameworld.Creature;
