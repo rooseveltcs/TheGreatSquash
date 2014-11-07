@@ -29,6 +29,7 @@ public class Server {
     private ServerSocket CHAT_SERVER_SOCKET;
     private Socket SOCKET;
     private Socket CHAT_SOCKET;
+    private Socket BROADCAST_SOCKET;
     private DataOutputStream CHAT_OUT;
     private DataInputStream CHAT_IN;
     private DataOutputStream DATA_OUT;
@@ -38,7 +39,7 @@ public class Server {
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
     private int PORT_NUMBER = CommandHolder.COMMAND_PORT_NUMBER;
-    private int CHAT_PORT_NUMBER = PORT_NUMBER + 1;
+    private int CHAT_PORT_NUMBER = CommandHolder.CHAT_PORT_NUMBER;
     private Board THE_BOARD;
 
     public Server(int connections, Board gameBoard) {
@@ -259,5 +260,34 @@ class ServerClientChat implements Runnable {
                 ex.printStackTrace();
             }
         }
+    }
+}
+
+class ServerBroadcastConnection implements Runnable{
+
+    private DataInputStream STREAM_IN;
+    private DataOutputStream STREAM_OUT;
+    
+    public ServerBroadcastConnection(Socket broadcastSocket){
+        try {
+            STREAM_IN = new DataInputStream(broadcastSocket.getInputStream());
+            STREAM_OUT = new DataOutputStream(broadcastSocket.getOutputStream());
+        } catch (IOException ex) {
+            System.out.println("ServerBroadcastConnection: Unable to get the data streams.");
+        }
+    }
+    @Override
+    public void run() {
+        while(42 == CommandHolder.ANSWER_TO_LIFE_THE_UNIVERSE_AND_EVERYTHING){
+            try {
+                String in = STREAM_IN.readUTF();
+            } catch (IOException ex) {
+                System.out.println("ServerBroadcastConnection: Unable to read the data stream");
+            }
+        }
+    }
+    
+    private void interpretInput(String in){
+        
     }
 }

@@ -38,28 +38,18 @@ public class Client {
     public Client(String ip, int portNumber, Board myBoard,TestMovementGUI gui) {
         GUI = gui;
         MY_BOARD = myBoard;
-        try {
-            SOCKET = new Socket(ip,CommandHolder.COMMAND_PORT_NUMBER);
-            System.out.println("Client: Connection successful.");
-            STREAM_IN = new DataInputStream(SOCKET.getInputStream());
-            STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
-            DATA_HANDLER = new ServerDataHandler(STREAM_IN,STREAM_OUT,this);
-            Thread serverDataThread = new Thread(DATA_HANDLER);
-            serverDataThread.start();
-        } catch (UnknownHostException ex) {
-            System.out.println("Sorry but that ip adress was not found.");
-        } catch (IOException ex) {
-            System.out.println("Sorry but we could not connect to the server with that port.");
-        }
     }
     
     public Client(String ip,int portNumber){
+    }
+    
+    public void connectToServer(String ip,int portNumber){
         ConnectToServerThread connectToServerThread = new ConnectToServerThread(this,ip,portNumber);
         Thread serverConnection = new Thread(connectToServerThread);
         serverConnection.start();
     }
 
-    public void connectToServer(String ip, int portNumber) {
+    public void connectToServerBackEnd(String ip, int portNumber) {
         System.out.println("Connecting to server at " + ip);
         try {
             SOCKET = new Socket(ip,CommandHolder.COMMAND_PORT_NUMBER);
@@ -159,6 +149,6 @@ class ConnectToServerThread implements Runnable {
 
     @Override
     public void run() {
-        CLIENT.connectToServer(IP, PORT_NUMBER);
+        CLIENT.connectToServerBackEnd(IP, PORT_NUMBER);
     }
 }
