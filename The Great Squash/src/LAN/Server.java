@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,17 +35,18 @@ public class Server {
     private DataInputStream CHAT_IN;
     private DataOutputStream DATA_OUT;
     private DataInputStream DATA_IN;
-    private String[] IPS;
+    private ArrayList<String> IPS;
     private boolean[] INITS;
     private ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
     private ServerClientChat[] SERVER_CHAT_CONNECTIONS;
     private int PORT_NUMBER = CommandHolder.COMMAND_PORT_NUMBER;
     private int CHAT_PORT_NUMBER = CommandHolder.CHAT_PORT_NUMBER;
     private Board THE_BOARD;
+    private String SERVER_NAME = "";
 
     public Server(int connections, Board gameBoard) {
         THE_BOARD = gameBoard;
-        IPS = new String[connections];
+        IPS = new ArrayList<String>();
         INITS = new boolean[connections];
         for (int currentInit = 0; currentInit < connections; currentInit++) {
             INITS[currentInit] = false;
@@ -68,14 +70,25 @@ public class Server {
         } catch (UnknownHostException ex) {
             System.out.println("Could not get local host address.");
         }
+        try {
+            BROADCAST_SOCKET = new Socket("255.255.255.255",CommandHolder.BROADCAST_PORT_NUMBER);
+            ServerBroadcastConnection serverBroadcastConnection = new ServerBroadcastConnection(BROADCAST_SOCKET,this);
+            Thread broadcastThread = new Thread(serverBroadcastConnection);
+            broadcastThread.start();
+        } catch (UnknownHostException ex) {
+            System.out.println("Server: Unable to connect to the broadcast address");
+        } catch (IOException ex) {
+            System.out.println("Server: Unable to connect using the broadcast port number");
+        }
+        
         //waits for all the clients to connect
         for (int currentConnection = 0; currentConnection < connections; currentConnection++) {
             try {
                 SOCKET = SERVER_SOCKET.accept();
                 DATA_OUT = new DataOutputStream(SOCKET.getOutputStream());
                 DATA_IN = new DataInputStream(SOCKET.getInputStream());
-                IPS[currentConnection] = SOCKET.getInetAddress().toString();
-                System.out.println("Connection from " + IPS[currentConnection]);
+                IPS.add(SOCKET.getInetAddress().toString());
+                System.out.println("Connection from " + IPS.get(currentConnection));
                 ServerClientConnection newConnect = new ServerClientConnection(DATA_IN, DATA_OUT, SERVER_CLIENT_CONNECTIONS, IPS, gameBoard, this, INITS);
                 SERVER_CLIENT_CONNECTIONS[currentConnection] = newConnect;
                 Thread CurrentConnection = new Thread(newConnect);
@@ -92,6 +105,18 @@ public class Server {
         return THE_BOARD;
     }
 
+    public ArrayList<String> getIPS() {
+        return IPS;
+    }
+
+    public void setServerName(String toSet) {
+        SERVER_NAME = toSet;
+    }
+
+    public String getServerName() {
+        return SERVER_NAME;
+    }
+
     public void startGame() {
     }
 }
@@ -101,11 +126,11 @@ class ServerClientConnection implements Runnable {
     DataInputStream STREAM_IN;
     DataOutputStream STREAM_OUT;
     ServerClientConnection[] SERVER_CLIENT_CONNECTIONS;
-    String[] IPS;
+    ArrayList<String> IPS;
     boolean[] INITS;
     Server THE_SERVER;
 
-    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections, String[] ips, Board gameBoard, Server server, boolean[] inits) {
+    public ServerClientConnection(DataInputStream in, DataOutputStream out, ServerClientConnection[] serverClientConnections, ArrayList<String> ips, Board gameBoard, Server server, boolean[] inits) {
         SERVER_CLIENT_CONNECTIONS = serverClientConnections;
         THE_SERVER = server;
         STREAM_IN = in;
@@ -210,7 +235,7 @@ class ServerClientConnection implements Runnable {
             try {
                 SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
             } catch (IOException ex) {
-                System.out.println("Unable to connect to a client at: " + IPS[currentConnection]);
+                System.out.println("Unable to connect to a client at: " + IPS.get(currentConnection));
             } catch (NullPointerException ex) {
             }
         }
@@ -222,7 +247,7 @@ class ServerClientConnection implements Runnable {
                 try {
                     SERVER_CLIENT_CONNECTIONS[currentConnection].STREAM_OUT.writeUTF(toSend);
                 } catch (IOException ex) {
-                    System.out.println("A client has disconnected: " + IPS[currentConnection]);
+                    System.out.println("A client has disconnected: " + IPS.get(currentConnection));
                 }
             } catch (NullPointerException ex) {
             }
@@ -263,12 +288,13 @@ class ServerClientChat implements Runnable {
     }
 }
 
-class ServerBroadcastConnection implements Runnable{
+class ServerBroadcastConnection implements Runnable {
 
     private DataInputStream STREAM_IN;
     private DataOutputStream STREAM_OUT;
-    
-    public ServerBroadcastConnection(Socket broadcastSocket){
+    private Server SERVER;
+
+    public ServerBroadcastConnection(Socket broadcastSocket, Server server) {
         try {
             STREAM_IN = new DataInputStream(broadcastSocket.getInputStream());
             STREAM_OUT = new DataOutputStream(broadcastSocket.getOutputStream());
@@ -276,18 +302,40 @@ class ServerBroadcastConnection implements Runnable{
             System.out.println("ServerBroadcastConnection: Unable to get the data streams.");
         }
     }
+
     @Override
     public void run() {
-        while(42 == CommandHolder.ANSWER_TO_LIFE_THE_UNIVERSE_AND_EVERYTHING){
+        while (42 == CommandHolder.ANSWER_TO_LIFE_THE_UNIVERSE_AND_EVERYTHING) {
             try {
                 String in = STREAM_IN.readUTF();
+                interpretInput(in);
             } catch (IOException ex) {
                 System.out.println("ServerBroadcastConnection: Unable to read the data stream");
             }
         }
     }
-    
-    private void interpretInput(String in){
-        
+
+    private void interpretInput(String in) {
+        if (in.startsWith(CommandHolder.CLIENT_BROADCAST_MESSAGE)) {
+            sendServerInfo();
+        }
+    }
+
+    private void sendServerInfo() {
+        String toSend = "";
+        try {
+            toSend += InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException ex) {
+            System.out.println("Server: Unable to get localhost address.");
+        }
+        toSend += " ";
+        toSend += SERVER.getServerName();
+        toSend += " ";
+        toSend += SERVER.getIPS().size();
+        try {
+            STREAM_OUT.writeUTF(toSend);
+        } catch (IOException ex) {
+            System.out.println("Server: Lost connection to the broadcast address.");
+        }
     }
 }
