@@ -5,6 +5,7 @@
 package Main.tests;
 
 import GUI.GameGUI;
+import gameworld.Inventory;
 
 /**
  *
@@ -12,6 +13,8 @@ import GUI.GameGUI;
  */
 public class GUITestMain {
     public static void main(String[] args) {
-        GameGUI gui = new GameGUI();
+        //GameGUI gui = new GameGUI();
+        Inventory inventory = new Inventory(2, 3, 4, 5);
+        System.out.println(inventory);
     }
 }

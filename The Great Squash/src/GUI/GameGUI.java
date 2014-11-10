@@ -21,7 +21,7 @@ import javax.swing.border.EtchedBorder;
 public class GameGUI {
 
     private Border PANEL_BORDER = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-    private Border BASE_BORDER = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
+    private Border DISPLAY_BORDER = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
     private Font DISPLAY_FONT = new Font("Monospaced", Font.PLAIN, 12);
     private JFrame FRAME = new JFrame("The Great Squash");
     private JTextArea INVENTORY_DISPLAY;
@@ -43,15 +43,16 @@ public class GameGUI {
     }
 
     private void formatInventory() {
-        INVENTORY_DISPLAY = new JTextArea(28,27);
+        INVENTORY_DISPLAY = new JTextArea(27,26);
         INVENTORY_DISPLAY.setFont(DISPLAY_FONT);
-        INVENTORY_DISPLAY.setPreferredSize(new Dimension(29,27));
+        INVENTORY_DISPLAY.setPreferredSize(new Dimension(27,26));
         INVENTORY_DISPLAY.setLineWrap(true);
+        INVENTORY_DISPLAY.setBorder(DISPLAY_BORDER);
         
         INVENTORY_PANEL = new JPanel();
         //INVENTORY_PANEL.setBackground(Color.PINK);
         INVENTORY_PANEL.setBounds(2, 2, 200, 500);
-        INVENTORY_PANEL.setBorder(PANEL_BORDER);
+        INVENTORY_PANEL.setBorder(BorderFactory.createTitledBorder(PANEL_BORDER,"Inventory"));
         INVENTORY_PANEL.add(INVENTORY_DISPLAY);
     }
 
@@ -65,6 +66,9 @@ public class GameGUI {
     private void formatBoard() {
         BOARD_DISPLAY = new JTextArea(20,20);
         BOARD_DISPLAY.setFont(DISPLAY_FONT);
+        BOARD_DISPLAY.setPreferredSize(new Dimension(20,20));
+        BOARD_DISPLAY.setLineWrap(true);
+        BOARD_DISPLAY.setBorder(DISPLAY_BORDER);
         
         BOARD_PANEL = new JPanel();
         //BOARD_PANEL.setBackground(Color.RED);
@@ -76,6 +80,9 @@ public class GameGUI {
     private void formatChat() {
         CHAT_DISPLAY = new JTextArea(20,20);
         CHAT_DISPLAY.setFont(DISPLAY_FONT);
+        CHAT_DISPLAY.setPreferredSize(new Dimension(20,20));
+        CHAT_DISPLAY.setLineWrap(true);
+        CHAT_DISPLAY.setBorder(DISPLAY_BORDER);
         
         CHAT_PANEL = new JPanel();
         //CHAT_PANEL.setBackground(Color.BLACK);
