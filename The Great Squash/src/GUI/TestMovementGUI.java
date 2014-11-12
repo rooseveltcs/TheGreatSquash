@@ -28,7 +28,7 @@ public class TestMovementGUI {
     private Board BOARD;
     
     public TestMovementGUI() {
-        BOARD = new Board(21,61,false,this);
+        BOARD = new Board(21,61);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ex) {
