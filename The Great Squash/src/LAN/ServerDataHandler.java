@@ -16,7 +16,8 @@ public class ServerDataHandler implements Runnable {
     private DataInputStream STREAM_IN;
     private DataOutputStream STREAM_OUT;
     private Client MY_CLIENT;
-    private boolean hasFloors = false;
+    private boolean WAIT_FOR_PARAMETERS = true;
+    private boolean WAIT_FOR_FLOORS = true;
     private boolean WAIT_FOR_OBSTACLES = true;
     private boolean WAIT_FOR_CREATURES = true;
 
@@ -139,6 +140,9 @@ public class ServerDataHandler implements Runnable {
 
     public void initEverything() {
         try {
+            STREAM_OUT.writeUTF(CommandHolder.SEND_THE_BOARD_PARAMETERS);
+            while(WAIT_FOR_PARAMETERS){
+            }
             //STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_FLOORS);
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_OBSTACLES);
             while (WAIT_FOR_OBSTACLES) {

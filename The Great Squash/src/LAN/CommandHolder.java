@@ -20,9 +20,11 @@ public class CommandHolder {
     public static final String CREATE_CREATURE = "CREATURE_THIS_CREATURE";
     public static final String CLIENT_BROADCAST_MESSAGE = "Hello, is anyone out there?";
     public static final String SERVER_BROADCAST_MESSAGE = "Hello, I am a server";
+    public static final String BOARD_SIZE = "Here are the board parameters.";
+    public static final String SEND_THE_BOARD_PARAMETERS = "May I have the board parameters?";
     public static final int COMMAND_PORT_NUMBER = 45005;
-    public static final int BROADCAST_PORT_NUMBER = 45006;
-    public static final int CHAT_PORT_NUMBER = 45007;
+    public static final int BROADCAST_PORT_NUMBER = COMMAND_PORT_NUMBER + 1;
+    public static final int CHAT_PORT_NUMBER = BROADCAST_PORT_NUMBER + 1;
     public static final String AARON_WORK_IP = "10.135.66.52";
     public static final String AARON_AIE_IP = "10.154.64.105";
     public static final String DYLAN_WORK_IP = "10.135.65.230";

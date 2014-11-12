@@ -6,18 +6,12 @@ package LAN;
 
 import GUI.TestMovementGUI;
 import gameworld.Board;
-import gameworld.Creature;
-import gameworld.Player;
-import gameworld.Tile;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -35,12 +29,8 @@ public class Client {
     private TestMovementGUI GUI;
     private ServerDataHandler DATA_HANDLER;
 
-    public Client(String ip, int portNumber, Board myBoard,TestMovementGUI gui) {
-        GUI = gui;
-        MY_BOARD = myBoard;
-    }
-    
-    public Client(String ip,int portNumber){
+    public Client(String ip, int portNumber) {
+        connectToServer(ip,portNumber);
     }
     
     public void connectToServer(String ip,int portNumber){
@@ -60,23 +50,23 @@ public class Client {
             Thread serverDataThread = new Thread(DATA_HANDLER);
             serverDataThread.start();
         } catch (UnknownHostException ex) {
-            System.out.println("Sorry but that ip adress was not found.");
+            System.out.println("Client: Sorry but that ip adress was not found.");
         } catch (IOException ex) {
-            System.out.println("Sorry but we could not connect to the server with that port.");
+            System.out.println("Client: Sorry but we could not connect to the server with that port.");
         }
-        System.out.println("Connecting to chat server.");
+        System.out.println("Client: Connecting to chat server.");
         try {
             CHAT_SOCKET = new Socket(ip, portNumber++);
-            System.out.println("Connection successful.");
+            System.out.println("Client: Connection successful.");
             CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
             CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
             ChatInput chatHandler = new ChatInput(CHAT_IN, CHAT_OUT, this);
             Thread chatThread = new Thread(chatHandler);
             chatThread.start();
         } catch (UnknownHostException ex) {
-            System.out.println("Sorry but that ip address was not found for the chat server.");
+            System.out.println("Client: Sorry but that ip address was not found for the chat server.");
         } catch (IOException ex) {
-            System.out.println("Sorry but a chat server was not found on that port number.");
+            System.out.println("Client: Sorry but a chat server was not found on that port number.");
         }
 
     }
