@@ -22,7 +22,7 @@ public class Inventory {
     ArrayList<Weapon> WEAPONS;
     int WEAPONS_SIZE_LIMIT;
 
-    public Inventory(int weaponSize, int armourSize, int consumableSize, int spellbookSize) {
+    public Inventory(int weaponSize, int armourSize, int spellbookSize , int consumableSize) {
         CONSUMABLES = new ArrayList<Consumable>();
         SPELLBOOKS = new ArrayList<SpellBook>();
         ARMOURS = new ArrayList<Armour>();
@@ -103,8 +103,8 @@ public class Inventory {
         String output = "";
         output += listToString("weapon") + "\n";
         output += listToString("armour") + "\n";
-        output += listToString("consumable") + "\n";
-        output += listToString("spellbook");
+        output += listToString("spellbook") + "\n";
+        output += listToString("consumable");
         return output;
     }
 }

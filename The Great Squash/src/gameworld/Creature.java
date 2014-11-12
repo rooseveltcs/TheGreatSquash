@@ -19,6 +19,7 @@ public abstract class Creature implements Displayable, Sendable {
     Board BOARD;
     private String NAME = "Creature";
     private String TYPE = "abstract";
+    private Inventory INVENTORY = new Inventory(2,6,5,10);
     int LOCATION_X;
     int LOCATION_Y;
     int LEVEL;
@@ -104,6 +105,10 @@ public abstract class Creature implements Displayable, Sendable {
             }
         }
         return surroundingTiles;
+    }
+    
+    public Inventory getInventory() {
+        return INVENTORY;
     }
 
     public void changeLevel(int change) {

@@ -3,6 +3,8 @@
  */
 package GUI;
 
+import gameworld.Creature;
+import gameworld.Inventory;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -32,6 +34,8 @@ public class GameGUI {
     private JTextArea CHAT_DISPLAY;
     private JPanel CHAT_PANEL;
     private JPanel BASE = new JPanel();
+    
+    private Creature CONTAINED_CREATURE;
 
     public GameGUI() {
         formatInventory();
@@ -54,6 +58,11 @@ public class GameGUI {
         INVENTORY_PANEL.setBounds(2, 2, 200, 500);
         INVENTORY_PANEL.setBorder(BorderFactory.createTitledBorder(PANEL_BORDER,"Inventory"));
         INVENTORY_PANEL.add(INVENTORY_DISPLAY);
+    }
+    
+    public void updateInventoryDisplay() {
+        Inventory creatureInventory = CONTAINED_CREATURE.getInventory();
+        INVENTORY_DISPLAY.setText(creatureInventory.toString());
     }
 
     private void formatButtons() {
@@ -104,5 +113,9 @@ public class GameGUI {
         FRAME.setVisible(true);
         FRAME.setResizable(false);
         FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public void setCreature(Creature creature) {
+        CONTAINED_CREATURE = creature;
     }
 }

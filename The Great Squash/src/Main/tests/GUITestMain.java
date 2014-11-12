@@ -5,7 +5,9 @@
 package Main.tests;
 
 import GUI.GameGUI;
+import gameworld.CreatureCounter;
 import gameworld.Inventory;
+import gameworld.monsters.Monster;
 
 /**
  *
@@ -13,8 +15,18 @@ import gameworld.Inventory;
  */
 public class GUITestMain {
     public static void main(String[] args) {
-        //GameGUI gui = new GameGUI();
-        Inventory inventory = new Inventory(2, 3, 4, 5);
-        System.out.println(inventory);
+        CreatureCounter counter = new CreatureCounter();
+        for(int i = 0; i < 101; i++) {
+            Monster fluffy = new Monster("liger");
+            System.out.println(counter.getCount(fluffy.getType()));
+        }
+//        GameGUI gui = new GameGUI();
+//        
+//        Monster fluffy = new Monster("liger");
+//        
+//        gui.setCreature(fluffy);
+//        gui.updateInventoryDisplay();
+//        Inventory inventory = new Inventory(27, 3, 4, 5);
+//        System.out.println(inventory);
     }
 }

@@ -1,7 +1,0 @@
-Tarresque
-T
-3 5 *Speed
-10 15 *Endurance
-10 15 *Strength
-4 6 *Intelligence
-4 6 *Dexterity
