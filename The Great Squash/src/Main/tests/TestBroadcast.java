@@ -12,7 +12,7 @@ import LAN.TestBroadcastServer;
  * @author ros_aljacobson001
  */
 public class TestBroadcast {
-    public static final boolean shouldServer = true;
+    public static final boolean shouldServer = false;
     public static TestBroadcastServer SERVER;
     public static TestBroadcastClient CLIENT;
     public static void main(String[] args){
