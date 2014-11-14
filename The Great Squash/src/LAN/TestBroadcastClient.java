@@ -33,11 +33,6 @@ public class TestBroadcastClient implements Runnable{
 
     @Override
     public void run() {
-        try {
-            STREAM_OUT.writeUTF(CommandHolder.CLIENT_BROADCAST_MESSAGE);
-        } catch (IOException ex) {
-            System.out.println("TestBroadcastClient: Cant send the broadcast message");
-        }
         while(true){
             try {
                 String in = STREAM_IN.readUTF();
