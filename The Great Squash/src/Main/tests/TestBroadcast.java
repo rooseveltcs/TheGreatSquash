@@ -16,11 +16,11 @@ public class TestBroadcast {
     public static TestBroadcastServer SERVER;
     public static TestBroadcastClient CLIENT;
     public static void main(String[] args){
-        if(shouldServer){
-            SERVER = new TestBroadcastServer();
-        }
         CLIENT = new TestBroadcastClient();
         Thread clientThread = new Thread(CLIENT);
         clientThread.run();
+        if(shouldServer){
+            SERVER = new TestBroadcastServer();
+        }
     }
 }
