@@ -1,5 +1,6 @@
 package LAN;
 
+import gameworld.Board;
 import gameworld.Creature;
 import gameworld.Displayable;
 import gameworld.Obstacle;
@@ -54,8 +55,8 @@ public class ServerDataHandler implements Runnable {
             String name = messageScanner.next();
             int oldY = messageScanner.nextInt();
             int oldX = messageScanner.nextInt();
-            MY_CLIENT.getBoard().setTileCreature(oldY, oldX, null);
-            MY_CLIENT.getBoard().setTileCreature(newY, newX, MY_CLIENT.getBoard().getCreature(name));
+            MY_CLIENT.getBoard().removeCreature(oldY, oldX);
+            MY_CLIENT.getBoard().addCreature(MY_CLIENT.getBoard().getCreature(name));
         } else if (theCommand.equals(CommandHolder.THE_CREATURES)) {
             WAIT_FOR_CREATURES = false;
             System.out.println("Client: Recieved the creatures.");
@@ -100,13 +101,17 @@ public class ServerDataHandler implements Runnable {
             String type = messageScanner.next();
             char sprite = messageScanner.next().charAt(0);
             if (!MY_CLIENT.getBoard().hasCreature(name)) {
-                System.out.println("ServerDataHandler: wub wub");
                 if (type.equals(TypeHolder.PLAYER)) {
                     Player john = new Player(sprite, MY_CLIENT.getBoard(), locY, locX, name);
-                    MY_CLIENT.getBoard().setTileCreature(locX, locX, john);
+                    MY_CLIENT.getBoard().addCreature(john);
                     MY_CLIENT.getBoard().getCreatures().add(john);
                 }
             }
+        } else if (theCommand.equals(CommandHolder.BOARD_SIZE)) {
+            int boardy = messageScanner.nextInt();
+            int boardx = messageScanner.nextInt();
+            MY_CLIENT.setBoard(new Board(boardy, boardx));
+            WAIT_FOR_PARAMETERS = false;
         }
         MY_CLIENT.getBoard().updateDisplay();
     }
@@ -141,9 +146,11 @@ public class ServerDataHandler implements Runnable {
     public void initEverything() {
         try {
             STREAM_OUT.writeUTF(CommandHolder.SEND_THE_BOARD_PARAMETERS);
-            while(WAIT_FOR_PARAMETERS){
+            while (WAIT_FOR_PARAMETERS) {
             }
             //STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_FLOORS);
+//            while (WAIT_FOR_FLOORS) {
+//            }
             STREAM_OUT.writeUTF(CommandHolder.INITIALIZE_OBSTACLES);
             while (WAIT_FOR_OBSTACLES) {
             }

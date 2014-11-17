@@ -1,6 +1,7 @@
 package Main;
 
 import LAN.Client;
+import LAN.CommandHolder;
 import LAN.Server;
 import gameworld.Board;
 
@@ -15,5 +16,10 @@ public class GameRunner {
             SERVER = new Server(10);
         }
         
+//        //connect to the server with the client
+//        String serverAddress = CommandHolder.AARON_WORK_IP;
+//        int serverPort = CommandHolder.COMMAND_PORT_NUMBER;
+//        CLIENT = new Client(serverAddress,serverPort);
+        GAME_BOARD = CLIENT.getBoard();
     }
 }

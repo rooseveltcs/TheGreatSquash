@@ -142,6 +142,7 @@ public class DocumentToBoard {
             int x = readLine.nextInt();
             int y = readLine.nextInt();
             Monster monster = new Monster(type, board, y, x);
+            board.addCreature(monster);
         }
     }
 }

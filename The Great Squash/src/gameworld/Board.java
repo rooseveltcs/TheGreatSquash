@@ -89,9 +89,13 @@ public class Board {
         GAME_BOARD[y][x] = toSetTo;
     }
 
-    public void setTileCreature(int y, int x, Creature creature) {
-        getTile(y, x).setCreature(creature);
+    public void addCreature(Creature creature) {
+        getTile(creature.getY(),creature.getX()).setCreature(creature);
         CREATURES.add(creature);
+    }
+    
+    public void removeCreature(int y,int x){
+        getTile(y,x).setCreature(null);
     }
 
     public void setTileObstacle(int y, int x, Obstacle obstacle) {

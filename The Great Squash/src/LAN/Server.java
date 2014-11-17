@@ -6,6 +6,7 @@ package LAN;
 
 import GUI.LANMessanger;
 import gameworld.Board;
+import gameworld.DocumentToBoard;
 import gameworld.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,7 +31,6 @@ public class Server {
     private ServerSocket CHAT_SERVER_SOCKET;
     private Socket SOCKET;
     private Socket CHAT_SOCKET;
-    private Socket BROADCAST_SOCKET;
     private DataOutputStream CHAT_OUT;
     private DataInputStream CHAT_IN;
     private DataOutputStream DATA_OUT;
@@ -47,7 +47,10 @@ public class Server {
 
     public Server(int connections) {
         CONNECTIONS = connections;
-        THE_BOARD = new Board(21,61);
+        //This is where the board would be read from a txt file
+        Scanner askForMap = new Scanner(System.in);
+        System.out.println("Please enter the name of the map file:");
+        THE_BOARD = DocumentToBoard.createBoard("src/gameworld/maps/" + askForMap.next());
         IPS = new ArrayList<String>();
         INITS = new boolean[connections];
         for (int currentInit = 0; currentInit < CONNECTIONS; currentInit++) {
@@ -71,16 +74,6 @@ public class Server {
             System.out.println("Server: Created the server on port #" + PORT_NUMBER + " with the ip adress of " + InetAddress.getLocalHost().getHostAddress());
         } catch (UnknownHostException ex) {
             System.out.println("Server: Could not get local host address.");
-        }
-        try {
-            BROADCAST_SOCKET = new Socket("255.255.255.255",CommandHolder.BROADCAST_PORT_NUMBER);
-            ServerBroadcastConnection serverBroadcastConnection = new ServerBroadcastConnection(BROADCAST_SOCKET,this);
-            Thread broadcastThread = new Thread(serverBroadcastConnection);
-            broadcastThread.start();
-        } catch (UnknownHostException ex) {
-            System.out.println("Server: Unable to connect to the broadcast address");
-        } catch (IOException ex) {
-            System.out.println("Server: Unable to connect using the broadcast port number");
         }
         
         //waits for all the clients to connect
@@ -167,8 +160,8 @@ class ServerClientConnection implements Runnable {
             String name = messageScanner.next();
             int oldY = messageScanner.nextInt();
             int oldX = messageScanner.nextInt();
-            THE_SERVER.getBoard().setTileCreature(oldX, oldX, null);
-            THE_SERVER.getBoard().setTileCreature(newY, newX, THE_SERVER.getBoard().getCreature(name));
+            THE_SERVER.getBoard().removeCreature(oldX, oldX);
+            THE_SERVER.getBoard().addCreature(THE_SERVER.getBoard().getCreature(name));
         } else if (theCommand.equals(CommandHolder.INITIALIZE_CREATURES)) {
             sendCreatures();
         } else if (theCommand.equals(CommandHolder.INITIALIZE_OBSTACLES)) {
@@ -186,8 +179,7 @@ class ServerClientConnection implements Runnable {
             if (!THE_SERVER.getBoard().hasCreature(name)) {
                 if (type.equals(TypeHolder.PLAYER)) {
                     Player john = new Player(sprite, THE_SERVER.getBoard(), locY, locX, name);
-                    THE_SERVER.getBoard().setTileCreature(locX, locX, john);
-                    THE_SERVER.getBoard().getCreatures().add(john);
+                    THE_SERVER.getBoard().addCreature(john);
                 }
             }
         }else if(theCommand.equals(CommandHolder.SEND_THE_BOARD_PARAMETERS)){
@@ -291,60 +283,6 @@ class ServerClientChat implements Runnable {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }
-    }
-}
-
-class ServerBroadcastConnection implements Runnable {
-
-    private DataInputStream STREAM_IN;
-    private DataOutputStream STREAM_OUT;
-    private Server SERVER;
-
-    public ServerBroadcastConnection(Socket broadcastSocket, Server server) {
-        try {
-            STREAM_IN = new DataInputStream(broadcastSocket.getInputStream());
-            STREAM_OUT = new DataOutputStream(broadcastSocket.getOutputStream());
-        } catch (IOException ex) {
-            System.out.println("ServerBroadcastConnection: Unable to get the data streams.");
-        }
-    }
-
-    @Override
-    public void run() {
-        while (42 == CommandHolder.ANSWER_TO_LIFE_THE_UNIVERSE_AND_EVERYTHING) {
-            try {
-                String in = STREAM_IN.readUTF();
-                interpretInput(in);
-            } catch (IOException ex) {
-                System.out.println("ServerBroadcastConnection: Unable to read the data stream");
-            }
-        }
-    }
-
-    private void interpretInput(String in) {
-        if (in.startsWith(CommandHolder.CLIENT_BROADCAST_MESSAGE)) {
-            sendServerInfo();
-        }
-    }
-
-    private void sendServerInfo() {
-        String toSend = "";
-        try {
-            toSend += InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException ex) {
-            System.out.println("Server: Unable to get localhost address.");
-        }
-        toSend += " ";
-        toSend += SERVER.getPortNumber();
-        toSend += " ";
-        toSend += SERVER.getServerName();
-        toSend += " ";
-        toSend += SERVER.getIPS().size() + "/" + SERVER.getConnections();
-        try {
-            STREAM_OUT.writeUTF(toSend);
-        } catch (IOException ex) {
-            System.out.println("Server: Lost connection to the broadcast address.");
         }
     }
 }

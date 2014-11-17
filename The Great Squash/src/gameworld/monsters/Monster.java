@@ -21,7 +21,7 @@ public class Monster extends Creature {
         super.setBoard(board);
         super.setY(y);
         super.setX(x);
-        board.setTileCreature(y, x, this);
+        board.addCreature(this);
 
     }
     
