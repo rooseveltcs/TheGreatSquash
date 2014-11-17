@@ -5,6 +5,8 @@
 package Main.tests;
 
 import GUI.GameGUI;
+import gameworld.Board;
+import gameworld.DocumentToBoard;
 import gameworld.tools.CreatureCounter;
 import gameworld.Inventory;
 import gameworld.monsters.Monster;
@@ -15,17 +17,18 @@ import gameworld.monsters.Monster;
  */
 public class GUITestMain {
     public static void main(String[] args) {
-        //for(int i = 0; i < 101; i++) {
+        GameGUI gui = new GameGUI();
+        
         Monster fluffy = new Monster("liger");
-        CreatureCounter.getCount(fluffy.getType());
-        //}
-//        GameGUI gui = new GameGUI();
-//        
-//        Monster fluffy = new Monster("liger");
-//        
-//        gui.setCreature(fluffy);
-//        gui.updateInventoryDisplay();
-//        Inventory inventory = new Inventory(27, 3, 4, 5);
-//        System.out.println(inventory);
+        
+        gui.setCreature(fluffy);
+        gui.updateInventoryDisplay();
+        Inventory inventory = new Inventory(27, 3, 4, 5);
+        //System.out.println(inventory);
+        
+        Board board = DocumentToBoard.createBoard("H:\\testboard.txt");
+        board.show();
+        
+        gui.updateBoard(board.toString());
     }
 }

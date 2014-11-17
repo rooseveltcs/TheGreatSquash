@@ -1,5 +1,6 @@
 package GUI.listeners;
 
+import GUI.GameGUI;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
@@ -9,21 +10,28 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import GUI.LANMessanger;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class MessangerEnterKeyListener implements KeyListener {
 
-    private LANMessanger messanger;
+    private JTextArea DISPLAY;
+    private JTextField INPUT;
 
-    public MessangerEnterKeyListener(LANMessanger messanger) {
-        this.messanger = messanger;
+    public MessangerEnterKeyListener(GameGUI gui) {
+        DISPLAY = gui.getChatDisplay();
+        INPUT = gui.getChatInput();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getExtendedKeyCode() == 10) {
-            messanger.getClient().sendMessage(formatOutput(messanger.getInputContents()));
-            messanger.clearInput();
-
+        if (e.getExtendedKeyCode() == 10 && !INPUT.getText().equals("")) {
+            String message = formatMessage(INPUT.getText());
+            INPUT.setText("");
+            
+            String previousText = DISPLAY.getText();
+            
+            DISPLAY.setText(previousText + message + "\n");
         }
 
     }
@@ -38,11 +46,12 @@ public class MessangerEnterKeyListener implements KeyListener {
         // TODO Auto-generated method stub
     }
 
-    private String formatOutput(String input) {
+    private String formatMessage(String input) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
 
         String header = System.getProperty("user.name") + " [" + dateFormat.format(cal.getTime()) + "]: ";
+        
         return header + input;
     }
 }

@@ -3,6 +3,7 @@
  */
 package GUI;
 
+import GUI.listeners.MessangerEnterKeyListener;
 import gameworld.Creature;
 import gameworld.Inventory;
 import java.awt.Color;
@@ -11,7 +12,10 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -32,6 +36,7 @@ public class GameGUI {
     private JTextArea BOARD_DISPLAY;
     private JPanel BOARD_PANEL;
     private JTextArea CHAT_DISPLAY;
+    private JTextField CHAT_INPUT;
     private JPanel CHAT_PANEL;
     private JPanel BASE = new JPanel();
     
@@ -73,7 +78,7 @@ public class GameGUI {
     }
 
     private void formatBoard() {
-        BOARD_DISPLAY = new JTextArea(20,20);
+        BOARD_DISPLAY = new JTextArea(25,103);
         BOARD_DISPLAY.setFont(DISPLAY_FONT);
         BOARD_DISPLAY.setPreferredSize(new Dimension(20,20));
         BOARD_DISPLAY.setLineWrap(true);
@@ -87,17 +92,27 @@ public class GameGUI {
     }
 
     private void formatChat() {
-        CHAT_DISPLAY = new JTextArea(20,20);
+        CHAT_DISPLAY = new JTextArea(7,130);
         CHAT_DISPLAY.setFont(DISPLAY_FONT);
         CHAT_DISPLAY.setPreferredSize(new Dimension(20,20));
+        CHAT_DISPLAY.setEditable(false);
         CHAT_DISPLAY.setLineWrap(true);
         CHAT_DISPLAY.setBorder(DISPLAY_BORDER);
         
+        CHAT_INPUT = new JTextField(83);
+        CHAT_INPUT.setEditable(true);
+        CHAT_INPUT.addKeyListener(new MessangerEnterKeyListener(this));
+        
         CHAT_PANEL = new JPanel();
-        //CHAT_PANEL.setBackground(Color.BLACK);
-        CHAT_PANEL.setBounds(2, 504, 940, 170);
-        CHAT_PANEL.setBorder(PANEL_BORDER);
-        CHAT_PANEL.add(CHAT_DISPLAY);
+        CHAT_PANEL.setBounds(2, 504, 940, 170);     
+        
+        JScrollPane chatScroll = new JScrollPane(CHAT_DISPLAY);
+        chatScroll.setBorder(PANEL_BORDER);
+        chatScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        chatScroll.set
+                
+        CHAT_PANEL.add(chatScroll);
+        CHAT_PANEL.add(CHAT_INPUT);
     }
 
     private void formatFrame() {
@@ -117,5 +132,18 @@ public class GameGUI {
     
     public void setCreature(Creature creature) {
         CONTAINED_CREATURE = creature;
+        INVENTORY_PANEL.setBorder(BorderFactory.createTitledBorder(PANEL_BORDER,"Inventory - " + CONTAINED_CREATURE.getName()));
+    }
+    
+    public void updateBoard(String board) {
+        BOARD_DISPLAY.setText(board);
+    }
+    
+    public JTextArea getChatDisplay() {
+        return CHAT_DISPLAY;
+    }
+    
+    public JTextField getChatInput() {
+        return CHAT_INPUT;
     }
 }
