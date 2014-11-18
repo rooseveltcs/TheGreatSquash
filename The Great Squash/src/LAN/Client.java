@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,61 +31,60 @@ public class Client {
     private TestMovementGUI GUI;
     private ServerDataHandler DATA_HANDLER;
 
-    public Client(String ip, int portNumber) {
-        connectToServer(ip,portNumber);
+    public Client(String ip) {
+        connectToServer(ip);
     }
-    
-    public void connectToServer(String ip,int portNumber){
-        ConnectToServerThread connectToServerThread = new ConnectToServerThread(this,ip,portNumber);
+
+    public void connectToServer(String ip) {
+        ConnectToServerThread connectToServerThread = new ConnectToServerThread(this, ip);
         Thread serverConnection = new Thread(connectToServerThread);
         serverConnection.start();
     }
 
-    public void connectToServerBackEnd(String ip, int portNumber) {
+    public void connectToServerBackEnd(String ip) {
+        int portNumber = CommandHolder.COMMAND_PORT_NUMBER;
         System.out.println("Connecting to server at " + ip);
-        try {
-            SOCKET = new Socket(ip,CommandHolder.COMMAND_PORT_NUMBER);
-            System.out.println("Client: Connection successful.");
-            STREAM_IN = new DataInputStream(SOCKET.getInputStream());
-            STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
-            DATA_HANDLER = new ServerDataHandler(STREAM_IN,STREAM_OUT,this);
-            Thread serverDataThread = new Thread(DATA_HANDLER);
-            serverDataThread.start();
-        } catch (UnknownHostException ex) {
-            System.out.println("Client: Sorry but that ip adress was not found.");
-        } catch (IOException ex) {
-            System.out.println("Client: Sorry but we could not connect to the server with that port.");
-        }
-        System.out.println("Client: Connecting to chat server.");
-        try {
-            CHAT_SOCKET = new Socket(ip, portNumber++);
-            System.out.println("Client: Connection successful.");
-            CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
-            CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
-            ChatInput chatHandler = new ChatInput(CHAT_IN, CHAT_OUT, this);
-            Thread chatThread = new Thread(chatHandler);
-            chatThread.start();
-        } catch (UnknownHostException ex) {
-            System.out.println("Client: Sorry but that ip address was not found for the chat server.");
-        } catch (IOException ex) {
-            System.out.println("Client: Sorry but a chat server was not found on that port number.");
+        while (true) {
+            try {
+                SOCKET = new Socket(ip, portNumber);
+                System.out.println("Client: Connection successful");
+                STREAM_IN = new DataInputStream(SOCKET.getInputStream());
+                STREAM_OUT = new DataOutputStream(SOCKET.getOutputStream());
+                DATA_HANDLER = new ServerDataHandler(STREAM_IN, STREAM_OUT, this);
+                Thread serverDataThread = new Thread(DATA_HANDLER);
+                serverDataThread.start();
+                CHAT_SOCKET = new Socket(ip, portNumber++);
+                System.out.println("Client: Connection successful.");
+                CHAT_IN = new DataInputStream(CHAT_SOCKET.getInputStream());
+                CHAT_OUT = new DataOutputStream(CHAT_SOCKET.getOutputStream());
+                ChatInput chatHandler = new ChatInput(CHAT_IN, CHAT_OUT, this);
+                Thread chatThread = new Thread(chatHandler);
+                chatThread.start();
+                break;
+            } catch (UnknownHostException ex) {
+                System.out.println("Client: Cant connect to the server with that ip address");
+                break;
+            } catch (IOException ex) {
+                System.out.println("Trying a different port");
+                portNumber += 2;
+            }
         }
 
     }
-    
-    public void setBoard(Board toSet){
+
+    public void setBoard(Board toSet) {
         MY_BOARD = toSet;
     }
 
     public Board getBoard() {
         return MY_BOARD;
     }
-    
-    public TestMovementGUI getGUI(){
+
+    public TestMovementGUI getGUI() {
         return GUI;
     }
-    
-    public ServerDataHandler getHandler(){
+
+    public ServerDataHandler getHandler() {
         return DATA_HANDLER;
     }
 }
@@ -129,16 +130,14 @@ class ConnectToServerThread implements Runnable {
 
     Client CLIENT;
     String IP = "";
-    int PORT_NUMBER;
 
-    public ConnectToServerThread(Client client, String ip, int portNumber) {
+    public ConnectToServerThread(Client client, String ip) {
         CLIENT = client;
         IP = ip;
-        PORT_NUMBER = portNumber;
     }
 
     @Override
     public void run() {
-        CLIENT.connectToServerBackEnd(IP, PORT_NUMBER);
+        CLIENT.connectToServerBackEnd(IP);
     }
 }

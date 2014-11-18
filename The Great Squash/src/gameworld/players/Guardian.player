@@ -1,0 +1,17 @@
+Name: Guardian
+Symbol: G
+Level: 1
+XP: 0
+Speed: 2
+Endurance: 2
+Strength: 3
+Intelligence: 2
+Dexterity: 1
+-Equiped-
+Main:
+Longsword Billy 5
+Armor: Iron_Armor
+Inventory:
+Bag_of_Holding
+Portable_Hole
+Gold_Chalice 3

@@ -4,7 +4,6 @@
  */
 package LAN;
 
-import GUI.LANMessanger;
 import gameworld.Board;
 import gameworld.DocumentToBoard;
 import gameworld.Player;
@@ -18,8 +17,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -92,6 +89,7 @@ public class Server {
                 ex.printStackTrace();
             }
         }
+        
     }
 
     public Board getBoard() {

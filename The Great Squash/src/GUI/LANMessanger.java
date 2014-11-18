@@ -39,7 +39,7 @@ public class LANMessanger {
     }
 
     private void formatInput() {
-        enterListener = new MessangerEnterKeyListener(this);
+      //  enterListener = new MessangerEnterKeyListener(this);
         System.out.println("XD");
         input = new JPanel();
         inputBox = new JTextField(36);
