@@ -12,6 +12,7 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -109,7 +110,8 @@ public class GameGUI {
         JScrollPane chatScroll = new JScrollPane(CHAT_DISPLAY);
         chatScroll.setBorder(PANEL_BORDER);
         chatScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        chatScroll.set
+        JScrollBar bar = new JScrollBar();  
+        chatScroll.add(bar);  
                 
         CHAT_PANEL.add(chatScroll);
         CHAT_PANEL.add(CHAT_INPUT);
