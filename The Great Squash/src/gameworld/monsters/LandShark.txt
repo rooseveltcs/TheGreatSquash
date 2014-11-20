@@ -1,0 +1,7 @@
+LandShark
+S
+3 6 *Speed
+6 8 *Endurance
+8 9 *Strength
+1 2 *Intelligence
+2 4 *Dexterity

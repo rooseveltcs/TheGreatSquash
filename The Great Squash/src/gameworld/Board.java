@@ -27,32 +27,15 @@ public class Board {
     private Client MY_CLIENT;
     private boolean SHOULD_PLAYER = false;
 
-    /**
-     *
-     * @param x
-     * @param y
-     */
-    public Board(int y, int x, boolean toServer, Graphics graphics, TestMovementGUI gui) {
-        if (toServer) {
-            CreateServer temp = new CreateServer(this, 10);
-            Thread serverThread = new Thread(temp);
-            serverThread.start();
-        }
+    public Board(int y, int x, Graphics graphics) {
         GAME_BOARD = new Tile[y][x];
-        MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP, CommandHolder.COMMAND_PORT_NUMBER, this, gui);
         SIZE_X = x;
         SIZE_Y = y;
         GRAPHICS = graphics;
     }
 
-    public Board(int y, int x, boolean toServer, TestMovementGUI gui) {
-        if (toServer) {
-            CreateServer temp = new CreateServer(this, 10);
-            Thread serverThread = new Thread(temp);
-            serverThread.start();
-        }
+    public Board(int y, int x, TestMovementGUI gui) {
         GAME_BOARD = new Tile[x][y];
-        MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP, CommandHolder.COMMAND_PORT_NUMBER, this, gui);
         SIZE_X = y;
         SIZE_Y = x;
         GRAPHICS = null;
@@ -65,14 +48,8 @@ public class Board {
         GRAPHICS = null;
     }
 
-    public Board(Board board, boolean toServer, TestMovementGUI gui) {
-        if (toServer) {
-            CreateServer temp = new CreateServer(this, 10);
-            Thread serverThread = new Thread(temp);
-            serverThread.start();
-        }
+    public Board(Board board, TestMovementGUI gui) {
         GAME_BOARD = board.getGameBoard();
-        MY_CLIENT = new Client(CommandHolder.AARON_WORK_IP, CommandHolder.COMMAND_PORT_NUMBER, this, gui);
         SIZE_X = board.getY();
         SIZE_Y = board.getX();
         GRAPHICS = null;
@@ -92,9 +69,6 @@ public class Board {
         }
     }
 
-    /**
-     *
-     */
     public void setBoardTilesNull() {
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
@@ -103,38 +77,25 @@ public class Board {
         }
     }
 
-    /**
-     *
-     * @return The game board
-     */
     public Tile[][] getGameBoard() {
         return GAME_BOARD;
     }
 
-    /**
-     *
-     * @param y
-     * @param x
-     * @return The tile specified by the x and y values given
-     */
     public Tile getTile(int y, int x) {
         return GAME_BOARD[y][x];
     }
 
-    /**
-     * Changes the specified tile (by x and y values) to the given Tile
-     *
-     * @param y
-     * @param x
-     * @param toSetTo
-     */
     public void setTile(int y, int x, Tile toSetTo) {
         GAME_BOARD[y][x] = toSetTo;
     }
 
-    public void setTileCreature(int y, int x, Creature creature) {
-        getTile(y, x).setCreature(creature);
+    public void addCreature(Creature creature) {
+        getTile(creature.getY(),creature.getX()).setCreature(creature);
         CREATURES.add(creature);
+    }
+    
+    public void removeCreature(int y,int x){
+        getTile(y,x).setCreature(null);
     }
 
     public void setTileObstacle(int y, int x, Obstacle obstacle) {
@@ -204,21 +165,5 @@ public class Board {
         }
         System.out.println("Board: " + toReturn);
         return toReturn;
-    }
-}
-
-class CreateServer implements Runnable {
-
-    private Board THE_BOARD;
-    private int CONNECTIONS;
-
-    public CreateServer(Board theBoard, int connections) {
-        THE_BOARD = theBoard;
-        CONNECTIONS = connections;
-    }
-
-    @Override
-    public void run() {
-        Server theServer = new Server(CONNECTIONS, THE_BOARD);
     }
 }

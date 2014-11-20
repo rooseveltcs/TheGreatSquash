@@ -1,0 +1,7 @@
+Kobold
+K
+2 4 *Speed
+1 2 *Endurance
+1 2 *Strength
+5 6 *Intelligence
+6 7 *Dexterity

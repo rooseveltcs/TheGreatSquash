@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +17,7 @@ import java.util.logging.Logger;
 public class DocumentToBoard {
 
     public static Board createBoard(String filePath) {
+        System.out.println(filePath);
         Board board = null;
         try {
             File textFile = new File(filePath);
@@ -142,6 +141,7 @@ public class DocumentToBoard {
             int x = readLine.nextInt();
             int y = readLine.nextInt();
             Monster monster = new Monster(type, board, y, x);
+            board.addCreature(monster);
         }
     }
 }

@@ -7,7 +7,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
-import GUIListeners.MessangerEnterKeyListener;
+import GUI.listeners.MessangerEnterKeyListener;
 import LAN.TestClient;
 import LAN.TestServer;
 import Main.GameRunner;
@@ -39,7 +39,7 @@ public class LANMessanger {
     }
 
     private void formatInput() {
-        enterListener = new MessangerEnterKeyListener(this);
+      //  enterListener = new MessangerEnterKeyListener(this);
         System.out.println("XD");
         input = new JPanel();
         inputBox = new JTextField(36);
