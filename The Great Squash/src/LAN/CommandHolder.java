@@ -18,8 +18,6 @@ public class CommandHolder {
     public static final String THE_OBSTACLES = "HERE_ARE_THE_OBSTACLES";
     public static final String THE_FLOORS = "HERE_ARE_THE_FLOORS";
     public static final String CREATE_CREATURE = "CREATURE_THIS_CREATURE";
-    public static final String CLIENT_BROADCAST_MESSAGE = "Hello, is anyone out there?";
-    public static final String SERVER_BROADCAST_MESSAGE = "Hello, I am a server";
     public static final String BOARD_SIZE = "Here are the board parameters.";
     public static final String SEND_THE_BOARD_PARAMETERS = "May I have the board parameters?";
     public static final int COMMAND_PORT_NUMBER = 45005;
