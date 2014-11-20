@@ -19,7 +19,7 @@ public abstract class Creature implements Displayable, Sendable {
     Board BOARD;
     private String NAME = "Creature";
     private String TYPE = "abstract";
-    private Inventory INVENTORY = new Inventory(2,6,5,10);
+    private Inventory INVENTORY = new Inventory(2, 6, 5, 10);
     int LOCATION_X;
     int LOCATION_Y;
     int LEVEL;
@@ -45,6 +45,18 @@ public abstract class Creature implements Displayable, Sendable {
         if (!TYPE.equals(TypeHolder.PLAYER)) {
             BOARD.getClient().getHandler().sendCreature(this);
         }
+    }
+
+    public Creature(String name, char sprite, int health, int level, int speed, int endurance, int strength, int intelligence, int dexterity) {
+        NAME = name;
+        SPRITE = sprite;
+        LEVEL = level;
+        HEALTH = health;
+        SPEED = speed;
+        ENDURANCE = endurance;
+        STRENGTH = strength;
+        INTELLIGENCE = intelligence;
+        DEXTERITY = dexterity;
     }
 
     public Creature() {
@@ -106,7 +118,7 @@ public abstract class Creature implements Displayable, Sendable {
         }
         return surroundingTiles;
     }
-    
+
     public Inventory getInventory() {
         return INVENTORY;
     }
@@ -115,24 +127,24 @@ public abstract class Creature implements Displayable, Sendable {
         LEVEL += change;
         updateStats();
     }
-    
+
     public int getLevel() {
         return LEVEL;
     }
-    
+
     private void updateStats() {
-        SPEED = SPEED_MODIFIER + (LEVEL * ((double)(SPEED_MODIFIER)/8));
-        ENDURANCE = ENDURANCE_MODIFIER + (LEVEL * ((double)(ENDURANCE_MODIFIER)/2));
-        STRENGTH = STRENGTH_MODIFIER + (LEVEL * ((double)(STRENGTH_MODIFIER)/3));
-        INTELLIGENCE = INTELLIGENCE_MODIFIER + (LEVEL * ((double)(INTELLIGENCE_MODIFIER)/3));
-        DEXTERITY = DEXTERITY_MODIFIER + (LEVEL * ((double)(DEXTERITY_MODIFIER)/2));
+        SPEED = SPEED_MODIFIER + (LEVEL * ((double) (SPEED_MODIFIER) / 8));
+        ENDURANCE = ENDURANCE_MODIFIER + (LEVEL * ((double) (ENDURANCE_MODIFIER) / 2));
+        STRENGTH = STRENGTH_MODIFIER + (LEVEL * ((double) (STRENGTH_MODIFIER) / 3));
+        INTELLIGENCE = INTELLIGENCE_MODIFIER + (LEVEL * ((double) (INTELLIGENCE_MODIFIER) / 3));
+        DEXTERITY = DEXTERITY_MODIFIER + (LEVEL * ((double) (DEXTERITY_MODIFIER) / 2));
     }
-    
+
     @Override
     public char getSprite() {
         return SPRITE;
     }
-    
+
     public void setBoard(Board board) {
         BOARD = board;
     }
@@ -144,112 +156,112 @@ public abstract class Creature implements Displayable, Sendable {
     public int getY() {
         return LOCATION_Y;
     }
-    
+
     public void setX(int x) {
         LOCATION_X = x;
     }
-    
+
     public void setY(int y) {
         LOCATION_Y = y;
     }
-    
-    public void setName(String toSet){
+
+    public void setName(String toSet) {
         NAME = toSet;
     }
-    
-    public String getName(){
+
+    public String getName() {
         return NAME;
     }
-    
-    public void setType(String type){
+
+    public void setType(String type) {
         TYPE = type;
     }
-    
-    public String getType(){
+
+    public String getType() {
         return TYPE;
     }
-    
-    public void setDexterityMod(int modifier) {
-        DEXTERITY_MODIFIER = modifier;
+
+    public void setDexterityMod(int dexterityMod) {
+        DEXTERITY_MODIFIER = dexterityMod;
     }
-    
+
     public int getDexterityMod() {
         return DEXTERITY_MODIFIER;
     }
-    
-    public void setIntelligenceMod(int modifier) {
-        INTELLIGENCE_MODIFIER = modifier;
+
+    public void setIntelligenceMod(int intelligenceMod) {
+        INTELLIGENCE_MODIFIER = intelligenceMod;
     }
-        
+
     public int getIntelligenceMod() {
         return INTELLIGENCE_MODIFIER;
     }
-    
-    public void setStrengthMod(int modifier) {
-        STRENGTH_MODIFIER = modifier;
+
+    public void setStrengthMod(int strengthMod) {
+        STRENGTH_MODIFIER = strengthMod;
     }
-        
+
     public int getStrengthMod() {
         return STRENGTH_MODIFIER;
     }
-    
-    public void setSpeedMod(int modifier) {
-        SPEED_MODIFIER = modifier;
+
+    public void setSpeedMod(int speedMod) {
+        SPEED_MODIFIER = speedMod;
     }
-        
+
     public int getSpeedMod() {
         return SPEED_MODIFIER;
     }
-    
-    public void setEnduranceMod(int modifier) {
-        ENDURANCE_MODIFIER = modifier;
+
+    public void setEnduranceMod(int enduranceMod) {
+        ENDURANCE_MODIFIER = enduranceMod;
     }
-        
+
     public int getEnduranceMod() {
         return ENDURANCE_MODIFIER;
     }
-    public void setDexterity(double modifier) {
-        DEXTERITY = modifier;
+
+    public void setDexterity(double dexterity) {
+        DEXTERITY = dexterity;
     }
-    
+
     public double getDexterity() {
         return DEXTERITY;
     }
-    
-    public void setIntelligence(double modifier) {
-        INTELLIGENCE = modifier;
+
+    public void setIntelligence(double intelligence) {
+        INTELLIGENCE = intelligence;
     }
-        
+
     public double getIntelligence() {
         return INTELLIGENCE;
     }
-    
-    public void setStrength(double modifier) {
-        STRENGTH = modifier;
+
+    public void setStrength(double strength) {
+        STRENGTH = strength;
     }
-        
+
     public double getStrength() {
         return STRENGTH;
     }
-    
-    public void setSpeed(double modifier) {
-        SPEED = modifier;
+
+    public void setSpeed(double speed) {
+        SPEED = speed;
     }
-        
+
     public double getSpeed() {
         return SPEED;
     }
-    
-    public void setEndurance(double modifier) {
-        ENDURANCE = modifier;
+
+    public void setEndurance(double endurance) {
+        ENDURANCE = endurance;
     }
-        
+
     public double getEndurance() {
         return ENDURANCE;
     }
-    
-    
-    public String toServerData(){
-        return " | " + NAME + " " + LOCATION_Y + "  " + LOCATION_X + " " +  HEALTH + " " + TYPE + " " + SPRITE;
+
+    public String toServerData() {
+        return " | " + NAME + " " + LOCATION_Y + "  " + LOCATION_X + " " + HEALTH + " " + TYPE + " " + SPRITE;
     }
 }

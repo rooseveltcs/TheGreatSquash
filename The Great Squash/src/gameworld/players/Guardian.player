@@ -1,5 +1,6 @@
 Name: Guardian
 Symbol: G
+Health: 15
 Level: 1
 XP: 0
 Speed: 2
@@ -11,7 +12,7 @@ Dexterity: 1
 Main:
 Longsword Billy 5
 Armor: Iron_Armor
-Inventory:
-Bag_of_Holding
-Portable_Hole
-Gold_Chalice 3
+-Inventory-
+Fluff Bag_of_Holding
+Fluff Portable_Hole
+Fluff Gold_Chalice 3
